@@ -1,0 +1,226 @@
+.merlin__content.merlin__content--content {
+	max-width: 800px;
+}
+
+#demo-content-list {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-gap: 1rem;
+	margin: 1rem 0 2rem;
+}
+#demo-content-list li {
+	background: #ffffff;
+	text-align: center;
+	border-radius: 5px;
+	padding: 5px;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.07);
+	font-weight: 600;
+	color: #7d8183;
+	position: relative;
+	margin: 0;
+	cursor: pointer;
+	transition: all ease 0.2s;
+}
+
+#demo-content-list li:hover,
+#demo-content-list li.selected {
+	box-shadow: 0 0 5px rgba(0, 115, 170, 1);
+}
+
+#demo-content-list li img {
+	display: block;
+	margin: 0 auto 5px;
+	width: 100%;
+	height: auto;
+}
+
+#demo-content-list li a.preview-link {
+	position: absolute;
+	right: 5px;
+	text-decoration: none;
+	outline: none;
+}
+#demo-content-list li a.preview-link:not(:hover) {
+	color: #7d8183;
+}
+
+#demo-content-list li.coming-soon {
+	pointer-events: none;
+	position: relative;
+}
+#demo-content-list li.coming-soon a {
+	display: none;
+}
+
+#demo-content-list li.coming-soon:after {
+	content: "COMING SOON";
+	display: block;
+	background-color: #ffffff;
+	border-radius: 100px;
+	box-shadow: 0 0 5px rgb(0, 169, 167);
+	position: absolute;
+	width: 90px;
+	height: 70px;
+	top: 90px;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	word-break: break-word;
+	color: rgb(0, 169, 167);
+	padding: 20px 0 0;
+}
+
+#demo-content-list li.coming-soon img {
+	opacity: 0.3;
+}
+
+#demo-content-list + .merlin__select-control-wrapper {
+	display: none;
+}
+
+ul.merlin__drawer.merlin__drawer--import-content.js-merlin-drawer-import-content {
+	max-width: 400px;
+	margin: 0 auto;
+}
+
+#merlin__drawer-trigger {
+	display: none;
+}
+
+.merlin__content.merlin__content--plugins form {
+	margin-top: 2em;
+}
+
+.yith-proteo-toolkit-wizard-step-img {
+	margin-bottom: 35px;
+}
+
+.yith-proteo-toolkit-wizard-nav ul {
+	text-align: center;
+	position: relative;
+}
+.yith-proteo-toolkit-wizard-nav ul:before {
+	content: "";
+	display: block;
+	position: absolute;
+	left: 20px;
+	right: 20px;
+	top: 25px;
+	height: 1px;
+	background: #d8d8d8;
+	z-index: -1;
+}
+.yith-proteo-toolkit-wizard-nav ul li {
+	display: inline-block;
+	text-align: center;
+	margin: 0 7px 15px;
+	font-size: 0;
+	overflow: hidden;
+	background: #d8d8d8;
+	border-radius: 50px;
+	width: 50px;
+	height: 50px;
+}
+
+.yith-proteo-toolkit-wizard-nav ul li.active {
+	background: rgb(0, 169, 167);
+	background: linear-gradient(45deg, rgba(0, 169, 167, 1) 0%, rgba(0, 148, 204, 1) 100%);
+}
+
+.yith-proteo-toolkit-wizard-nav ul li img {
+	display: inline-block;
+	margin: 10px 0;
+}
+
+.yith-proteo-toolkit-wizard-nav ul li:not(.active):not(.step-done) img {
+	filter: brightness(0.7);
+}
+
+.yith-proteo-toolkit-wizard-nav ul li.step-done {
+	background: #b5d863;
+}
+
+.merlin__content ol.dots li.done,
+.merlin__content ol.dots li.active {
+	background: rgb(0, 169, 167);
+}
+
+.merlin__content .checkbox:checked + label i {
+	background-color: rgb(0, 169, 167);
+	border-color: rgb(0, 169, 167);
+}
+
+.merlin__button--next {
+	color: rgb(0, 169, 167);
+}
+.merlin__button--blue {
+	background: rgb(0, 169, 167);
+	color: #fff;
+}
+
+@-webkit-keyframes popIn {
+	0% {
+		background: #e3e3e3;
+	}
+	40% {
+	}
+	55% {
+		background: #e3e3e3;
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+	65% {
+		background: rgb(0, 169, 167);
+		-webkit-transform: scale(1.6);
+		transform: scale(1.6);
+	}
+	85% {
+		background: rgb(0, 169, 167);
+		-webkit-transform: scale(0.8);
+		transform: scale(0.8);
+	}
+	95% {
+		background: rgb(0, 169, 167);
+		-webkit-transform: scale(1.2);
+		transform: scale(1.2);
+	}
+	100% {
+		background: rgb(0, 169, 167);
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+}
+
+@keyframes popIn {
+	0% {
+		background: #e3e3e3;
+	}
+	40% {
+	}
+	55% {
+		background: #e3e3e3;
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+	65% {
+		background: rgb(0, 169, 167);
+		-webkit-transform: scale(1.6);
+		transform: scale(1.6);
+	}
+	85% {
+		background: rgb(0, 169, 167);
+		-webkit-transform: scale(0.8);
+		transform: scale(0.8);
+	}
+	95% {
+		background: rgb(0, 169, 167);
+		-webkit-transform: scale(1.2);
+		transform: scale(1.2);
+	}
+	100% {
+		background: rgb(0, 169, 167);
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+}

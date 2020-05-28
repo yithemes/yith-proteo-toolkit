@@ -57,6 +57,15 @@ Automatic updates should work smoothly, but we still recommend you back up your 
 
 This plugin is specifically create for YITH Proteo theme. 
 
+= I installed the plugin, but it deactivates immediatly with a message =
+
+This plugin is specifically create for YITH Proteo theme and Proteo child themes. It will deactivate if another theme is used.
+
+= I wrongly skipped the setup wizard. How can i run it again? =
+
+You can find the setup wizard in Dashboard > Appearance > Theme Setup
+
+
 == Changelog ==
 
 =  1.0.0 - Released on 27 May 2020 =

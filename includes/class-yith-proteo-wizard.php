@@ -6,7 +6,7 @@
  */
 
 /**
- * Undocumented class
+ * YITH Proteo Wizard class extending Merlin class
  */
 class YITH_Proteo_Wizard extends Merlin {
 	/**
@@ -35,7 +35,7 @@ class YITH_Proteo_Wizard extends Merlin {
 
 		<div class="merlin__content--transition">
 
-			<img class="yith-proteo-toolkit-wizard-step-img" src="<?php echo YITH_PROTEO_TOOLKIT_URL; ?>/assets/img/proteo-logo.png">
+			<img class="yith-proteo-toolkit-wizard-step-img" src="<?php echo esc_url( YITH_PROTEO_TOOLKIT_URL ); ?>/assets/img/proteo-logo.png">
 
 			<h1><?php echo esc_html( sprintf( $header, $theme ) ); ?></h1>
 
@@ -276,7 +276,7 @@ class YITH_Proteo_Wizard extends Merlin {
 			<?php if ( 1 < count( $this->import_files ) ) : ?>
 				<ul id="demo-content-list">
 				<?php foreach ( $this->import_files as $index => $import_file ) : ?>
-					<li class="demo-content <?php echo $import_file['state']; ?>" data-demo="<?php echo esc_attr( $index ); ?>">
+					<li class="demo-content <?php echo esc_attr( $import_file['state'] ); ?>" data-demo="<?php echo esc_attr( $index ); ?>">
 						<img src="<?php echo esc_url( $import_file['import_preview_image_url'] ); ?>" width="250">
 						<?php echo esc_html( $import_file['import_file_name'] ); ?>
 						<a href="<?php echo esc_url( $import_file['preview_url'] ); ?>" target="_blank" rel="nofollow noopener" class="preview-link" title="<?php esc_html_e( 'Preview', 'merlin-wp' ); ?>"><span class="dashicons dashicons-external"></span></a>

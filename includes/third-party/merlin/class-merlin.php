@@ -150,48 +150,6 @@ class Merlin {
 	protected $child_action_btn_url = null;
 
 	/**
-	 * The flag, to mark, if the theme license step should be enabled.
-	 *
-	 * @var boolean $license_step_enabled
-	 */
-	protected $license_step_enabled = false;
-
-	/**
-	 * The URL for the "Where can I find the license key?" link.
-	 *
-	 * @var string $theme_license_help_url
-	 */
-	protected $theme_license_help_url = null;
-
-	/**
-	 * Remove the "Skip" button, if required.
-	 *
-	 * @var string $license_required
-	 */
-	protected $license_required = null;
-
-	/**
-	 * The item name of the EDD product (this theme).
-	 *
-	 * @var string $edd_item_name
-	 */
-	protected $edd_item_name = null;
-
-	/**
-	 * The theme slug of the EDD product (this theme).
-	 *
-	 * @var string $edd_theme_slug
-	 */
-	protected $edd_theme_slug = null;
-
-	/**
-	 * The remote_api_url of the EDD shop.
-	 *
-	 * @var string $edd_remote_api_url
-	 */
-	protected $edd_remote_api_url = null;
-
-	/**
 	 * Turn on dev mode if you're developing.
 	 *
 	 * @var string $dev_mode
@@ -258,12 +216,6 @@ class Merlin {
 		$this->parent_slug            = $config['parent_slug'];
 		$this->capability             = $config['capability'];
 		$this->child_action_btn_url   = $config['child_action_btn_url'];
-		$this->license_step_enabled   = $config['license_step'];
-		$this->theme_license_help_url = $config['license_help_url'];
-		$this->license_required       = $config['license_required'];
-		$this->edd_item_name          = $config['edd_item_name'];
-		$this->edd_theme_slug         = $config['edd_theme_slug'];
-		$this->edd_remote_api_url     = $config['edd_remote_api_url'];
 		$this->dev_mode               = $config['dev_mode'];
 		$this->ready_big_button_url   = $config['ready_big_button_url'];
 
@@ -311,7 +263,6 @@ class Merlin {
 		add_action( 'wp_ajax_merlin_get_total_content_import_items', array( $this, '_ajax_get_total_content_import_items' ), 10, 0 );
 		add_action( 'wp_ajax_merlin_plugins', array( $this, '_ajax_plugins' ), 10, 0 );
 		add_action( 'wp_ajax_merlin_child_theme', array( $this, 'generate_child' ), 10, 0 );
-		add_action( 'wp_ajax_merlin_activate_license', array( $this, '_ajax_activate_license' ), 10, 0 );
 		add_action( 'wp_ajax_merlin_update_selected_import_data_info', array( $this, 'update_selected_import_data_info' ), 10, 0 );
 		add_action( 'wp_ajax_merlin_import_finished', array( $this, 'import_finished' ), 10, 0 );
 		add_filter( 'pt-importer/new_ajax_request_response_data', array( $this, 'pt_importer_new_ajax_request_response_data' ) );
@@ -340,14 +291,9 @@ class Merlin {
 
 		require_once trailingslashit( $this->base_path ) . $this->directory . '/includes/class-merlin-customizer-option.php';
 		require_once trailingslashit( $this->base_path ) . $this->directory . '/includes/class-merlin-customizer-importer.php';
-		require_once trailingslashit( $this->base_path ) . $this->directory . '/includes/class-merlin-redux-importer.php';
 		require_once trailingslashit( $this->base_path ) . $this->directory . '/includes/class-merlin-hooks.php';
 
 		$this->hooks = new Merlin_Hooks();
-
-		if ( class_exists( 'EDD_Theme_Updater_Admin' ) ) {
-			$this->updater = new EDD_Theme_Updater_Admin();
-		}
 	}
 
 	/**
@@ -722,13 +668,6 @@ class Merlin {
 			'view' => array( $this, 'child' ),
 		);
 
-		if ( $this->license_step_enabled ) {
-			$this->steps['license'] = array(
-				'name' => esc_html__( 'License', 'merlin-wp' ),
-				'view' => array( $this, 'license' ),
-			);
-		}
-
 		// Show the plugin importer, only if TGMPA is included.
 		if ( class_exists( 'TGM_Plugin_Activation' ) ) {
 			$this->steps['plugins'] = array(
@@ -863,100 +802,6 @@ class Merlin {
 		check_admin_referer( 'merlin' );
 
 		return false;
-	}
-
-	/**
-	 * Theme EDD license step.
-	 */
-	protected function license() {
-		$is_theme_registered = $this->is_theme_registered();
-		$action_url          = $this->theme_license_help_url;
-		$required            = $this->license_required;
-
-		$is_theme_registered_class = ( $is_theme_registered ) ? ' is-registered' : null;
-
-		// Theme Name.
-		$theme = ucfirst( $this->theme );
-
-		// Remove "Child" from the current theme name, if it's installed.
-		$theme = str_replace( ' Child', '', $theme );
-
-		// Strings passed in from the config file.
-		$strings = $this->strings;
-
-		// Text strings.
-		$header    = ! $is_theme_registered ? $strings['license-header%s'] : $strings['license-header-success%s'];
-		$action    = $strings['license-tooltip'];
-		$label     = $strings['license-label'];
-		$skip      = $strings['btn-license-skip'];
-		$next      = $strings['btn-next'];
-		$paragraph = ! $is_theme_registered ? $strings['license%s'] : $strings['license-success%s'];
-		$install   = $strings['btn-license-activate'];
-		?>
-
-		<div class="merlin__content--transition">
-
-			<?php echo wp_kses( $this->svg( array( 'icon' => 'license' ) ), $this->svg_allowed_html() ); ?>
-
-			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-			</svg>
-
-			<h1><?php echo esc_html( sprintf( $header, $theme ) ); ?></h1>
-
-			<p id="license-text"><?php echo esc_html( sprintf( $paragraph, $theme ) ); ?></p>
-
-			<?php if ( ! $is_theme_registered ) : ?>
-				<div class="merlin__content--license-key">
-					<label for="license-key"><?php echo esc_html( $label ); ?></label>
-
-					<div class="merlin__content--license-key-wrapper">
-						<input type="text" id="license-key" class="js-license-key" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-						<?php if ( ! empty( $action_url ) ) : ?>
-							<a href="<?php echo esc_url( $action_url ); ?>" alt="<?php echo esc_attr( $action ); ?>" target="_blank">
-								<span class="hint--top" aria-label="<?php echo esc_attr( $action ); ?>">
-									<?php echo wp_kses( $this->svg( array( 'icon' => 'help' ) ), $this->svg_allowed_html() ); ?>
-								</span>
-							</a>
-						<?php endif ?>
-					</div>
-
-				</div>
-			<?php endif; ?>
-
-		</div>
-
-		<footer class="merlin__content__footer <?php echo esc_attr( $is_theme_registered_class ); ?>">
-
-			<?php if ( ! $is_theme_registered ) : ?>
-
-				<?php if ( ! $required ) : ?>
-					<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( $skip ); ?></a>
-				<?php endif ?>
-
-				<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="merlin__button merlin__button--next button-next js-merlin-license-activate-button" data-callback="activate_license">
-					<span class="merlin__button--loading__text"><?php echo esc_html( $install ); ?></span>
-					<?php echo wp_kses( $this->loading_spinner(), $this->loading_spinner_allowed_html() ); ?>
-				</a>
-
-			<?php else : ?>
-				<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="merlin__button merlin__button--next merlin__button--proceed merlin__button--colorchange"><?php echo esc_html( $next ); ?></a>
-			<?php endif; ?>
-			<?php wp_nonce_field( 'merlin' ); ?>
-		</footer>
-		<?php
-		$this->logger->debug( __( 'The license activation step has been displayed', 'merlin-wp' ) );
-	}
-
-
-	/**
-	 * Check, if the theme is currently registered.
-	 *
-	 * @return boolean
-	 */
-	private function is_theme_registered() {
-		$is_registered = get_option( $this->edd_theme_slug . '_license_key_status', false ) === 'valid';
-		return apply_filters( 'merlin_is_theme_registered', $is_registered );
 	}
 
 	/**
@@ -1422,169 +1267,6 @@ class Merlin {
 	}
 
 	/**
-	 * Activate the theme (license key) via AJAX.
-	 */
-	public function _ajax_activate_license() {
-
-		if ( ! check_ajax_referer( 'merlin_nonce', 'wpnonce' ) ) {
-			wp_send_json(
-				array(
-					'success' => false,
-					'message' => esc_html__( 'Yikes! The theme activation failed. Please try again or contact support.', 'merlin-wp' ),
-				)
-			);
-		}
-
-		if ( empty( $_POST['license_key'] ) ) {
-			wp_send_json(
-				array(
-					'success' => false,
-					'message' => esc_html__( 'Please add your license key before attempting to activate one.', 'merlin-wp' ),
-				)
-			);
-		}
-
-		$license_key = sanitize_key( $_POST['license_key'] );
-
-		if ( ! has_filter( 'merlin_ajax_activate_license' ) ) {
-			$result = $this->edd_activate_license( $license_key );
-		} else {
-			$result = apply_filters( 'merlin_ajax_activate_license', $license_key );
-		}
-
-		$this->logger->debug( __( 'The license activation was performed with the following results', 'merlin-wp' ), $result );
-
-		wp_send_json( array_merge( array( 'done' => 1 ), $result ) );
-	}
-
-	/**
-	 * Activate the EDD license.
-	 *
-	 * This code was taken from the EDD licensing addon theme example code
-	 * (`activate_license` method of the `EDD_Theme_Updater_Admin` class).
-	 *
-	 * @param string $license The license key.
-	 *
-	 * @return array
-	 */
-	protected function edd_activate_license( $license ) {
-		$success = false;
-
-		// Strings passed in from the config file.
-		$strings = $this->strings;
-
-		// Theme Name.
-		$theme = ucfirst( $this->theme );
-
-		// Remove "Child" from the current theme name, if it's installed.
-		$theme = str_replace( ' Child', '', $theme );
-
-		// Text strings.
-		$success_message = $strings['license-json-success%s'];
-
-		// Data to send in our API request.
-		$api_params = array(
-			'edd_action' => 'activate_license',
-			'license'    => rawurlencode( $license ),
-			'item_name'  => rawurlencode( $this->edd_item_name ),
-			'url'        => esc_url( home_url( '/' ) ),
-		);
-
-		$response = $this->edd_get_api_response( $api_params );
-
-		// Make sure the response came back okay.
-		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-
-			if ( is_wp_error( $response ) ) {
-				$message = $response->get_error_message();
-			} else {
-				$message = esc_html__( 'An error occurred, please try again.', 'merlin-wp' );
-			}
-		} else {
-
-			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
-
-			if ( false === $license_data->success ) {
-
-				switch ( $license_data->error ) {
-
-					case 'expired':
-						$message = sprintf(
-							/* translators: Expiration date */
-							esc_html__( 'Your license key expired on %s.', 'merlin-wp' ),
-							date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
-						);
-						break;
-
-					case 'revoked':
-						$message = esc_html__( 'Your license key has been disabled.', 'merlin-wp' );
-						break;
-
-					case 'missing':
-						$message = esc_html__( 'This appears to be an invalid license key. Please try again or contact support.', 'merlin-wp' );
-						break;
-
-					case 'invalid':
-					case 'site_inactive':
-						$message = esc_html__( 'Your license is not active for this URL.', 'merlin-wp' );
-						break;
-
-					case 'item_name_mismatch':
-						/* translators: EDD Item Name */
-						$message = sprintf( esc_html__( 'This appears to be an invalid license key for %s.', 'merlin-wp' ), $this->edd_item_name );
-						break;
-
-					case 'no_activations_left':
-						$message = esc_html__( 'Your license key has reached its activation limit.', 'merlin-wp' );
-						break;
-
-					default:
-						$message = esc_html__( 'An error occurred, please try again.', 'merlin-wp' );
-						break;
-				}
-			} else {
-				if ( 'valid' === $license_data->license ) {
-					$message = sprintf( esc_html( $success_message ), $theme );
-					$success = true;
-
-					// Removes the default EDD hook for this option, which breaks the AJAX call.
-					remove_all_actions( 'update_option_' . $this->edd_theme_slug . '_license_key', 10 );
-
-					update_option( $this->edd_theme_slug . '_license_key_status', $license_data->license );
-					update_option( $this->edd_theme_slug . '_license_key', $license );
-				}
-			}
-		}
-
-		return compact( 'success', 'message' );
-	}
-
-	/**
-	 * Makes a call to the API.
-	 *
-	 * This code was taken from the EDD licensing addon theme example code
-	 * (`get_api_response` method of the `EDD_Theme_Updater_Admin` class).
-	 *
-	 * @param array $api_params to be used for wp_remote_get.
-	 * @return array $response JSON response.
-	 */
-	private function edd_get_api_response( $api_params ) {
-
-		$verify_ssl = (bool) apply_filters( 'edd_sl_api_request_verify_ssl', true );
-
-		$response = wp_remote_post(
-			$this->edd_remote_api_url,
-			array(
-				'timeout'   => 15,
-				'sslverify' => $verify_ssl,
-				'body'      => $api_params,
-			)
-		);
-
-		return $response;
-	}
-
-	/**
 	 * Content template for the child theme functions.php file.
 	 *
 	 * @link https://gist.github.com/richtabor/688327dd103b1aa826ebae47e99a0fbe
@@ -1922,8 +1604,6 @@ class Merlin {
 			'content'      => false,
 			'widgets'      => false,
 			'options'      => false,
-			'sliders'      => false,
-			'redux'        => false,
 			'after_import' => false,
 		);
 
@@ -1950,20 +1630,6 @@ class Merlin {
 			! empty( $this->import_files[ $selected_import_index ]['local_import_customizer_file'] )
 		) {
 			$import_data['options'] = true;
-		}
-
-		if (
-			! empty( $this->import_files[ $selected_import_index ]['import_rev_slider_file_url'] ) ||
-			! empty( $this->import_files[ $selected_import_index ]['local_import_rev_slider_file'] )
-		) {
-			$import_data['sliders'] = true;
-		}
-
-		if (
-			! empty( $this->import_files[ $selected_import_index ]['import_redux'] ) ||
-			! empty( $this->import_files[ $selected_import_index ]['local_import_redux'] )
-		) {
-			$import_data['redux'] = true;
 		}
 
 		if ( false !== has_action( 'merlin_after_all_import' ) ) {
@@ -2012,19 +1678,6 @@ class Merlin {
 			);
 		}
 
-		if ( ! empty( $import_files['sliders'] ) ) {
-			$content['sliders'] = array(
-				'title'            => esc_html__( 'Revolution Slider', 'merlin-wp' ),
-				'description'      => esc_html__( 'Sample Revolution sliders data.', 'merlin-wp' ),
-				'pending'          => esc_html__( 'Pending', 'merlin-wp' ),
-				'installing'       => esc_html__( 'Installing', 'merlin-wp' ),
-				'success'          => esc_html__( 'Success', 'merlin-wp' ),
-				'install_callback' => array( $this, 'import_revolution_sliders' ),
-				'checked'          => $this->is_possible_upgrade() ? 0 : 1,
-				'data'             => $import_files['sliders'],
-			);
-		}
-
 		if ( ! empty( $import_files['options'] ) ) {
 			$content['options'] = array(
 				'title'            => esc_html__( 'Options', 'merlin-wp' ),
@@ -2035,19 +1688,6 @@ class Merlin {
 				'install_callback' => array( 'Merlin_Customizer_Importer', 'import' ),
 				'checked'          => $this->is_possible_upgrade() ? 0 : 1,
 				'data'             => $import_files['options'],
-			);
-		}
-
-		if ( ! empty( $import_files['redux'] ) ) {
-			$content['redux'] = array(
-				'title'            => esc_html__( 'Redux Options', 'merlin-wp' ),
-				'description'      => esc_html__( 'Redux framework options.', 'merlin-wp' ),
-				'pending'          => esc_html__( 'Pending', 'merlin-wp' ),
-				'installing'       => esc_html__( 'Installing', 'merlin-wp' ),
-				'success'          => esc_html__( 'Success', 'merlin-wp' ),
-				'install_callback' => array( 'Merlin_Redux_Importer', 'import' ),
-				'checked'          => $this->is_possible_upgrade() ? 0 : 1,
-				'data'             => $import_files['redux'],
 			);
 		}
 
@@ -2067,27 +1707,6 @@ class Merlin {
 		$content = apply_filters( 'merlin_get_base_content', $content, $this );
 
 		return $content;
-	}
-
-	/**
-	 * Import revolution slider.
-	 *
-	 * @param string $file Path to the revolution slider zip file.
-	 */
-	public function import_revolution_sliders( $file ) {
-		if ( ! class_exists( 'RevSlider', false ) ) {
-			return 'failed';
-		}
-
-		$importer = new RevSlider();
-
-		$response = $importer->importSliderFromPost( true, true, $file );
-
-		$this->logger->info( __( 'The revolution slider import was executed', 'merlin-wp' ) );
-
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-			return 'true';
-		}
 	}
 
 	/**
@@ -2215,8 +1834,6 @@ class Merlin {
 			'content' => '',
 			'widgets' => '',
 			'options' => '',
-			'redux'   => array(),
-			'sliders' => '',
 		);
 
 		$downloader = new Merlin_Downloader();
@@ -2288,72 +1905,6 @@ class Merlin {
 			if ( file_exists( $selected_import_data['local_import_customizer_file'] ) ) {
 				$import_files['options'] = $selected_import_data['local_import_customizer_file'];
 			}
-		}
-
-		// Get revolution slider import file as well. If defined!
-		if ( ! empty( $selected_import_data['import_rev_slider_file_url'] ) ) {
-			// Setup filename path to save the customizer content.
-			$rev_slider_filename = 'slider-' . $base_file_name . '.zip';
-
-			// Retrieve the content import file.
-			$import_files['sliders'] = $downloader->fetch_existing_file( $rev_slider_filename );
-
-			// Download the file, if it's missing.
-			if ( empty( $import_files['sliders'] ) ) {
-				$import_files['sliders'] = $downloader->download_file( $selected_import_data['import_rev_slider_file_url'], $rev_slider_filename );
-			}
-
-			// Reset the variable, if there was an error.
-			if ( is_wp_error( $import_files['sliders'] ) ) {
-				$import_files['sliders'] = '';
-			}
-		} elseif ( ! empty( $selected_import_data['local_import_rev_slider_file'] ) ) {
-			if ( file_exists( $selected_import_data['local_import_rev_slider_file'] ) ) {
-				$import_files['sliders'] = $selected_import_data['local_import_rev_slider_file'];
-			}
-		}
-
-		// Get redux import file as well. If defined!
-		if ( ! empty( $selected_import_data['import_redux'] ) ) {
-			$redux_items = array();
-
-			// Setup filename paths to save the Redux content.
-			foreach ( $selected_import_data['import_redux'] as $index => $redux_item ) {
-				$redux_filename = 'redux-' . $index . '-' . $base_file_name . '.json';
-
-				// Retrieve the content import file.
-				$file_path = $downloader->fetch_existing_file( $redux_filename );
-
-				// Download the file, if it's missing.
-				if ( empty( $file_path ) ) {
-					$file_path = $downloader->download_file( $redux_item['file_url'], $redux_filename );
-				}
-
-				// Reset the variable, if there was an error.
-				if ( is_wp_error( $file_path ) ) {
-					$file_path = '';
-				}
-
-				$redux_items[] = array(
-					'option_name' => $redux_item['option_name'],
-					'file_path'   => $file_path,
-				);
-			}
-
-			// Download the Redux import file.
-			$import_files['redux'] = $redux_items;
-		} elseif ( ! empty( $selected_import_data['local_import_redux'] ) ) {
-			$redux_items = array();
-
-			// Setup filename paths to save the Redux content.
-			foreach ( $selected_import_data['local_import_redux'] as $redux_item ) {
-				if ( file_exists( $redux_item['file_path'] ) ) {
-					$redux_items[] = $redux_item;
-				}
-			}
-
-			// Download the Redux import file.
-			$import_files['redux'] = $redux_items;
 		}
 
 		return $import_files;

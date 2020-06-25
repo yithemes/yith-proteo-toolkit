@@ -8,7 +8,6 @@
  *
  * @package Merlin WP
  */
-
 class Merlin_Widget_Importer {
 	/**
 	 * Import widgets from WIE or JSON file.

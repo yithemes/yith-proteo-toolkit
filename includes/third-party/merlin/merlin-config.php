@@ -25,12 +25,6 @@ $wizard      = new YITH_Proteo_Wizard(
 		'capability'           => 'manage_options', // The capability required for this menu to be displayed to the user.
 		'child_action_btn_url' => 'https://codex.wordpress.org/child_themes', // URL for the 'child-action-link'.
 		'dev_mode'             => true, // Enable development mode for testing.
-		'license_step'         => false, // EDD license activation step.
-		'license_required'     => false, // Require the license activation step.
-		'license_help_url'     => '', // URL for the 'license-tooltip'.
-		'edd_remote_api_url'   => '', // EDD_Theme_Updater_Admin remote_api_url.
-		'edd_item_name'        => '', // EDD_Theme_Updater_Admin item_name.
-		'edd_theme_slug'       => '', // EDD_Theme_Updater_Admin item_slug.
 		'ready_big_button_url' => get_site_url(), // Link for the big button on the ready step.
 		'base_path'            => YITH_PROTEO_TOOLKIT_PATH,
 		'base_url'             => YITH_PROTEO_TOOLKIT_URL,
@@ -51,19 +45,6 @@ $wizard      = new YITH_Proteo_Wizard(
 		'btn-child-install'        => esc_html__( 'Install', 'yith-proteo-toolkit' ),
 		'btn-content-install'      => esc_html__( 'Install', 'yith-proteo-toolkit' ),
 		'btn-import'               => esc_html__( 'Import', 'yith-proteo-toolkit' ),
-		'btn-license-activate'     => esc_html__( 'Activate', 'yith-proteo-toolkit' ),
-		'btn-license-skip'         => esc_html__( 'Later', 'yith-proteo-toolkit' ),
-
-		/* translators: Theme Name */
-		'license-header%s'         => esc_html__( 'Activate %s', 'yith-proteo-toolkit' ),
-		/* translators: Theme Name */
-		'license-header-success%s' => esc_html__( '%s is Activated', 'yith-proteo-toolkit' ),
-		/* translators: Theme Name */
-		'license%s'                => esc_html__( 'Enter your license key to enable remote updates and theme support.', 'yith-proteo-toolkit' ),
-		'license-label'            => esc_html__( 'License key', 'yith-proteo-toolkit' ),
-		'license-success%s'        => esc_html__( 'The theme is already registered, so you can go to the next step!', 'yith-proteo-toolkit' ),
-		'license-json-success%s'   => esc_html__( 'Your theme is activated! Remote updates and theme support are enabled.', 'yith-proteo-toolkit' ),
-		'license-tooltip'          => esc_html__( 'Need help?', 'yith-proteo-toolkit' ),
 
 		/* translators: Theme Name */
 		'welcome-header%s'         => esc_html__( 'Welcome to %s', 'yith-proteo-toolkit' ),

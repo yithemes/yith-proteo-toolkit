@@ -3,7 +3,7 @@
  * Plugin Name:         YITH Proteo Toolkit
  * Plugin URI:          https://yithemes.com
  * Description:         Add extra features to YITH Proteo theme.
- * Version:             1.0.0.alpha
+ * Version:             1.0.0.1
  * Author:              YITH
  * Author URI:          https://yithemes.com/
  * Requires at least:   5.3
@@ -36,6 +36,7 @@ function yith_proteo_toolkit_can_be_enabled() {
 function install_yith_proteo_theme_admin_notice() {
 	?>
 	<div class="error">
+		<?php /* translators: %1$1s: plugin name; %2$2s: theme name; */ ?>
 		<p><?php echo sprintf( esc_html__( '%1$1s is meant to be used with %2$2s theme.', 'yith-proteo-toolkit' ), '<b>YITH Proteo Toolkit</b>', '<b>YITH Proteo</b>' ); ?></p>
 	</div>
 	<?php
@@ -46,7 +47,7 @@ if ( ! defined( 'YITH_PROTEO_TOOLKIT' ) ) {
 }
 
 if ( ! defined( 'YITH_PROTEO_TOOLKIT_VERSION' ) ) {
-	define( 'YITH_PROTEO_TOOLKIT_VERSION', '1.0.0.alpha' );
+	define( 'YITH_PROTEO_TOOLKIT_VERSION', '1.0.0.1' );
 }
 
 if ( ! defined( 'YITH_PROTEO_TOOLKIT_PATH' ) ) {
@@ -154,7 +155,7 @@ add_action( 'admin_init', 'yith_proteo_toolkit_run_setup', 10 );
 function yith_proteo_toolkit_run_setup() {
 	if ( get_option( 'yith_proteo_toolkit_run_setup' ) ) {
 		delete_option( 'yith_proteo_toolkit_run_setup' );
-		exit( wp_redirect( admin_url( 'themes.php?page=setup-wizard' ) ) );
+		exit( esc_url( wp_safe_redirect( admin_url( 'themes.php?page=setup-wizard' ) ) ) );
 	}
 }
 

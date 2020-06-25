@@ -888,128 +888,6 @@ svg:not(:root) {
 	padding-top: 3px;
 }
 
-.merlin__content--license .merlin__content__footer {
-	padding-top: 30px;
-}
-
-.merlin__content--license .merlin__content__footer.is-registered {
-	padding-top: 87px;
-}
-
-.merlin__content--license .merlin__button--knockout {
-	margin-top: 0;
-	padding-bottom: 8px;
-	padding-top: 8px;
-}
-
-.merlin__content--license-key {
-	margin-top: 22px;
-}
-
-.merlin__content--license-key.has-error input {
-	-webkit-animation: errorShake 0.4s 1 linear;
-	animation: errorShake 0.4s 1 linear;
-	border-color: #d54e21;
-	-webkit-box-shadow: 0 0 2px rgba(213, 78, 33, 0.8);
-	box-shadow: 0 0 2px rgba(213, 78, 33, 0.8);
-}
-
-.merlin__content--license-key label {
-	border: 0;
-	clip: rect(1px, 1px, 1px, 1px);
-	height: 1px;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	width: 1px;
-
-	-webkit-clip-path: circle(1% at 1% 1%);
-	clip-path: circle(1% at 1% 1%);
-}
-
-.merlin__content--license-key-wrapper {
-	margin-left: auto;
-	margin-right: auto;
-	position: relative;
-	width: 87%;
-}
-
-.merlin__content--license-key .icon {
-	height: 27px;
-	margin-bottom: 0;
-	opacity: 0.6;
-	-webkit-transform: translate3d(0, 0, 0);
-	transform: translate3d(0, 0, 0);
-	-webkit-transition: fill 150ms cubic-bezier(0.694, 0, 0.335, 1), opacity 150ms cubic-bezier(0.694, 0, 0.335, 1);
-	transition: fill 150ms cubic-bezier(0.694, 0, 0.335, 1), opacity 150ms cubic-bezier(0.694, 0, 0.335, 1);
-	width: 27px;
-	z-index: 9999;
-
-	-webkit-backface-visibility: hidden;
-	backface-visibility: hidden;
-	fill: #7d8183;
-}
-
-@media screen and (prefers-reduced-motion: reduce) {
-	.merlin__content--license-key .icon {
-		-webkit-transition: fill 50ms ease-in-out, opacity 50ms ease-in-out;
-		transition: fill 50ms ease-in-out, opacity 50ms ease-in-out;
-	}
-}
-
-.merlin__content--license-key .icon:hover {
-	opacity: 1;
-
-	fill: #0073aa;
-}
-
-.merlin__content--license-key a {
-	height: 27px;
-	position: absolute;
-	right: 3px;
-	top: 4px;
-	width: 27px;
-}
-
-.merlin__content--license-key a::after {
-	background: transparent;
-	background: -webkit-gradient(linear, right top, left top, color-stop(40%, #fff), to(rgba(255, 255, 255, 0)));
-	background: -webkit-linear-gradient(right, #fff 40%, rgba(255, 255, 255, 0));
-	background: linear-gradient(to left, #fff 40%, rgba(255, 255, 255, 0));
-	border-radius: 3px;
-	/* gradient on the right - to indicate it's possible to scroll */
-	content: "";
-	height: 27px;
-	pointer-events: none;
-	position: absolute;
-	right: 23px;
-	top: 0;
-	width: 20px;
-	z-index: 1;
-}
-
-.merlin__content--license-key a:active svg {
-	-webkit-animation: small_pulse 200ms;
-	animation: small_pulse 200ms;
-	-webkit-animation-timing-function: cubic-bezier(0.694, 0, 0.335, 1);
-	animation-timing-function: cubic-bezier(0.694, 0, 0.335, 1);
-
-	-webkit-animation-fill-mode: none;
-	animation-fill-mode: none;
-}
-
-.merlin__content--license-key input {
-	background: transparent;
-	border-radius: 3px;
-	-webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
-	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
-	display: inline-block;
-	font-family: Menlo, Consolas, monaco, monospace;
-	font-size: 11px;
-	padding: 10px 27px 8px 9px;
-	width: 100%;
-}
-
 .merlin__content--ready {
 	padding-bottom: 12px;
 }
@@ -2565,10 +2443,6 @@ body.loaded .merlin__content__footer--fullwidth {
 
 .merlin__content__footer--nolinks .merlin__button {
 	margin-top: 0.57em;
-}
-
-.merlin__content--license .merlin__content__footer {
-	margin-top: -0.24em;
 }
 
 .merlin__content--ready .merlin__content__footer {

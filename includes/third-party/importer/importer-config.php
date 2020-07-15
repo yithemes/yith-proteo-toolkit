@@ -14,7 +14,7 @@ if ( ! class_exists( 'Merlin' ) ) {
  */
 $wizard      = new YITH_Proteo_Wizard(
 	$config  = array(
-		'directory'            => 'includes/third-party/merlin', // Location / directory where Merlin WP is placed in your theme.
+		'directory'            => 'includes/third-party/importer', // Location / directory where Merlin WP is placed in your theme.
 		'merlin_url'           => 'setup-wizard', // The wp-admin page slug where Merlin WP loads.
 		'parent_slug'          => 'themes.php', // The wp-admin parent page slug for the admin menu item.
 		'capability'           => 'manage_options', // The capability required for this menu to be displayed to the user.

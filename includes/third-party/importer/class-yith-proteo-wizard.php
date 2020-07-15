@@ -1,17 +1,11 @@
 <?php
 /**
- * Merlin WP
- * Better WordPress Theme Onboarding
+ * YITH Proteo Wizard
  *
  * The following code is a derivative work from the
- * Envato WordPress Theme Setup Wizard by David Baker.
+ * Envato WordPress Theme Setup Wizard by David Baker and Merlin WP by Rich Tabor.
  *
- * @package   Merlin WP
- * @version   1.0.0
- * @link      https://merlinwp.com/
- * @author    Rich Tabor, from ThemeBeans.com & the team at ProteusThemes.com
- * @copyright Copyright (c) 2018, Merlin WP of Inventionn LLC
- * @license   Licensed GPLv3 for Open Source Use
+ * @package yith_proteo_toolkit
  */
 
 // Exit if accessed directly.
@@ -20,9 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Merlin.
+ * YITH_Proteo_Wizard.
  */
-class Merlin {
+class YITH_Proteo_Wizard {
 	/**
 	 * Current theme.
 	 *
@@ -234,7 +228,7 @@ class Merlin {
 		if ( true !== $this->dev_mode ) {
 
 			// Has this theme been setup yet?
-			$already_setup = get_option( 'merlin_' . $this->slug . '_completed' );
+			$already_setup = get_option( 'yith_proteo_toolkit_' . $this->slug . '_completed' );
 
 			// Return if Merlin has already completed it's setup.
 			if ( $already_setup ) {
@@ -785,7 +779,7 @@ class Merlin {
 
 		<div class="merlin__content--transition">
 
-			<?php echo wp_kses( $this->svg( array( 'icon' => 'welcome' ) ), $this->svg_allowed_html() ); ?>
+			<img class="yith-proteo-toolkit-wizard-step-img" src="<?php echo esc_url( YITH_PROTEO_TOOLKIT_URL ); ?>/assets/img/proteo-logo.png">
 
 			<h1><?php echo esc_html( sprintf( $header, $theme ) ); ?></h1>
 
@@ -839,7 +833,7 @@ class Merlin {
 
 		<div class="merlin__content--transition">
 
-			<?php echo wp_kses( $this->svg( array( 'icon' => 'child' ) ), $this->svg_allowed_html() ); ?>
+			<?php yith_proteo_toolkit_wizard_step_icon( 'child' ); ?>
 
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
@@ -896,10 +890,11 @@ class Merlin {
 		}
 
 		// Are there plugins that need installing/activating?
-		$plugins          = $this->get_tgmpa_plugins();
-		$required_plugins = $recommended_plugins = array();
-		$count            = count( $plugins['all'] );
-		$class            = $count ? null : 'no-plugins';
+		$plugins             = $this->get_tgmpa_plugins();
+		$recommended_plugins = array();
+		$required_plugins    = array();
+		$count               = count( $plugins['all'] );
+		$class               = $count ? null : 'no-plugins';
 
 		// Split the plugins into required and recommended.
 		foreach ( $plugins['all'] as $slug => $plugin ) {
@@ -924,7 +919,7 @@ class Merlin {
 
 		<div class="merlin__content--transition">
 
-			<?php echo wp_kses( $this->svg( array( 'icon' => 'plugins' ) ), $this->svg_allowed_html() ); ?>
+			<?php yith_proteo_toolkit_wizard_step_icon( 'plugins' ); ?>
 
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
@@ -1023,7 +1018,7 @@ class Merlin {
 
 		<div class="merlin__content--transition">
 
-			<?php echo wp_kses( $this->svg( array( 'icon' => 'content' ) ), $this->svg_allowed_html() ); ?>
+		<?php yith_proteo_toolkit_wizard_step_icon( 'content' ); ?>
 
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
 				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
@@ -1036,7 +1031,7 @@ class Merlin {
 			<?php if ( 1 < count( $this->import_files ) ) : ?>
 				<ul id="demo-content-list">
 				<?php foreach ( $this->import_files as $index => $import_file ) : ?>
-					<li class="demo-content" data-demo="<?php echo esc_attr( $index ); ?>">
+					<li class="demo-content <?php echo esc_attr( $import_file['state'] ); ?>" data-demo="<?php echo esc_attr( $index ); ?>">
 						<img src="<?php echo esc_url( $import_file['import_preview_image_url'] ); ?>" width="250">
 						<?php echo esc_html( $import_file['import_file_name'] ); ?>
 						<a href="<?php echo esc_url( $import_file['preview_url'] ); ?>" target="_blank" rel="nofollow noopener" class="preview-link" title="<?php esc_html_e( 'Preview', 'merlin-wp' ); ?>"><span class="dashicons dashicons-external"></span></a>
@@ -1143,7 +1138,7 @@ class Merlin {
 
 		<div class="merlin__content--transition">
 
-			<?php echo wp_kses( $this->svg( array( 'icon' => 'done' ) ), $this->svg_allowed_html() ); ?>
+			<?php yith_proteo_toolkit_wizard_step_icon( 'done' ); ?>
 
 			<h1><?php echo esc_html( sprintf( $header, $theme ) ); ?></h1>
 

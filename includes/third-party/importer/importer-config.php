@@ -1,13 +1,8 @@
 <?php
 /**
- * Merlin WP configuration file.
+ * Importer configuration file.
  *
- * @package   Merlin WP
- * @version   @@pkg.version
- * @link      https://merlinwp.com/
- * @author    Rich Tabor, from ThemeBeans.com & the team at ProteusThemes.com
- * @copyright Copyright (c) 2018, Merlin WP of Inventionn LLC
- * @license   Licensed GPLv3 for Open Source Use
+ * @package YITH_Proteo_tookit
  */
 
 if ( ! class_exists( 'Merlin' ) ) {

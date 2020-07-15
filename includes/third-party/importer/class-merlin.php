@@ -199,8 +199,8 @@ class Merlin {
 			array(
 				'base_path'            => get_parent_theme_file_path(),
 				'base_url'             => get_parent_theme_file_uri(),
-				'directory'            => 'merlin',
-				'merlin_url'           => 'merlin',
+				'directory'            => 'importer',
+				'merlin_url'           => 'importer',
 				'parent_slug'          => 'themes.php',
 				'capability'           => 'manage_options',
 				'child_action_btn_url' => '',

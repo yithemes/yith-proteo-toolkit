@@ -81,7 +81,7 @@ function yith_load_tookit_wizard() {
 	require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/third-party/importer/vendor/autoload.php';
 	require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/third-party/importer/class-merlin.php';
 	require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/class-yith-proteo-wizard.php';
-	require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/third-party/importer/merlin-config.php';
+	require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/third-party/importer/importer-config.php';
 }
 add_action( 'init', 'yith_load_tookit_wizard' );
 

@@ -237,8 +237,8 @@ class YITH_Proteo_Wizard {
 		}
 
 		// Get the logger object, so it can be used in the whole class.
-		require_once trailingslashit( $this->base_path ) . $this->directory . '/includes/class-merlin-logger.php';
-		$this->logger = Merlin_Logger::get_instance();
+		require_once trailingslashit( $this->base_path ) . $this->directory . '/includes/class-yith-proteo-wizard-logger.php';
+		$this->logger = YITH_Proteo_Wizard_Logger::get_instance();
 
 		// Get TGMPA.
 		if ( class_exists( 'TGM_Plugin_Activation' ) ) {

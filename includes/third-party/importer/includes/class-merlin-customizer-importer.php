@@ -22,12 +22,12 @@ class Merlin_Customizer_Importer {
 
 		// Check for errors, else write the results to the log file.
 		if ( is_wp_error( $results ) ) {
-			Merlin_Logger::get_instance()->error( $results->get_error_message() );
+			YITH_Proteo_Wizard_Logger::get_instance()->error( $results->get_error_message() );
 
 			return false;
 		}
 
-		Merlin_Logger::get_instance()->info( __( 'The customizer import has finished successfully', 'merlin-wp' ) );
+		YITH_Proteo_Wizard_Logger::get_instance()->info( __( 'The customizer import has finished successfully', 'merlin-wp' ) );
 		return true;
 	}
 

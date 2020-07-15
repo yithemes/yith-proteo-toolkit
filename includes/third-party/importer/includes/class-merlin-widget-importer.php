@@ -30,7 +30,7 @@ class Merlin_Widget_Importer {
 		$results = self::import_widgets( $widget_import_file_path );
 
 		if ( is_wp_error( $results ) ) {
-			Merlin_Logger::get_instance()->error( $results->get_error_message() );
+			YITH_Proteo_Wizard_Logger::get_instance()->error( $results->get_error_message() );
 
 			return false;
 		}
@@ -39,7 +39,7 @@ class Merlin_Widget_Importer {
 			self::format_results_for_log( $results );
 		$message = ob_get_clean();
 
-		Merlin_Logger::get_instance()->debug( $message );
+		YITH_Proteo_Wizard_Logger::get_instance()->debug( $message );
 
 		return true;
 	}

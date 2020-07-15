@@ -8,7 +8,7 @@
 /**
  * The logger class
  */
-class Merlin_Logger {
+class YITH_Proteo_Wizard_Logger {
 
 
 	/**

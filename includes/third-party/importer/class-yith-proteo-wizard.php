@@ -194,7 +194,7 @@ class YITH_Proteo_Wizard {
 				'base_path'            => get_parent_theme_file_path(),
 				'base_url'             => get_parent_theme_file_uri(),
 				'directory'            => 'importer',
-				'merlin_url'           => 'importer',
+				'merlin_url'           => 'setup-wizard',
 				'parent_slug'          => 'themes.php',
 				'capability'           => 'manage_options',
 				'child_action_btn_url' => '',
@@ -228,7 +228,7 @@ class YITH_Proteo_Wizard {
 		if ( true !== $this->dev_mode ) {
 
 			// Has this theme been setup yet?
-			$already_setup = get_option( 'yith_proteo_toolkit_' . $this->slug . '_completed' );
+			$already_setup = get_option( 'yith_proteo_wizard_' . $this->slug . '_completed' );
 
 			// Return if Merlin has already completed it's setup.
 			if ( $already_setup ) {
@@ -326,7 +326,7 @@ class YITH_Proteo_Wizard {
 			return;
 		}
 
-		update_option( 'merlin_' . $this->slug . '_completed', 'ignored' );
+		update_option( 'yith_proteo_wizard_' . $this->slug . '_completed', 'ignored' );
 	}
 
 	/**
@@ -759,7 +759,7 @@ class YITH_Proteo_Wizard {
 	protected function welcome() {
 
 		// Has this theme been setup yet? Compare this to the option set when you get to the last panel.
-		$already_setup = get_option( 'merlin_' . $this->slug . '_completed' );
+		$already_setup = get_option( 'yith_proteo_wizard_' . $this->slug . '_completed' );
 
 		// Theme Name.
 		$theme = ucfirst( $this->theme );
@@ -815,7 +815,7 @@ class YITH_Proteo_Wizard {
 
 		// Variables.
 		$is_child_theme     = is_child_theme();
-		$child_theme_option = get_option( 'merlin_' . $this->slug . '_child' );
+		$child_theme_option = get_option( 'yith_proteo_wizard_' . $this->slug . '_child' );
 		$theme              = $child_theme_option ? wp_get_theme( $child_theme_option )->name : $this->theme . ' Child';
 		$action_url         = $this->child_action_btn_url;
 
@@ -1133,7 +1133,7 @@ class YITH_Proteo_Wizard {
 			),
 		);
 
-		update_option( 'merlin_' . $this->slug . '_completed', time() );
+		update_option( 'yith_proteo_wizard_' . $this->slug . '_completed', time() );
 		?>
 
 		<div class="merlin__content--transition">
@@ -1238,7 +1238,7 @@ class YITH_Proteo_Wizard {
 		} else {
 
 			if ( $this->theme->template !== $slug ) :
-				update_option( 'merlin_' . $this->slug . '_child', $name );
+				update_option( 'yith_proteo_wizard_' . $this->slug . '_child', $name );
 				switch_theme( $slug );
 			endif;
 
@@ -1256,7 +1256,7 @@ class YITH_Proteo_Wizard {
 		}
 
 		if ( $this->theme->template !== $slug ) :
-			update_option( 'merlin_' . $this->slug . '_child', $name );
+			update_option( 'yith_proteo_wizard_' . $this->slug . '_child', $name );
 			switch_theme( $slug );
 		endif;
 

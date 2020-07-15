@@ -5,7 +5,7 @@
  * @package YITH_Proteo_tookit
  */
 
-if ( ! class_exists( 'Merlin' ) ) {
+if ( ! class_exists( 'YITH_Proteo_Wizard' ) ) {
 	return;
 }
 

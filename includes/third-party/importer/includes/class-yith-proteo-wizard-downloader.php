@@ -7,10 +7,8 @@
 
 /**
  * Class for downloading a file from a given URL.
- *
- * @package Merlin WP
  */
-class Merlin_Downloader {
+class YITH_Proteo_Wizard_Downloader {
 	/**
 	 * Holds full path to where the files will be saved.
 	 *

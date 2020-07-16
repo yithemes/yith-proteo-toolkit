@@ -14,8 +14,8 @@ if ( ! class_exists( 'YITH_Proteo_Wizard' ) ) {
  */
 $wizard      = new YITH_Proteo_Wizard(
 	$config  = array(
-		'directory'            => 'includes/third-party/importer', // Location / directory where Merlin WP is placed in your theme.
-		'merlin_url'           => 'setup-wizard', // The wp-admin page slug where Merlin WP loads.
+		'directory'            => 'includes/third-party/importer', // Location / directory where YITH_Proteo_Wizard is placed in your theme.
+		'merlin_url'           => 'setup-wizard', // The wp-admin page slug where YITH_Proteo_Wizard loads.
 		'parent_slug'          => 'themes.php', // The wp-admin parent page slug for the admin menu item.
 		'capability'           => 'manage_options', // The capability required for this menu to be displayed to the user.
 		'child_action_btn_url' => 'https://codex.wordpress.org/child_themes', // URL for the 'child-action-link'.

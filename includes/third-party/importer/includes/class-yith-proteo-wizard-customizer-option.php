@@ -5,10 +5,10 @@
  *
  * Used in the Customizer importer.
  *
- * @package Merlin WP
+ * @package YITH_Proteo_tookit
  */
 
-final class Merlin_Customizer_Option extends \WP_Customize_Setting {
+final class YITH_Proteo_Wizard_Customizer_Option extends \WP_Customize_Setting {
 	/**
 	 * Import an option value for this setting.
 	 *

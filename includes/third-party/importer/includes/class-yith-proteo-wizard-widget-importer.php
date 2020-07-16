@@ -12,7 +12,7 @@
  *
  * @see https://wordpress.org/plugins/widget-importer-exporter/
  */
-class Merlin_Widget_Importer {
+class YITH_Proteo_Wizard_Widget_Importer {
 	/**
 	 * Import widgets from WIE or JSON file.
 	 *

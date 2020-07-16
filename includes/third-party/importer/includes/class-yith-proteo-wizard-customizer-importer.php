@@ -103,7 +103,7 @@ class YITH_Proteo_Wizard_Customizer_Importer {
 			}
 
 			foreach ( $data['options'] as $option_key => $option_value ) {
-				$option = new Merlin_Customizer_Option(
+				$option = new YITH_Proteo_Wizard_Customizer_Option(
 					$wp_customize,
 					$option_key,
 					array(

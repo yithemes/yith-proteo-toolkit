@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class for the custom WP hooks.
  */
-class Merlin_Hooks {
+class YITH_Proteo_Wizard_Hooks {
 	/**
 	 * The class constructor.
 	 */

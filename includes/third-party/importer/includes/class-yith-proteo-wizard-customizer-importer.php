@@ -29,7 +29,7 @@ class YITH_Proteo_Wizard_Customizer_Importer {
 			return false;
 		}
 
-		YITH_Proteo_Wizard_Logger::get_instance()->info( __( 'The customizer import has finished successfully', 'merlin-wp' ) );
+		YITH_Proteo_Wizard_Logger::get_instance()->info( __( 'The customizer import has finished successfully', 'yith-proteo-toolkit' ) );
 		return true;
 	}
 
@@ -57,7 +57,7 @@ class YITH_Proteo_Wizard_Customizer_Importer {
 				'missing_cutomizer_import_file',
 				sprintf(
 					/* translators: %s: file path */
-					esc_html__( 'Error: The customizer import file is missing! File path: %s', 'merlin-wp' ),
+					esc_html__( 'Error: The customizer import file is missing! File path: %s', 'yith-proteo-toolkit' ),
 					$import_file_path
 				)
 			);
@@ -70,7 +70,7 @@ class YITH_Proteo_Wizard_Customizer_Importer {
 		if ( empty( $raw ) ) {
 			return new \WP_Error(
 				'customizer_import_data_missing_content',
-				esc_html__( 'Error: The customizer import file does not have any content in it. Please make sure to use the correct customizer import file.', 'merlin-wp' )
+				esc_html__( 'Error: The customizer import file does not have any content in it. Please make sure to use the correct customizer import file.', 'yith-proteo-toolkit' )
 			);
 		}
 
@@ -80,13 +80,13 @@ class YITH_Proteo_Wizard_Customizer_Importer {
 		if ( ! is_array( $data ) && ( ! isset( $data['template'] ) || ! isset( $data['mods'] ) ) ) {
 			return new \WP_Error(
 				'customizer_import_data_error',
-				esc_html__( 'Error: The customizer import file is not in a correct format. Please make sure to use the correct customizer import file.', 'merlin-wp' )
+				esc_html__( 'Error: The customizer import file is not in a correct format. Please make sure to use the correct customizer import file.', 'yith-proteo-toolkit' )
 			);
 		}
 		if ( $data['template'] !== $template ) {
 			return new \WP_Error(
 				'customizer_import_wrong_theme',
-				esc_html__( 'Error: The customizer import file is not suitable for current theme. You can only import customizer settings for the same theme or a child theme.', 'merlin-wp' )
+				esc_html__( 'Error: The customizer import file is not suitable for current theme. You can only import customizer settings for the same theme or a child theme.', 'yith-proteo-toolkit' )
 			);
 		}
 

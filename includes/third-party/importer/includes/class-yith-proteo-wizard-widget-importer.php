@@ -72,7 +72,7 @@ class YITH_Proteo_Wizard_Widget_Importer {
 		if ( ! file_exists( $file ) ) {
 			return new \WP_Error(
 				'widget_import_file_not_found',
-				__( 'Error: Widget import file could not be found.', 'merlin-wp' )
+				__( 'Error: Widget import file could not be found.', 'yith-proteo-toolkit' )
 			);
 		}
 
@@ -83,7 +83,7 @@ class YITH_Proteo_Wizard_Widget_Importer {
 		if ( empty( $data ) ) {
 			return new \WP_Error(
 				'widget_import_file_missing_content',
-				__( 'Error: Widget import file does not have any content in it.', 'merlin-wp' )
+				__( 'Error: Widget import file does not have any content in it.', 'yith-proteo-toolkit' )
 			);
 		}
 
@@ -105,7 +105,7 @@ class YITH_Proteo_Wizard_Widget_Importer {
 		if ( empty( $data ) || ! is_object( $data ) ) {
 			return new \WP_Error(
 				'corrupted_widget_import_data',
-				__( 'Error: Widget import data could not be read. Please try a different file.', 'merlin-wp' )
+				__( 'Error: Widget import data could not be read. Please try a different file.', 'yith-proteo-toolkit' )
 			);
 		}
 
@@ -143,7 +143,7 @@ class YITH_Proteo_Wizard_Widget_Importer {
 				$sidebar_available    = false;
 				$use_sidebar_id       = 'wp_inactive_widgets'; // Add to inactive if sidebar does not exist in theme.
 				$sidebar_message_type = 'error';
-				$sidebar_message      = __( 'Sidebar does not exist in theme (moving widget to Inactive)', 'merlin-wp' );
+				$sidebar_message      = __( 'Sidebar does not exist in theme (moving widget to Inactive)', 'yith-proteo-toolkit' );
 			}
 
 			// Result for sidebar.
@@ -164,7 +164,7 @@ class YITH_Proteo_Wizard_Widget_Importer {
 				if ( ! $fail && ! isset( $available_widgets[ $id_base ] ) ) {
 					$fail                = true;
 					$widget_message_type = 'error';
-					$widget_message      = __( 'Site does not support widget', 'merlin-wp' ); // Explain why widget not imported.
+					$widget_message      = __( 'Site does not support widget', 'yith-proteo-toolkit' ); // Explain why widget not imported.
 				}
 
 				// Filter to modify settings object before conversion to array and import.
@@ -197,7 +197,7 @@ class YITH_Proteo_Wizard_Widget_Importer {
 						if ( in_array( "$id_base-$check_id", $sidebar_widgets, true ) && (array) $widget === $check_widget ) {
 							$fail                = true;
 							$widget_message_type = 'warning';
-							$widget_message      = __( 'Widget already exists', 'merlin-wp' ); // Explain why widget not imported.
+							$widget_message      = __( 'Widget already exists', 'yith-proteo-toolkit' ); // Explain why widget not imported.
 
 							break;
 						}
@@ -255,16 +255,16 @@ class YITH_Proteo_Wizard_Widget_Importer {
 					// Success message.
 					if ( $sidebar_available ) {
 						$widget_message_type = 'success';
-						$widget_message      = __( 'Imported', 'merlin-wp' );
+						$widget_message      = __( 'Imported', 'yith-proteo-toolkit' );
 					} else {
 						$widget_message_type = 'warning';
-						$widget_message      = __( 'Imported to Inactive', 'merlin-wp' );
+						$widget_message      = __( 'Imported to Inactive', 'yith-proteo-toolkit' );
 					}
 				}
 
 				// Result for widget instance.
 				$results[ $sidebar_id ]['widgets'][ $widget_instance_id ]['name']         = isset( $available_widgets[ $id_base ]['name'] ) ? $available_widgets[ $id_base ]['name'] : $id_base; // Widget name or ID if name not available (not supported by site).
-				$results[ $sidebar_id ]['widgets'][ $widget_instance_id ]['title']        = ! empty( $widget['title'] ) ? $widget['title'] : __( 'No Title', 'merlin-wp' ); // Show "No Title" if widget instance is untitled.
+				$results[ $sidebar_id ]['widgets'][ $widget_instance_id ]['title']        = ! empty( $widget['title'] ) ? $widget['title'] : __( 'No Title', 'yith-proteo-toolkit' ); // Show "No Title" if widget instance is untitled.
 				$results[ $sidebar_id ]['widgets'][ $widget_instance_id ]['message_type'] = $widget_message_type;
 				$results[ $sidebar_id ]['widgets'][ $widget_instance_id ]['message']      = $widget_message;
 
@@ -326,7 +326,7 @@ class YITH_Proteo_Wizard_Widget_Importer {
 	 */
 	private static function format_results_for_log( $results ) {
 		if ( empty( $results ) ) {
-			esc_html_e( 'No results for widget import!', 'merlin-wp' );
+			esc_html_e( 'No results for widget import!', 'yith-proteo-toolkit' );
 		}
 
 		// Loop sidebars.

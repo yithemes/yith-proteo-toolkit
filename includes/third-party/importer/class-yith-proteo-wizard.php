@@ -408,7 +408,7 @@ class YITH_Proteo_Wizard {
 		wp_enqueue_script( 'merlin', trailingslashit( $this->base_url ) . $this->directory . '/assets/js/merlin' . $suffix . '.js', array( 'jquery-core' ), MERLIN_VERSION );
 
 		$texts = array(
-			'something_went_wrong' => esc_html__( 'Something went wrong. Please refresh the page and try again!', 'merlin-wp' ),
+			'something_went_wrong' => esc_html__( 'Something went wrong. Please refresh the page and try again!', 'yith-proteo-toolkit' ),
 		);
 
 		// Localize the javascript.
@@ -559,12 +559,12 @@ class YITH_Proteo_Wizard {
 
 		// Make sure $args are an array.
 		if ( empty( $args ) ) {
-			return __( 'Please define default parameters in the form of an array.', 'merlin-wp' );
+			return __( 'Please define default parameters in the form of an array.', 'yith-proteo-toolkit' );
 		}
 
 		// Define an icon.
 		if ( false === array_key_exists( 'icon', $args ) ) {
-			return __( 'Please define an SVG icon filename.', 'merlin-wp' );
+			return __( 'Please define an SVG icon filename.', 'yith-proteo-toolkit' );
 		}
 
 		// Set defaults.
@@ -673,21 +673,21 @@ class YITH_Proteo_Wizard {
 
 		$this->steps = array(
 			'welcome' => array(
-				'name'    => esc_html__( 'Welcome', 'merlin-wp' ),
+				'name'    => esc_html__( 'Welcome', 'yith-proteo-toolkit' ),
 				'view'    => array( $this, 'welcome' ),
 				'handler' => array( $this, 'welcome_handler' ),
 			),
 		);
 
 		$this->steps['child'] = array(
-			'name' => esc_html__( 'Child', 'merlin-wp' ),
+			'name' => esc_html__( 'Child', 'yith-proteo-toolkit' ),
 			'view' => array( $this, 'child' ),
 		);
 
 		// Show the plugin importer, only if TGMPA is included.
 		if ( class_exists( 'TGM_Plugin_Activation' ) ) {
 			$this->steps['plugins'] = array(
-				'name' => esc_html__( 'Plugins', 'merlin-wp' ),
+				'name' => esc_html__( 'Plugins', 'yith-proteo-toolkit' ),
 				'view' => array( $this, 'plugins' ),
 			);
 		}
@@ -695,13 +695,13 @@ class YITH_Proteo_Wizard {
 		// Show the content importer, only if there's demo content added.
 		if ( ! empty( $this->import_files ) ) {
 			$this->steps['content'] = array(
-				'name' => esc_html__( 'Content', 'merlin-wp' ),
+				'name' => esc_html__( 'Content', 'yith-proteo-toolkit' ),
 				'view' => array( $this, 'content' ),
 			);
 		}
 
 		$this->steps['ready'] = array(
-			'name' => esc_html__( 'Ready', 'merlin-wp' ),
+			'name' => esc_html__( 'Ready', 'yith-proteo-toolkit' ),
 			'view' => array( $this, 'ready' ),
 		);
 
@@ -806,7 +806,7 @@ class YITH_Proteo_Wizard {
 		</footer>
 
 		<?php
-		$this->logger->debug( __( 'The welcome step has been displayed', 'merlin-wp' ) );
+		$this->logger->debug( __( 'The welcome step has been displayed', 'yith-proteo-toolkit' ) );
 	}
 
 	/**
@@ -876,7 +876,7 @@ class YITH_Proteo_Wizard {
 			<?php wp_nonce_field( 'merlin' ); ?>
 		</footer>
 		<?php
-		$this->logger->debug( __( 'The child theme installation step has been displayed', 'merlin-wp' ) );
+		$this->logger->debug( __( 'The child theme installation step has been displayed', 'yith-proteo-toolkit' ) );
 	}
 
 	/**
@@ -964,8 +964,8 @@ class YITH_Proteo_Wizard {
 								<span><?php echo esc_html( $plugin['name'] ); ?></span>
 
 								<span class="badge">
-									<span class="hint--top" aria-label="<?php esc_html_e( 'Required', 'merlin-wp' ); ?>">
-										<?php esc_html_e( 'req', 'merlin-wp' ); ?>
+									<span class="hint--top" aria-label="<?php esc_html_e( 'Required', 'yith-proteo-toolkit' ); ?>">
+										<?php esc_html_e( 'req', 'yith-proteo-toolkit' ); ?>
 									</span>
 								</span>
 							</label>
@@ -1005,7 +1005,7 @@ class YITH_Proteo_Wizard {
 		</form>
 
 		<?php
-		$this->logger->debug( __( 'The plugin installation step has been displayed', 'merlin-wp' ) );
+		$this->logger->debug( __( 'The plugin installation step has been displayed', 'yith-proteo-toolkit' ) );
 	}
 
 	/**
@@ -1046,7 +1046,7 @@ class YITH_Proteo_Wizard {
 					<li class="demo-content <?php echo esc_attr( $import_file['state'] ); ?>" data-demo="<?php echo esc_attr( $index ); ?>">
 						<img src="<?php echo esc_url( $import_file['import_preview_image_url'] ); ?>" width="250">
 						<?php echo esc_html( $import_file['import_file_name'] ); ?>
-						<a href="<?php echo esc_url( $import_file['preview_url'] ); ?>" target="_blank" rel="nofollow noopener" class="preview-link" title="<?php esc_html_e( 'Preview', 'merlin-wp' ); ?>"><span class="dashicons dashicons-external"></span></a>
+						<a href="<?php echo esc_url( $import_file['preview_url'] ); ?>" target="_blank" rel="nofollow noopener" class="preview-link" title="<?php esc_html_e( 'Preview', 'yith-proteo-toolkit' ); ?>"><span class="dashicons dashicons-external"></span></a>
 					</li>
 				<?php endforeach; ?>
 				</ul>
@@ -1060,7 +1060,7 @@ class YITH_Proteo_Wizard {
 					</select>
 
 					<div class="merlin__select-control-help">
-						<span class="hint--top" aria-label="<?php echo esc_attr__( 'Select Demo', 'merlin-wp' ); ?>">
+						<span class="hint--top" aria-label="<?php echo esc_attr__( 'Select Demo', 'yith-proteo-toolkit' ); ?>">
 							<?php echo wp_kses( $this->svg( array( 'icon' => 'downarrow' ) ), $this->svg_allowed_html() ); ?>
 						</span>
 					</div>
@@ -1097,7 +1097,7 @@ class YITH_Proteo_Wizard {
 		</form>
 
 		<?php
-		$this->logger->debug( __( 'The content import step has been displayed', 'merlin-wp' ) );
+		$this->logger->debug( __( 'The content import step has been displayed', 'yith-proteo-toolkit' ) );
 	}
 
 
@@ -1177,7 +1177,7 @@ class YITH_Proteo_Wizard {
 		</footer>
 
 		<?php
-		$this->logger->debug( __( 'The final step has been displayed', 'merlin-wp' ) );
+		$this->logger->debug( __( 'The final step has been displayed', 'yith-proteo-toolkit' ) );
 	}
 
 	/**
@@ -1250,7 +1250,7 @@ class YITH_Proteo_Wizard {
 				switch_theme( $slug );
 			endif;
 
-			$this->logger->debug( __( 'The existing child theme was activated', 'merlin-wp' ) );
+			$this->logger->debug( __( 'The existing child theme was activated', 'yith-proteo-toolkit' ) );
 
 			wp_send_json(
 				array(
@@ -1268,7 +1268,7 @@ class YITH_Proteo_Wizard {
 			switch_theme( $slug );
 		endif;
 
-		$this->logger->debug( __( 'The newly generated child theme was activated', 'merlin-wp' ) );
+		$this->logger->debug( __( 'The newly generated child theme was activated', 'yith-proteo-toolkit' ) );
 
 		wp_send_json(
 			array(
@@ -1326,7 +1326,7 @@ class YITH_Proteo_Wizard {
 		// Let's remove the tabs so that it displays nicely.
 		$output = trim( preg_replace( '/\t+/', '', $output ) );
 
-		$this->logger->debug( __( 'The child theme functions.php content was generated', 'merlin-wp' ) );
+		$this->logger->debug( __( 'The child theme functions.php content was generated', 'yith-proteo-toolkit' ) );
 
 		// Filterable return.
 		return apply_filters( 'merlin_generate_child_functions_php', $output, $slug );
@@ -1357,7 +1357,7 @@ class YITH_Proteo_Wizard {
 		// Let's remove the tabs so that it displays nicely.
 		$output = trim( preg_replace( '/\t+/', '', $output ) );
 
-		$this->logger->debug( __( 'The child theme style.css content was generated', 'merlin-wp' ) );
+		$this->logger->debug( __( 'The child theme style.css content was generated', 'yith-proteo-toolkit' ) );
 
 		return apply_filters( 'merlin_generate_child_style_css', $output, $slug, $parent, $version );
 	}
@@ -1391,9 +1391,9 @@ class YITH_Proteo_Wizard {
 		if ( ! empty( $screenshot ) && file_exists( $screenshot ) ) {
 			$copied = copy( $screenshot, $path . '/screenshot.' . $screenshot_ext );
 
-			$this->logger->debug( __( 'The child theme screenshot was copied to the child theme, with the following result', 'merlin-wp' ), array( 'copied' => $copied ) );
+			$this->logger->debug( __( 'The child theme screenshot was copied to the child theme, with the following result', 'yith-proteo-toolkit' ), array( 'copied' => $copied ) );
 		} else {
-			$this->logger->debug( __( 'The child theme screenshot was not generated, because of these results', 'merlin-wp' ), array( 'screenshot' => $screenshot ) );
+			$this->logger->debug( __( 'The child theme screenshot was not generated, because of these results', 'yith-proteo-toolkit' ), array( 'screenshot' => $screenshot ) );
 		}
 	}
 
@@ -1422,7 +1422,7 @@ class YITH_Proteo_Wizard {
 					'_wpnonce'      => wp_create_nonce( 'bulk-plugins' ),
 					'action'        => 'tgmpa-bulk-activate',
 					'action2'       => - 1,
-					'message'       => esc_html__( 'Activating', 'merlin-wp' ),
+					'message'       => esc_html__( 'Activating', 'yith-proteo-toolkit' ),
 				);
 				break;
 			}
@@ -1438,7 +1438,7 @@ class YITH_Proteo_Wizard {
 					'_wpnonce'      => wp_create_nonce( 'bulk-plugins' ),
 					'action'        => 'tgmpa-bulk-update',
 					'action2'       => - 1,
-					'message'       => esc_html__( 'Updating', 'merlin-wp' ),
+					'message'       => esc_html__( 'Updating', 'yith-proteo-toolkit' ),
 				);
 				break;
 			}
@@ -1454,7 +1454,7 @@ class YITH_Proteo_Wizard {
 					'_wpnonce'      => wp_create_nonce( 'bulk-plugins' ),
 					'action'        => 'tgmpa-bulk-install',
 					'action2'       => - 1,
-					'message'       => esc_html__( 'Installing', 'merlin-wp' ),
+					'message'       => esc_html__( 'Installing', 'yith-proteo-toolkit' ),
 				);
 				break;
 			}
@@ -1462,7 +1462,7 @@ class YITH_Proteo_Wizard {
 
 		if ( $json ) {
 			$this->logger->debug(
-				__( 'A plugin with the following data will be processed', 'merlin-wp' ),
+				__( 'A plugin with the following data will be processed', 'yith-proteo-toolkit' ),
 				array(
 					'plugin_slug' => $_POST['slug'],
 					'message'     => $json['message'],
@@ -1470,11 +1470,11 @@ class YITH_Proteo_Wizard {
 			);
 
 			$json['hash']    = md5( serialize( $json ) );
-			$json['message'] = esc_html__( 'Installing', 'merlin-wp' );
+			$json['message'] = esc_html__( 'Installing', 'yith-proteo-toolkit' );
 			wp_send_json( $json );
 		} else {
 			$this->logger->debug(
-				__( 'A plugin with the following data was processed', 'merlin-wp' ),
+				__( 'A plugin with the following data was processed', 'yith-proteo-toolkit' ),
 				array(
 					'plugin_slug' => $_POST['slug'],
 				)
@@ -1483,7 +1483,7 @@ class YITH_Proteo_Wizard {
 			wp_send_json(
 				array(
 					'done'    => 1,
-					'message' => esc_html__( 'Success', 'merlin-wp' ),
+					'message' => esc_html__( 'Success', 'yith-proteo-toolkit' ),
 				)
 			);
 		}
@@ -1506,12 +1506,12 @@ class YITH_Proteo_Wizard {
 		}
 
 		if ( ! check_ajax_referer( 'merlin_nonce', 'wpnonce' ) || empty( $_POST['content'] ) && isset( $content[ $_POST['content'] ] ) ) {
-			$this->logger->error( __( 'The content importer AJAX call failed to start, because of incorrect data', 'merlin-wp' ) );
+			$this->logger->error( __( 'The content importer AJAX call failed to start, because of incorrect data', 'yith-proteo-toolkit' ) );
 
 			wp_send_json_error(
 				array(
 					'error'   => 1,
-					'message' => esc_html__( 'Invalid content!', 'merlin-wp' ),
+					'message' => esc_html__( 'Invalid content!', 'yith-proteo-toolkit' ),
 				)
 			);
 		}
@@ -1522,7 +1522,7 @@ class YITH_Proteo_Wizard {
 		if ( isset( $_POST['proceed'] ) ) {
 			if ( is_callable( $this_content['install_callback'] ) ) {
 				$this->logger->info(
-					__( 'The content import AJAX call will be executed with this import data', 'merlin-wp' ),
+					__( 'The content import AJAX call will be executed with this import data', 'yith-proteo-toolkit' ),
 					array(
 						'title' => $this_content['title'],
 						'data'  => $this_content['data'],
@@ -1564,7 +1564,7 @@ class YITH_Proteo_Wizard {
 			wp_send_json( $json );
 		} else {
 			$this->logger->error(
-				__( 'The content import AJAX call failed with this passed data', 'merlin-wp' ),
+				__( 'The content import AJAX call failed with this passed data', 'yith-proteo-toolkit' ),
 				array(
 					'selected_content_index' => $selected_import,
 					'importing_content'      => $_POST['content'],
@@ -1575,7 +1575,7 @@ class YITH_Proteo_Wizard {
 			wp_send_json(
 				array(
 					'error'   => 1,
-					'message' => esc_html__( 'Error', 'merlin-wp' ),
+					'message' => esc_html__( 'Error', 'yith-proteo-toolkit' ),
 					'logs'    => '',
 					'errors'  => '',
 				)
@@ -1589,12 +1589,12 @@ class YITH_Proteo_Wizard {
 	 */
 	public function _ajax_get_total_content_import_items() {
 		if ( ! check_ajax_referer( 'merlin_nonce', 'wpnonce' ) && empty( $_POST['selected_index'] ) ) {
-			$this->logger->error( __( 'The content importer AJAX call for retrieving total content import items failed to start, because of incorrect data.', 'merlin-wp' ) );
+			$this->logger->error( __( 'The content importer AJAX call for retrieving total content import items failed to start, because of incorrect data.', 'yith-proteo-toolkit' ) );
 
 			wp_send_json_error(
 				array(
 					'error'   => 1,
-					'message' => esc_html__( 'Invalid data!', 'merlin-wp' ),
+					'message' => esc_html__( 'Invalid data!', 'yith-proteo-toolkit' ),
 				)
 			);
 		}
@@ -1669,11 +1669,11 @@ class YITH_Proteo_Wizard {
 
 		if ( ! empty( $import_files['content'] ) ) {
 			$content['content'] = array(
-				'title'            => esc_html__( 'Content', 'merlin-wp' ),
-				'description'      => esc_html__( 'Demo content data.', 'merlin-wp' ),
-				'pending'          => esc_html__( 'Pending', 'merlin-wp' ),
-				'installing'       => esc_html__( 'Installing', 'merlin-wp' ),
-				'success'          => esc_html__( 'Success', 'merlin-wp' ),
+				'title'            => esc_html__( 'Content', 'yith-proteo-toolkit' ),
+				'description'      => esc_html__( 'Demo content data.', 'yith-proteo-toolkit' ),
+				'pending'          => esc_html__( 'Pending', 'yith-proteo-toolkit' ),
+				'installing'       => esc_html__( 'Installing', 'yith-proteo-toolkit' ),
+				'success'          => esc_html__( 'Success', 'yith-proteo-toolkit' ),
 				'checked'          => $this->is_possible_upgrade() ? 0 : 1,
 				'install_callback' => array( $this->importer, 'import' ),
 				'data'             => $import_files['content'],
@@ -1682,11 +1682,11 @@ class YITH_Proteo_Wizard {
 
 		if ( ! empty( $import_files['widgets'] ) ) {
 			$content['widgets'] = array(
-				'title'            => esc_html__( 'Widgets', 'merlin-wp' ),
-				'description'      => esc_html__( 'Sample widgets data.', 'merlin-wp' ),
-				'pending'          => esc_html__( 'Pending', 'merlin-wp' ),
-				'installing'       => esc_html__( 'Installing', 'merlin-wp' ),
-				'success'          => esc_html__( 'Success', 'merlin-wp' ),
+				'title'            => esc_html__( 'Widgets', 'yith-proteo-toolkit' ),
+				'description'      => esc_html__( 'Sample widgets data.', 'yith-proteo-toolkit' ),
+				'pending'          => esc_html__( 'Pending', 'yith-proteo-toolkit' ),
+				'installing'       => esc_html__( 'Installing', 'yith-proteo-toolkit' ),
+				'success'          => esc_html__( 'Success', 'yith-proteo-toolkit' ),
 				'install_callback' => array( 'YITH_Proteo_Wizard_Widget_Importer', 'import' ),
 				'checked'          => $this->is_possible_upgrade() ? 0 : 1,
 				'data'             => $import_files['widgets'],
@@ -1695,11 +1695,11 @@ class YITH_Proteo_Wizard {
 
 		if ( ! empty( $import_files['options'] ) ) {
 			$content['options'] = array(
-				'title'            => esc_html__( 'Options', 'merlin-wp' ),
-				'description'      => esc_html__( 'Sample theme options data.', 'merlin-wp' ),
-				'pending'          => esc_html__( 'Pending', 'merlin-wp' ),
-				'installing'       => esc_html__( 'Installing', 'merlin-wp' ),
-				'success'          => esc_html__( 'Success', 'merlin-wp' ),
+				'title'            => esc_html__( 'Options', 'yith-proteo-toolkit' ),
+				'description'      => esc_html__( 'Sample theme options data.', 'yith-proteo-toolkit' ),
+				'pending'          => esc_html__( 'Pending', 'yith-proteo-toolkit' ),
+				'installing'       => esc_html__( 'Installing', 'yith-proteo-toolkit' ),
+				'success'          => esc_html__( 'Success', 'yith-proteo-toolkit' ),
 				'install_callback' => array( 'YITH_Proteo_Wizard_Customizer_Importer', 'import' ),
 				'checked'          => $this->is_possible_upgrade() ? 0 : 1,
 				'data'             => $import_files['options'],
@@ -1708,11 +1708,11 @@ class YITH_Proteo_Wizard {
 
 		if ( false !== has_action( 'merlin_after_all_import' ) ) {
 			$content['after_import'] = array(
-				'title'            => esc_html__( 'After import setup', 'merlin-wp' ),
-				'description'      => esc_html__( 'After import setup.', 'merlin-wp' ),
-				'pending'          => esc_html__( 'Pending', 'merlin-wp' ),
-				'installing'       => esc_html__( 'Installing', 'merlin-wp' ),
-				'success'          => esc_html__( 'Success', 'merlin-wp' ),
+				'title'            => esc_html__( 'After import setup', 'yith-proteo-toolkit' ),
+				'description'      => esc_html__( 'After import setup.', 'yith-proteo-toolkit' ),
+				'pending'          => esc_html__( 'Pending', 'yith-proteo-toolkit' ),
+				'installing'       => esc_html__( 'Installing', 'yith-proteo-toolkit' ),
+				'success'          => esc_html__( 'Success', 'yith-proteo-toolkit' ),
 				'install_callback' => array( $this->hooks, 'after_all_import_action' ),
 				'checked'          => $this->is_possible_upgrade() ? 0 : 1,
 				'data'             => $selected_import_index,
@@ -1733,7 +1733,7 @@ class YITH_Proteo_Wizard {
 	 */
 	public function pt_importer_new_ajax_request_response_data( $data ) {
 		$data['url']      = admin_url( 'admin-ajax.php' );
-		$data['message']  = esc_html__( 'Installing', 'merlin-wp' );
+		$data['message']  = esc_html__( 'Installing', 'yith-proteo-toolkit' );
 		$data['proceed']  = 'true';
 		$data['action']   = 'merlin_content';
 		$data['content']  = 'content';
@@ -1754,7 +1754,7 @@ class YITH_Proteo_Wizard {
 			update_option( 'page_on_front', $homepage->ID );
 			update_option( 'show_on_front', 'page' );
 
-			$this->logger->debug( __( 'The home page was set', 'merlin-wp' ), array( 'homepage_id' => $homepage ) );
+			$this->logger->debug( __( 'The home page was set', 'yith-proteo-toolkit' ), array( 'homepage_id' => $homepage ) );
 		}
 
 		// Set static blog page.
@@ -1764,7 +1764,7 @@ class YITH_Proteo_Wizard {
 			update_option( 'page_for_posts', $blogpage->ID );
 			update_option( 'show_on_front', 'page' );
 
-			$this->logger->debug( __( 'The blog page was set', 'merlin-wp' ), array( 'blog_page_id' => $blogpage ) );
+			$this->logger->debug( __( 'The blog page was set', 'yith-proteo-toolkit' ), array( 'blog_page_id' => $blogpage ) );
 		}
 	}
 
@@ -1779,7 +1779,7 @@ class YITH_Proteo_Wizard {
 			$hello_world->post_status = 'draft';
 			wp_update_post( $hello_world );
 
-			$this->logger->debug( __( 'The Hello world post status was set to draft', 'merlin-wp' ) );
+			$this->logger->debug( __( 'The Hello world post status was set to draft', 'yith-proteo-toolkit' ) );
 		}
 	}
 
@@ -1803,7 +1803,7 @@ class YITH_Proteo_Wizard {
 			if ( ! empty( $import_file['import_file_name'] ) ) {
 				$filtered_import_file_info[] = $import_file;
 			} else {
-				$this->logger->warning( __( 'This predefined demo import does not have the name parameter: import_file_name', 'merlin-wp' ), $import_file );
+				$this->logger->warning( __( 'This predefined demo import does not have the name parameter: import_file_name', 'yith-proteo-toolkit' ), $import_file );
 			}
 		}
 

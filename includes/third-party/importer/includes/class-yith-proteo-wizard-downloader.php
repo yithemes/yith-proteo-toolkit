@@ -56,7 +56,7 @@ class YITH_Proteo_Wizard_Downloader {
 		}
 
 		YITH_Proteo_Wizard_Logger::get_instance()->error(
-			__( 'The file was not able to save to disk, while trying to download it', 'merlin-wp' ),
+			__( 'The file was not able to save to disk, while trying to download it', 'yith-proteo-toolkit' ),
 			array(
 				'url'      => $url,
 				'filename' => $filename,
@@ -78,7 +78,7 @@ class YITH_Proteo_Wizard_Downloader {
 		if ( empty( $url ) ) {
 			return new \WP_Error(
 				'missing_url',
-				__( 'Missing URL for downloading a file!', 'merlin-wp' )
+				__( 'Missing URL for downloading a file!', 'yith-proteo-toolkit' )
 			);
 		}
 
@@ -97,7 +97,7 @@ class YITH_Proteo_Wizard_Downloader {
 				'download_error',
 				sprintf(
 					/* translators: %1$s: url, %2$s: error_code, %3$s: error_message */
-					__( 'An error occurred while fetching file from: <strong>%1$s</strong>!<br>Reason: %2$s - %3$s.', 'merlin-wp' ),
+					__( 'An error occurred while fetching file from: <strong>%1$s</strong>!<br>Reason: %2$s - %3$s.', 'yith-proteo-toolkit' ),
 					$url,
 					$response_error['error_code'],
 					$response_error['error_message']

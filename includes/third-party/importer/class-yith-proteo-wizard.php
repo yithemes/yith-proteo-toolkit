@@ -184,7 +184,7 @@ class YITH_Proteo_Wizard {
 	 * @param array $config Package-specific configuration args.
 	 * @param array $strings Text for the different elements.
 	 */
-	function __construct( $config = array(), $strings = array() ) {
+	public function __construct( $config = array(), $strings = array() ) {
 
 		$this->version();
 
@@ -267,9 +267,21 @@ class YITH_Proteo_Wizard {
 	}
 
 	/**
+	 * Get access to the wp_filesystem global
+	 */
+	public static function get_filesystem() {
+		global $wp_filesystem;
+		if ( ! function_exists( 'WP_Filesystem' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
+		WP_Filesystem();
+		return $wp_filesystem;
+	}
+
+	/**
 	 * Require necessary classes.
 	 */
-	function required_classes() {
+	public function required_classes() {
 		if ( ! class_exists( '\WP_Importer' ) ) {
 			require ABSPATH . '/wp-admin/includes/class-wp-importer.php';
 		}
@@ -1221,13 +1233,9 @@ class YITH_Proteo_Wizard {
 
 		if ( ! file_exists( $path ) ) {
 
-			WP_Filesystem();
-
-			global $wp_filesystem;
-
-			$wp_filesystem->mkdir( $path );
-			$wp_filesystem->put_contents( $path . '/style.css', $this->generate_child_style_css( $this->theme->template, $this->theme->name, $this->theme->author, $this->theme->version ) );
-			$wp_filesystem->put_contents( $path . '/functions.php', $this->generate_child_functions_php( $this->theme->template ) );
+			self::get_filesystem()->mkdir( $path );
+			self::get_filesystem()->put_contents( $path . '/style.css', $this->generate_child_style_css( $this->theme->template, $this->theme->name, $this->theme->author, $this->theme->version ) );
+			self::get_filesystem()->put_contents( $path . '/functions.php', $this->generate_child_functions_php( $this->theme->template ) );
 
 			$this->generate_child_screenshot( $path );
 
@@ -1364,7 +1372,7 @@ class YITH_Proteo_Wizard {
 		$screenshot = apply_filters( 'merlin_generate_child_screenshot', '' );
 
 		if ( ! empty( $screenshot ) ) {
-			// Get custom screenshot file extension
+			// Get custom screenshot file extension.
 			if ( '.png' === substr( $screenshot, -4 ) ) {
 				$screenshot_ext = 'png';
 			} else {

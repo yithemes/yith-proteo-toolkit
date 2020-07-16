@@ -11,8 +11,6 @@
  * Code is mostly from the Widget Importer & Exporter plugin.
  *
  * @see https://wordpress.org/plugins/widget-importer-exporter/
- *
- * @package Merlin WP
  */
 class Merlin_Widget_Importer {
 	/**
@@ -78,8 +76,8 @@ class Merlin_Widget_Importer {
 			);
 		}
 
-		// Get file contents and decode.
-		$data = file_get_contents( $file );
+		// Get file contents and decode. The file is already downloaded and json format.
+		$data = YITH_Proteo_Wizard::get_filesystem()->get_contents( $file );
 
 		// Return from this function if there was an error.
 		if ( empty( $data ) ) {
@@ -131,7 +129,7 @@ class Merlin_Widget_Importer {
 		// Loop import data's sidebars.
 		foreach ( $data as $sidebar_id => $widgets ) {
 			// Skip inactive widgets (should not be in export file).
-			if ( 'wp_inactive_widgets' == $sidebar_id ) {
+			if ( 'wp_inactive_widgets' === $sidebar_id ) {
 				continue;
 			}
 
@@ -196,7 +194,7 @@ class Merlin_Widget_Importer {
 					$single_widget_instances = ! empty( $widget_instances[ $id_base ] ) ? $widget_instances[ $id_base ] : array();
 					foreach ( $single_widget_instances as $check_id => $check_widget ) {
 						// Is widget in same sidebar and has identical settings?
-						if ( in_array( "$id_base-$check_id", $sidebar_widgets ) && (array) $widget == $check_widget ) {
+						if ( in_array( "$id_base-$check_id", $sidebar_widgets, true ) && (array) $widget === $check_widget ) {
 							$fail                = true;
 							$widget_message_type = 'warning';
 							$widget_message      = __( 'Widget already exists', 'merlin-wp' ); // Explain why widget not imported.

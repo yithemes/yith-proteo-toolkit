@@ -56,13 +56,15 @@ class YITH_Proteo_Wizard_Customizer_Importer {
 			return new \WP_Error(
 				'missing_cutomizer_import_file',
 				sprintf(
+					/* translators: %s: file path */
 					esc_html__( 'Error: The customizer import file is missing! File path: %s', 'merlin-wp' ),
 					$import_file_path
 				)
 			);
 		}
+
 		// Get the upload data. The file is already donwloaded from sample data folders.
-		$raw = file_get_contents( $import_file_path ); // phpcs:ignore
+		$raw = YITH_Proteo_Wizard::get_filesystem()->get_contents( $import_file_path );
 
 		// Make sure we got the data.
 		if ( empty( $raw ) ) {

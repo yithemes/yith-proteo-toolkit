@@ -51,7 +51,7 @@ class Merlin_Downloader {
 			return $content;
 		}
 
-		$saved_file = file_put_contents( $this->download_directory_path . $filename, $content );
+		$saved_file = YITH_Proteo_Wizard::get_filesystem()->put_contents( $this->download_directory_path . $filename, $content );
 
 		if ( ! empty( $saved_file ) ) {
 			return $this->download_directory_path . $filename;
@@ -98,11 +98,9 @@ class Merlin_Downloader {
 			return new \WP_Error(
 				'download_error',
 				sprintf(
-					__( 'An error occurred while fetching file from: %1$s%2$s%3$s!%4$sReason: %5$s - %6$s.', 'merlin-wp' ),
-					'<strong>',
+					/* translators: %1$s: url, %2$s: error_code, %3$s: error_message */
+					__( 'An error occurred while fetching file from: <strong>%1$s</strong>!<br>Reason: %2$s - %3$s.', 'merlin-wp' ),
 					$url,
-					'</strong>',
-					'<br>',
 					$response_error['error_code'],
 					$response_error['error_message']
 				)

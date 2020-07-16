@@ -44,7 +44,7 @@ class YITH_Proteo_Wizard_Logger {
 	 * @return boolean Whether the record has been processed.
 	 */
 	public function debug( $message, $context = array() ) {
-		return error_log( $message );
+		return error_log( $message ); // phpcs:ignore
 	}
 
 	/**
@@ -56,7 +56,7 @@ class YITH_Proteo_Wizard_Logger {
 	 * @return boolean Whether the record has been processed.
 	 */
 	public function info( $message, $context = array() ) {
-		return error_log( $message );
+		return error_log( $message ); // phpcs:ignore
 	}
 
 
@@ -69,7 +69,7 @@ class YITH_Proteo_Wizard_Logger {
 	 * @return boolean Whether the record has been processed.
 	 */
 	public function notice( $message, $context = array() ) {
-		return error_log( $message );
+		return error_log( $message ); // phpcs:ignore
 	}
 
 
@@ -82,7 +82,7 @@ class YITH_Proteo_Wizard_Logger {
 	 * @return boolean Whether the record has been processed.
 	 */
 	public function warning( $message, $context = array() ) {
-		return error_log( $message );
+		return error_log( $message ); // phpcs:ignore
 	}
 
 
@@ -95,7 +95,7 @@ class YITH_Proteo_Wizard_Logger {
 	 * @return boolean Whether the record has been processed.
 	 */
 	public function error( $message, $context = array() ) {
-		return error_log( $message );
+		return error_log( $message ); // phpcs:ignore
 	}
 
 
@@ -108,7 +108,7 @@ class YITH_Proteo_Wizard_Logger {
 	 * @return boolean Whether the record has been processed.
 	 */
 	public function alert( $message, $context = array() ) {
-		return error_log( $message );
+		return error_log( $message ); // phpcs:ignore
 	}
 
 
@@ -121,7 +121,7 @@ class YITH_Proteo_Wizard_Logger {
 	 * @return boolean Whether the record has been processed.
 	 */
 	public function emergency( $message, $context = array() ) {
-		return error_log( $message );
+		return error_log( $message ); // phpcs:ignore
 	}
 
 

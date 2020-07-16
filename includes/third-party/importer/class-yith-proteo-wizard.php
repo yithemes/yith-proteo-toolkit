@@ -118,9 +118,9 @@ class YITH_Proteo_Wizard {
 	/**
 	 * Top level admin page.
 	 *
-	 * @var string $merlin_url
+	 * @var string $wizard_url
 	 */
-	protected $merlin_url = null;
+	protected $wizard_url = null;
 
 	/**
 	 * The wp-admin parent page slug for the admin menu item.
@@ -194,7 +194,7 @@ class YITH_Proteo_Wizard {
 				'base_path'            => get_parent_theme_file_path(),
 				'base_url'             => get_parent_theme_file_uri(),
 				'directory'            => 'importer',
-				'merlin_url'           => 'setup-wizard',
+				'wizard_url'           => 'setup-wizard',
 				'parent_slug'          => 'themes.php',
 				'capability'           => 'manage_options',
 				'child_action_btn_url' => '',
@@ -207,7 +207,7 @@ class YITH_Proteo_Wizard {
 		$this->base_path            = $config['base_path'];
 		$this->base_url             = $config['base_url'];
 		$this->directory            = $config['directory'];
-		$this->merlin_url           = $config['merlin_url'];
+		$this->wizard_url           = $config['wizard_url'];
 		$this->parent_slug          = $config['parent_slug'];
 		$this->capability           = $config['capability'];
 		$this->child_action_btn_url = $config['child_action_btn_url'];
@@ -254,12 +254,12 @@ class YITH_Proteo_Wizard {
 		add_action( 'admin_init', array( $this, 'ignore' ), 5 );
 		add_action( 'admin_footer', array( $this, 'svg_sprite' ) );
 		add_filter( 'tgmpa_load', array( $this, 'load_tgmpa' ), 10, 1 );
-		add_action( 'wp_ajax_merlin_content', array( $this, '_ajax_content' ), 10, 0 );
-		add_action( 'wp_ajax_merlin_get_total_content_import_items', array( $this, '_ajax_get_total_content_import_items' ), 10, 0 );
-		add_action( 'wp_ajax_merlin_plugins', array( $this, '_ajax_plugins' ), 10, 0 );
-		add_action( 'wp_ajax_merlin_child_theme', array( $this, 'generate_child' ), 10, 0 );
-		add_action( 'wp_ajax_merlin_update_selected_import_data_info', array( $this, 'update_selected_import_data_info' ), 10, 0 );
-		add_action( 'wp_ajax_merlin_import_finished', array( $this, 'import_finished' ), 10, 0 );
+		add_action( 'wp_ajax_wizard_content', array( $this, '_ajax_content' ), 10, 0 );
+		add_action( 'wp_ajax_wizard_get_total_content_import_items', array( $this, '_ajax_get_total_content_import_items' ), 10, 0 );
+		add_action( 'wp_ajax_wizard_plugins', array( $this, '_ajax_plugins' ), 10, 0 );
+		add_action( 'wp_ajax_wizard_child_theme', array( $this, 'generate_child' ), 10, 0 );
+		add_action( 'wp_ajax_wizard_update_selected_import_data_info', array( $this, 'update_selected_import_data_info' ), 10, 0 );
+		add_action( 'wp_ajax_wizard_import_finished', array( $this, 'import_finished' ), 10, 0 );
 		add_filter( 'pt-importer/new_ajax_request_response_data', array( $this, 'pt_importer_new_ajax_request_response_data' ) );
 		add_action( 'import_end', array( $this, 'after_content_import_setup' ) );
 		add_action( 'import_start', array( $this, 'before_content_import_setup' ) );
@@ -308,7 +308,7 @@ class YITH_Proteo_Wizard {
 	 */
 	public function switch_theme() {
 		if ( ! is_child_theme() ) {
-			set_transient( $this->theme->template . '_merlin_redirect', 1 );
+			set_transient( $this->theme->template . '_wizard_redirect', 1 );
 		}
 	}
 
@@ -317,13 +317,13 @@ class YITH_Proteo_Wizard {
 	 */
 	public function redirect() {
 
-		if ( ! get_transient( $this->theme->template . '_merlin_redirect' ) ) {
+		if ( ! get_transient( $this->theme->template . '_wizard_redirect' ) ) {
 			return;
 		}
 
-		delete_transient( $this->theme->template . '_merlin_redirect' );
+		delete_transient( $this->theme->template . '_wizard_redirect' );
 
-		wp_safe_redirect( menu_page_url( $this->merlin_url ) );
+		wp_safe_redirect( menu_page_url( $this->wizard_url ) );
 
 		exit;
 	}
@@ -374,7 +374,7 @@ class YITH_Proteo_Wizard {
 			esc_html( $strings['admin-menu'] ),
 			esc_html( $strings['admin-menu'] ),
 			sanitize_key( $this->capability ),
-			sanitize_key( $this->merlin_url ),
+			sanitize_key( $this->wizard_url ),
 			array( $this, 'admin_page' )
 		);
 	}
@@ -388,7 +388,7 @@ class YITH_Proteo_Wizard {
 		$strings = $this->strings;
 
 		// Do not proceed, if we're not on the right page.
-		if ( empty( $_GET['page'] ) || $this->merlin_url !== $_GET['page'] ) {
+		if ( empty( $_GET['page'] ) || $this->wizard_url !== $_GET['page'] ) {
 			return;
 		}
 
@@ -416,7 +416,7 @@ class YITH_Proteo_Wizard {
 			// Check first if TMGPA is included.
 			wp_localize_script(
 				'merlin',
-				'merlin_params',
+				'wizard_params',
 				array(
 					'tgm_plugin_nonce' => array(
 						'update'  => wp_create_nonce( 'tgmpa-update' ),
@@ -424,7 +424,7 @@ class YITH_Proteo_Wizard {
 					),
 					'tgm_bulk_url'     => $this->tgmpa->get_tgmpa_url(),
 					'ajaxurl'          => admin_url( 'admin-ajax.php' ),
-					'wpnonce'          => wp_create_nonce( 'merlin_nonce' ),
+					'wpnonce'          => wp_create_nonce( 'wizard_nonce' ),
 					'texts'            => $texts,
 				)
 			);
@@ -432,10 +432,10 @@ class YITH_Proteo_Wizard {
 			// If TMGPA is not included.
 			wp_localize_script(
 				'merlin',
-				'merlin_params',
+				'wizard_params',
 				array(
 					'ajaxurl' => admin_url( 'admin-ajax.php' ),
-					'wpnonce' => wp_create_nonce( 'merlin_nonce' ),
+					'wpnonce' => wp_create_nonce( 'wizard_nonce' ),
 					'texts'   => $texts,
 				)
 			);
@@ -448,9 +448,9 @@ class YITH_Proteo_Wizard {
 		 */
 		$this->header(); ?>
 
-		<div class="merlin__wrapper">
+		<div class="wizard__wrapper">
 
-			<div class="merlin__content merlin__content--<?php echo esc_attr( strtolower( $this->steps[ $this->step ]['name'] ) ); ?>">
+			<div class="wizard__content wizard__content--<?php echo esc_attr( strtolower( $this->steps[ $this->step ]['name'] ) ); ?>">
 
 				<?php
 				// Content Handlers.
@@ -506,7 +506,7 @@ class YITH_Proteo_Wizard {
 			<?php set_current_screen(); ?>
 			<?php do_action( 'admin_head' ); ?>
 		</head>
-		<body class="merlin__body merlin__body--<?php echo esc_attr( $current_step ); ?>">
+		<body class="wizard__body wizard__body--<?php echo esc_attr( $current_step ); ?>">
 		<?php
 	}
 
@@ -539,7 +539,7 @@ class YITH_Proteo_Wizard {
 
 		// If it exists, include it.
 		if ( file_exists( $svg ) ) {
-			require_once apply_filters( 'merlin_svg_sprite', $svg );
+			require_once apply_filters( 'wizard_svg_sprite', $svg );
 		}
 	}
 
@@ -634,11 +634,11 @@ class YITH_Proteo_Wizard {
 			),
 		);
 
-		return apply_filters( 'merlin_svg_allowed_html', $array );
+		return apply_filters( 'wizard_svg_allowed_html', $array );
 	}
 
 	/**
-	 * Loading merlin-spinner.
+	 * Loading wizard-spinner.
 	 */
 	public function loading_spinner() {
 
@@ -646,7 +646,7 @@ class YITH_Proteo_Wizard {
 		$spinner = $this->directory . '/assets/images/spinner';
 
 		// Retrieve the spinner.
-		get_template_part( apply_filters( 'merlin_loading_spinner', $spinner ) );
+		get_template_part( apply_filters( 'wizard_loading_spinner', $spinner ) );
 	}
 
 	/**
@@ -663,7 +663,7 @@ class YITH_Proteo_Wizard {
 			),
 		);
 
-		return apply_filters( 'merlin_loading_spinner_allowed_html', $array );
+		return apply_filters( 'wizard_loading_spinner_allowed_html', $array );
 	}
 
 	/**
@@ -705,7 +705,7 @@ class YITH_Proteo_Wizard {
 			'view' => array( $this, 'ready' ),
 		);
 
-		$this->steps = apply_filters( $this->theme->template . '_merlin_steps', $this->steps );
+		$this->steps = apply_filters( $this->theme->template . '_wizard_steps', $this->steps );
 	}
 
 	/**
@@ -789,7 +789,7 @@ class YITH_Proteo_Wizard {
 		$no        = $strings['btn-no'];
 		?>
 
-		<div class="merlin__content--transition">
+		<div class="wizard__content--transition">
 
 			<img class="yith-proteo-toolkit-wizard-step-img" src="<?php echo esc_url( YITH_PROTEO_TOOLKIT_URL ); ?>/assets/img/proteo-logo.png">
 
@@ -799,9 +799,9 @@ class YITH_Proteo_Wizard {
 
 		</div>
 
-		<footer class="merlin__content__footer">
-			<a href="<?php echo esc_url( wp_get_referer() && ! strpos( wp_get_referer(), 'update.php' ) ? wp_get_referer() : admin_url( '/' ) ); ?>" class="merlin__button merlin__button--skip"><?php echo esc_html( $no ); ?></a>
-			<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="merlin__button merlin__button--next merlin__button--proceed merlin__button--colorchange"><?php echo esc_html( $start ); ?></a>
+		<footer class="wizard__content__footer">
+			<a href="<?php echo esc_url( wp_get_referer() && ! strpos( wp_get_referer(), 'update.php' ) ? wp_get_referer() : admin_url( '/' ) ); ?>" class="wizard__button wizard__button--skip"><?php echo esc_html( $no ); ?></a>
+			<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--next wizard__button--proceed wizard__button--colorchange"><?php echo esc_html( $start ); ?></a>
 			<?php wp_nonce_field( 'merlin' ); ?>
 		</footer>
 
@@ -843,7 +843,7 @@ class YITH_Proteo_Wizard {
 		$install   = $strings['btn-child-install'];
 		?>
 
-		<div class="merlin__content--transition">
+		<div class="wizard__content--transition">
 
 			<?php yith_proteo_toolkit_wizard_step_icon( 'child' ); ?>
 
@@ -855,23 +855,23 @@ class YITH_Proteo_Wizard {
 
 			<p id="child-theme-text"><?php echo esc_html( sprintf( $paragraph, $theme ) ); ?></p>
 
-			<a class="merlin__button merlin__button--knockout merlin__button--no-chevron merlin__button--external" href="<?php echo esc_url( $action_url ); ?>" target="_blank"><?php echo esc_html( $action ); ?></a>
+			<a class="wizard__button wizard__button--knockout wizard__button--no-chevron wizard__button--external" href="<?php echo esc_url( $action_url ); ?>" target="_blank"><?php echo esc_html( $action ); ?></a>
 
 		</div>
 
-		<footer class="merlin__content__footer">
+		<footer class="wizard__content__footer">
 
 			<?php if ( ! $is_child_theme ) : ?>
 
-				<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( $skip ); ?></a>
+				<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--skip wizard__button--proceed"><?php echo esc_html( $skip ); ?></a>
 
-				<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="install_child">
-					<span class="merlin__button--loading__text"><?php echo esc_html( $install ); ?></span>
+				<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--next button-next" data-callback="install_child">
+					<span class="wizard__button--loading__text"><?php echo esc_html( $install ); ?></span>
 					<?php echo wp_kses( $this->loading_spinner(), $this->loading_spinner_allowed_html() ); ?>
 				</a>
 
 			<?php else : ?>
-				<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="merlin__button merlin__button--next merlin__button--proceed merlin__button--colorchange"><?php echo esc_html( $next ); ?></a>
+				<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--next wizard__button--proceed wizard__button--colorchange"><?php echo esc_html( $next ); ?></a>
 			<?php endif; ?>
 			<?php wp_nonce_field( 'merlin' ); ?>
 		</footer>
@@ -929,7 +929,7 @@ class YITH_Proteo_Wizard {
 		$install   = $strings['btn-plugins-install'];
 		?>
 
-		<div class="merlin__content--transition">
+		<div class="wizard__content--transition">
 
 			<?php yith_proteo_toolkit_wizard_step_icon( 'plugins' ); ?>
 
@@ -942,7 +942,7 @@ class YITH_Proteo_Wizard {
 			<p><?php echo esc_html( $paragraph ); ?></p>
 
 			<?php if ( $count ) { ?>
-				<a id="merlin__drawer-trigger" class="merlin__button merlin__button--knockout"><span><?php echo esc_html( $action ); ?></span><span class="chevron"></span></a>
+				<a id="wizard__drawer-trigger" class="wizard__button wizard__button--knockout"><span><?php echo esc_html( $action ); ?></span><span class="chevron"></span></a>
 			<?php } ?>
 
 		</div>
@@ -951,7 +951,7 @@ class YITH_Proteo_Wizard {
 
 			<?php if ( $count ) : ?>
 
-				<ul class="merlin__drawer merlin__drawer--install-plugins">
+				<ul class="wizard__drawer wizard__drawer--install-plugins">
 
 				<?php if ( ! empty( $required_plugins ) ) : ?>
 					<?php foreach ( $required_plugins as $slug => $plugin ) : ?>
@@ -989,16 +989,16 @@ class YITH_Proteo_Wizard {
 
 			<?php endif; ?>
 
-			<footer class="merlin__content__footer <?php echo esc_attr( $class ); ?>">
+			<footer class="wizard__content__footer <?php echo esc_attr( $class ); ?>">
 				<?php if ( $count ) : ?>
-					<a id="close" href="<?php echo esc_url( $this->step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--closer merlin__button--proceed"><?php echo esc_html( $skip ); ?></a>
-					<a id="skip" href="<?php echo esc_url( $this->step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( $skip ); ?></a>
-					<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="install_plugins">
-						<span class="merlin__button--loading__text"><?php echo esc_html( $install ); ?></span>
+					<a id="close" href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--skip wizard__button--closer wizard__button--proceed"><?php echo esc_html( $skip ); ?></a>
+					<a id="skip" href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--skip wizard__button--proceed"><?php echo esc_html( $skip ); ?></a>
+					<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--next button-next" data-callback="install_plugins">
+						<span class="wizard__button--loading__text"><?php echo esc_html( $install ); ?></span>
 						<?php echo wp_kses( $this->loading_spinner(), $this->loading_spinner_allowed_html() ); ?>
 					</a>
 				<?php else : ?>
-					<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="merlin__button merlin__button--next merlin__button--proceed merlin__button--colorchange"><?php echo esc_html( $next ); ?></a>
+					<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--next wizard__button--proceed wizard__button--colorchange"><?php echo esc_html( $next ); ?></a>
 				<?php endif; ?>
 				<?php wp_nonce_field( 'merlin' ); ?>
 			</footer>
@@ -1028,7 +1028,7 @@ class YITH_Proteo_Wizard {
 		$multi_import = ( 1 < count( $this->import_files ) ) ? 'is-multi-import' : null;
 		?>
 
-		<div class="merlin__content--transition">
+		<div class="wizard__content--transition">
 
 		<?php yith_proteo_toolkit_wizard_step_icon( 'content' ); ?>
 
@@ -1051,15 +1051,15 @@ class YITH_Proteo_Wizard {
 				<?php endforeach; ?>
 				</ul>
 
-				<div class="merlin__select-control-wrapper">
+				<div class="wizard__select-control-wrapper">
 
-					<select class="merlin__select-control js-merlin-demo-import-select">
+					<select class="wizard__select-control js-wizard-demo-import-select">
 						<?php foreach ( $this->import_files as $index => $import_file ) : ?>
 							<option value="<?php echo esc_attr( $index ); ?>"><?php echo esc_html( $import_file['import_file_name'] ); ?></option>
 						<?php endforeach; ?>
 					</select>
 
-					<div class="merlin__select-control-help">
+					<div class="wizard__select-control-help">
 						<span class="hint--top" aria-label="<?php echo esc_attr__( 'Select Demo', 'yith-proteo-toolkit' ); ?>">
 							<?php echo wp_kses( $this->svg( array( 'icon' => 'downarrow' ) ), $this->svg_allowed_html() ); ?>
 						</span>
@@ -1067,29 +1067,29 @@ class YITH_Proteo_Wizard {
 				</div>
 			<?php endif; ?>
 
-			<a id="merlin__drawer-trigger" class="merlin__button merlin__button--knockout"><span><?php echo esc_html( $action ); ?></span><span class="chevron"></span></a>
+			<a id="wizard__drawer-trigger" class="wizard__button wizard__button--knockout"><span><?php echo esc_html( $action ); ?></span><span class="chevron"></span></a>
 
 		</div>
 
 		<form action="" method="post" class="<?php echo esc_attr( $multi_import ); ?>">
-			<ul class="merlin__drawer merlin__drawer--import-content js-merlin-drawer-import-content">
+			<ul class="wizard__drawer wizard__drawer--import-content js-wizard-drawer-import-content">
 				<?php echo $this->get_import_steps_html( $import_info ); ?>
 			</ul>
 
-			<footer class="merlin__content__footer">
+			<footer class="wizard__content__footer">
 
-				<a id="close" href="<?php echo esc_url( $this->step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--closer merlin__button--proceed"><?php echo esc_html( $skip ); ?></a>
+				<a id="close" href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--skip wizard__button--closer wizard__button--proceed"><?php echo esc_html( $skip ); ?></a>
 
-				<a id="skip" href="<?php echo esc_url( $this->step_next_link() ); ?>" class="merlin__button merlin__button--skip merlin__button--proceed"><?php echo esc_html( $skip ); ?></a>
+				<a id="skip" href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--skip wizard__button--proceed"><?php echo esc_html( $skip ); ?></a>
 
-				<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="merlin__button merlin__button--next button-next" data-callback="install_content">
-					<span class="merlin__button--loading__text"><?php echo esc_html( $import ); ?></span>
+				<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--next button-next" data-callback="install_content">
+					<span class="wizard__button--loading__text"><?php echo esc_html( $import ); ?></span>
 
-					<div class="merlin__progress-bar">
-						<span class="js-merlin-progress-bar"></span>
+					<div class="wizard__progress-bar">
+						<span class="js-wizard-progress-bar"></span>
 					</div>
 
-					<span class="js-merlin-progress-bar-percentage">0%</span>
+					<span class="js-wizard-progress-bar-percentage">0%</span>
 				</a>
 
 				<?php wp_nonce_field( 'merlin' ); ?>
@@ -1135,7 +1135,7 @@ class YITH_Proteo_Wizard {
 			}
 		}
 
-		$links_class = empty( $links ) ? 'merlin__content__footer--nolinks' : null;
+		$links_class = empty( $links ) ? 'wizard__content__footer--nolinks' : null;
 
 		$allowed_html_array = array(
 			'a' => array(
@@ -1148,7 +1148,7 @@ class YITH_Proteo_Wizard {
 		update_option( 'yith_proteo_wizard_' . $this->slug . '_completed', time() );
 		?>
 
-		<div class="merlin__content--transition">
+		<div class="wizard__content--transition">
 
 			<?php yith_proteo_toolkit_wizard_step_icon( 'done' ); ?>
 
@@ -1158,14 +1158,14 @@ class YITH_Proteo_Wizard {
 
 		</div>
 
-		<footer class="merlin__content__footer merlin__content__footer--fullwidth <?php echo esc_attr( $links_class ); ?>">
+		<footer class="wizard__content__footer wizard__content__footer--fullwidth <?php echo esc_attr( $links_class ); ?>">
 
-			<a href="<?php echo esc_url( $this->ready_big_button_url ); ?>" class="merlin__button merlin__button--blue merlin__button--fullwidth merlin__button--popin"><?php echo esc_html( $big_btn ); ?></a>
+			<a href="<?php echo esc_url( $this->ready_big_button_url ); ?>" class="wizard__button wizard__button--blue wizard__button--fullwidth wizard__button--popin"><?php echo esc_html( $big_btn ); ?></a>
 
 			<?php if ( ! empty( $links ) ) : ?>
-				<a id="merlin__drawer-trigger" class="merlin__button merlin__button--knockout"><span><?php echo esc_html( $action ); ?></span><span class="chevron"></span></a>
+				<a id="wizard__drawer-trigger" class="wizard__button wizard__button--knockout"><span><?php echo esc_html( $action ); ?></span><span class="chevron"></span></a>
 
-				<ul class="merlin__drawer merlin__drawer--extras">
+				<ul class="wizard__drawer wizard__drawer--extras">
 
 					<?php foreach ( $links as $link ) : ?>
 						<li><?php echo wp_kses( $link, $allowed_html_array ); ?></li>
@@ -1329,7 +1329,7 @@ class YITH_Proteo_Wizard {
 		$this->logger->debug( __( 'The child theme functions.php content was generated', 'yith-proteo-toolkit' ) );
 
 		// Filterable return.
-		return apply_filters( 'merlin_generate_child_functions_php', $output, $slug );
+		return apply_filters( 'wizard_generate_child_functions_php', $output, $slug );
 	}
 
 	/**
@@ -1359,7 +1359,7 @@ class YITH_Proteo_Wizard {
 
 		$this->logger->debug( __( 'The child theme style.css content was generated', 'yith-proteo-toolkit' ) );
 
-		return apply_filters( 'merlin_generate_child_style_css', $output, $slug, $parent, $version );
+		return apply_filters( 'wizard_generate_child_style_css', $output, $slug, $parent, $version );
 	}
 
 	/**
@@ -1369,7 +1369,7 @@ class YITH_Proteo_Wizard {
 	 */
 	public function generate_child_screenshot( $path ) {
 
-		$screenshot = apply_filters( 'merlin_generate_child_screenshot', '' );
+		$screenshot = apply_filters( 'wizard_generate_child_screenshot', '' );
 
 		if ( ! empty( $screenshot ) ) {
 			// Get custom screenshot file extension.
@@ -1404,7 +1404,7 @@ class YITH_Proteo_Wizard {
 	 */
 	function _ajax_plugins() {
 
-		if ( ! check_ajax_referer( 'merlin_nonce', 'wpnonce' ) || empty( $_POST['slug'] ) ) {
+		if ( ! check_ajax_referer( 'wizard_nonce', 'wpnonce' ) || empty( $_POST['slug'] ) ) {
 			exit( 0 );
 		}
 
@@ -1505,7 +1505,7 @@ class YITH_Proteo_Wizard {
 			$content = $this->get_import_data( $selected_import );
 		}
 
-		if ( ! check_ajax_referer( 'merlin_nonce', 'wpnonce' ) || empty( $_POST['content'] ) && isset( $content[ $_POST['content'] ] ) ) {
+		if ( ! check_ajax_referer( 'wizard_nonce', 'wpnonce' ) || empty( $_POST['content'] ) && isset( $content[ $_POST['content'] ] ) ) {
 			$this->logger->error( __( 'The content importer AJAX call failed to start, because of incorrect data', 'yith-proteo-toolkit' ) );
 
 			wp_send_json_error(
@@ -1548,10 +1548,10 @@ class YITH_Proteo_Wizard {
 		} else {
 			$json = array(
 				'url'            => admin_url( 'admin-ajax.php' ),
-				'action'         => 'merlin_content',
+				'action'         => 'wizard_content',
 				'proceed'        => 'true',
 				'content'        => $_POST['content'],
-				'_wpnonce'       => wp_create_nonce( 'merlin_nonce' ),
+				'_wpnonce'       => wp_create_nonce( 'wizard_nonce' ),
 				'selected_index' => $selected_import,
 				'message'        => $this_content['installing'],
 				'logs'           => '',
@@ -1588,7 +1588,7 @@ class YITH_Proteo_Wizard {
 	 * AJAX call to retrieve total items (posts, pages, CPT, attachments) for the content import.
 	 */
 	public function _ajax_get_total_content_import_items() {
-		if ( ! check_ajax_referer( 'merlin_nonce', 'wpnonce' ) && empty( $_POST['selected_index'] ) ) {
+		if ( ! check_ajax_referer( 'wizard_nonce', 'wpnonce' ) && empty( $_POST['selected_index'] ) ) {
 			$this->logger->error( __( 'The content importer AJAX call for retrieving total content import items failed to start, because of incorrect data.', 'yith-proteo-toolkit' ) );
 
 			wp_send_json_error(
@@ -1647,7 +1647,7 @@ class YITH_Proteo_Wizard {
 			$import_data['options'] = true;
 		}
 
-		if ( false !== has_action( 'merlin_after_all_import' ) ) {
+		if ( false !== has_action( 'wizard_after_all_import' ) ) {
 			$import_data['after_import'] = true;
 		}
 
@@ -1706,7 +1706,7 @@ class YITH_Proteo_Wizard {
 			);
 		}
 
-		if ( false !== has_action( 'merlin_after_all_import' ) ) {
+		if ( false !== has_action( 'wizard_after_all_import' ) ) {
 			$content['after_import'] = array(
 				'title'            => esc_html__( 'After import setup', 'yith-proteo-toolkit' ),
 				'description'      => esc_html__( 'After import setup.', 'yith-proteo-toolkit' ),
@@ -1719,7 +1719,7 @@ class YITH_Proteo_Wizard {
 			);
 		}
 
-		$content = apply_filters( 'merlin_get_base_content', $content, $this );
+		$content = apply_filters( 'wizard_get_base_content', $content, $this );
 
 		return $content;
 	}
@@ -1735,9 +1735,9 @@ class YITH_Proteo_Wizard {
 		$data['url']      = admin_url( 'admin-ajax.php' );
 		$data['message']  = esc_html__( 'Installing', 'yith-proteo-toolkit' );
 		$data['proceed']  = 'true';
-		$data['action']   = 'merlin_content';
+		$data['action']   = 'wizard_content';
 		$data['content']  = 'content';
-		$data['_wpnonce'] = wp_create_nonce( 'merlin_nonce' );
+		$data['_wpnonce'] = wp_create_nonce( 'wizard_nonce' );
 		$data['hash']     = md5( rand() ); // Has to be unique (check JS code catching this AJAX response).
 
 		return $data;
@@ -1748,7 +1748,7 @@ class YITH_Proteo_Wizard {
 	 */
 	public function after_content_import_setup() {
 		// Set static homepage.
-		$homepage = get_page_by_title( apply_filters( 'merlin_content_home_page_title', 'Home' ) );
+		$homepage = get_page_by_title( apply_filters( 'wizard_content_home_page_title', 'Home' ) );
 
 		if ( $homepage ) {
 			update_option( 'page_on_front', $homepage->ID );
@@ -1758,7 +1758,7 @@ class YITH_Proteo_Wizard {
 		}
 
 		// Set static blog page.
-		$blogpage = get_page_by_title( apply_filters( 'merlin_content_blog_page_title', 'Blog' ) );
+		$blogpage = get_page_by_title( apply_filters( 'wizard_content_blog_page_title', 'Blog' ) );
 
 		if ( $blogpage ) {
 			update_option( 'page_for_posts', $blogpage->ID );
@@ -1784,10 +1784,10 @@ class YITH_Proteo_Wizard {
 	}
 
 	/**
-	 * Register the import files via the `merlin_import_files` filter.
+	 * Register the import files via the `wizard_import_files` filter.
 	 */
 	public function register_import_files() {
-		$this->import_files = $this->validate_import_file_info( apply_filters( 'merlin_import_files', array() ) );
+		$this->import_files = $this->validate_import_file_info( apply_filters( 'wizard_import_files', array() ) );
 	}
 
 	/**
@@ -1815,7 +1815,7 @@ class YITH_Proteo_Wizard {
 	 * Check if an existing base name is available (saved in a transient).
 	 */
 	public function set_import_file_base_name() {
-		$existing_name = get_transient( 'merlin_import_file_base_name' );
+		$existing_name = get_transient( 'wizard_import_file_base_name' );
 
 		if ( ! empty( $existing_name ) ) {
 			$this->import_file_base_name = $existing_name;
@@ -1823,7 +1823,7 @@ class YITH_Proteo_Wizard {
 			$this->import_file_base_name = date( 'Y-m-d__H-i-s' );
 		}
 
-		set_transient( 'merlin_import_file_base_name', $this->import_file_base_name, MINUTE_IN_SECONDS );
+		set_transient( 'wizard_import_file_base_name', $this->import_file_base_name, MINUTE_IN_SECONDS );
 	}
 
 	/**
@@ -1926,7 +1926,7 @@ class YITH_Proteo_Wizard {
 	}
 
 	/**
-	 * AJAX callback for the 'merlin_update_selected_import_data_info' action.
+	 * AJAX callback for the 'wizard_update_selected_import_data_info' action.
 	 */
 	public function update_selected_import_data_info() {
 		$selected_index = ! isset( $_POST['selected_index'] ) ? false : intval( $_POST['selected_index'] );
@@ -1958,7 +1958,7 @@ class YITH_Proteo_Wizard {
 				}
 				?>
 
-				<li class="merlin__drawer--import-content__list-item status status--Pending" data-content="<?php echo esc_attr( $slug ); ?>">
+				<li class="wizard__drawer--import-content__list-item status status--Pending" data-content="<?php echo esc_attr( $slug ); ?>">
 					<input type="checkbox" name="default_content[<?php echo esc_attr( $slug ); ?>]" class="checkbox checkbox-<?php echo esc_attr( $slug ); ?>" id="default_content_<?php echo esc_attr( $slug ); ?>" value="1" checked>
 					<label for="default_content_<?php echo esc_attr( $slug ); ?>">
 						<i></i><span><?php echo esc_html( ucfirst( str_replace( '_', ' ', $slug ) ) ); ?></span>
@@ -1976,7 +1976,7 @@ class YITH_Proteo_Wizard {
 	 * AJAX call for cleanup after the importing steps are done -> import finished.
 	 */
 	public function import_finished() {
-		delete_transient( 'merlin_import_file_base_name' );
+		delete_transient( 'wizard_import_file_base_name' );
 		wp_send_json_success();
 	}
 }

@@ -110,8 +110,8 @@ class YITH_Proteo_Wizard_Widget_Importer {
 		}
 
 		// Hook before import.
-		do_action( 'merlin_widget_importer_before_widgets_import', $data );
-		$data = apply_filters( 'merlin_before_widgets_import_data', $data );
+		do_action( 'wizard_widget_importer_before_widgets_import', $data );
+		$data = apply_filters( 'wizard_before_widgets_import_data', $data );
 
 		// Get all available widgets site supports.
 		$available_widgets = self::available_widgets();
@@ -170,7 +170,7 @@ class YITH_Proteo_Wizard_Widget_Importer {
 				// Filter to modify settings object before conversion to array and import.
 				// Leave this filter here for backwards compatibility with manipulating objects (before conversion to array below).
 				// Ideally the newer wie_widget_settings_array below will be used instead of this.
-				$widget = apply_filters( 'merlin_widget_settings', $widget ); // Object.
+				$widget = apply_filters( 'wizard_widget_settings', $widget ); // Object.
 
 				// Convert multidimensional objects to multidimensional arrays.
 				// Some plugins like Jetpack Widget Visibility store settings as multidimensional arrays.
@@ -182,7 +182,7 @@ class YITH_Proteo_Wizard_Widget_Importer {
 				// Filter to modify settings array.
 				// This is preferred over the older wie_widget_settings filter above.
 				// Do before identical check because changes may make it identical to end result (such as URL replacements).
-				$widget = apply_filters( 'merlin_widget_settings_array', $widget );
+				$widget = apply_filters( 'wizard_widget_settings_array', $widget );
 
 				// Does widget with identical settings already exist in same sidebar?
 				if ( ! $fail && isset( $widget_instances[ $id_base ] ) ) {
@@ -250,7 +250,7 @@ class YITH_Proteo_Wizard_Widget_Importer {
 						'widget_id_num'     => $new_instance_id_number,
 						'widget_id_num_old' => $instance_id_number,
 					);
-					do_action( 'merlin_widget_importer_after_single_widget_import', $after_widget_import );
+					do_action( 'wizard_widget_importer_after_single_widget_import', $after_widget_import );
 
 					// Success message.
 					if ( $sidebar_available ) {
@@ -272,10 +272,10 @@ class YITH_Proteo_Wizard_Widget_Importer {
 		}
 
 		// Hook after import.
-		do_action( 'merlin_widget_importer_after_widgets_import', $data );
+		do_action( 'wizard_widget_importer_after_widgets_import', $data );
 
 		// Return results.
-		return apply_filters( 'merlin_widget_import_results', $results );
+		return apply_filters( 'wizard_widget_import_results', $results );
 	}
 
 
@@ -300,7 +300,7 @@ class YITH_Proteo_Wizard_Widget_Importer {
 			}
 		}
 
-		return apply_filters( 'merlin_available_widgets', $available_widgets );
+		return apply_filters( 'wizard_available_widgets', $available_widgets );
 	}
 
 
@@ -309,7 +309,7 @@ class YITH_Proteo_Wizard_Widget_Importer {
 	 * By default none are removed, but with the filter you can remove them.
 	 */
 	private static function unset_default_widgets() {
-		$widget_areas = apply_filters( 'merlin_unset_default_widgets_args', false );
+		$widget_areas = apply_filters( 'wizard_unset_default_widgets_args', false );
 
 		if ( empty( $widget_areas ) ) {
 			return false;

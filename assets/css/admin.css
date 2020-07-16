@@ -1,4 +1,4 @@
-.merlin__content.merlin__content--content {
+.wizard__content.wizard__content--content {
 	max-width: 800px;
 }
 
@@ -75,20 +75,20 @@
 	opacity: 0.3;
 }
 
-#demo-content-list + .merlin__select-control-wrapper {
+#demo-content-list + .wizard__select-control-wrapper {
 	display: none;
 }
 
-ul.merlin__drawer.merlin__drawer--import-content.js-merlin-drawer-import-content {
+ul.wizard__drawer.wizard__drawer--import-content.js-merlin-drawer-import-content {
 	max-width: 400px;
 	margin: 0 auto;
 }
 
-#merlin__drawer-trigger {
+#wizard__drawer-trigger {
 	display: none;
 }
 
-.merlin__content.merlin__content--plugins form {
+.wizard__content.wizard__content--plugins form {
 	margin-top: 2em;
 }
 
@@ -141,20 +141,20 @@ ul.merlin__drawer.merlin__drawer--import-content.js-merlin-drawer-import-content
 	background: #b5d863;
 }
 
-.merlin__content ol.dots li.done,
-.merlin__content ol.dots li.active {
+.wizard__content ol.dots li.done,
+.wizard__content ol.dots li.active {
 	background: rgb(0, 169, 167);
 }
 
-.merlin__content .checkbox:checked + label i {
+.wizard__content .checkbox:checked + label i {
 	background-color: rgb(0, 169, 167);
 	border-color: rgb(0, 169, 167);
 }
 
-.merlin__button--next {
+.wizard__button--next {
 	color: rgb(0, 169, 167);
 }
-.merlin__button--blue {
+.wizard__button--blue {
 	background: rgb(0, 169, 167);
 	color: #fff;
 }

@@ -26,12 +26,12 @@ var Merlin = (function($){
     function window_loaded(){
 
     	var
-    	body 		= $('.merlin__body'),
-    	body_loading 	= $('.merlin__body--loading'),
-    	body_exiting 	= $('.merlin__body--exiting'),
-    	drawer_trigger 	= $('#merlin__drawer-trigger'),
-    	drawer_opening 	= 'merlin__drawer--opening';
-    	drawer_opened 	= 'merlin__drawer--open';
+    	body 		= $('.wizard__body'),
+    	body_loading 	= $('.wizard__body--loading'),
+    	body_exiting 	= $('.wizard__body--exiting'),
+    	drawer_trigger 	= $('#wizard__drawer-trigger'),
+    	drawer_opening 	= 'wizard__drawer--opening';
+    	drawer_opened 	= 'wizard__drawer--open';
 
     	setTimeout(function(){
 	        body.addClass('loaded');
@@ -41,7 +41,7 @@ var Merlin = (function($){
         	body.toggleClass( drawer_opened );
         });
 
-    	$('.merlin__button--proceed:not(.merlin__button--closer)').click(function (e) {
+    	$('.wizard__button--proceed:not(.wizard__button--closer)').click(function (e) {
 		    e.preventDefault();
 		    var goTo = this.getAttribute("href");
 
@@ -52,7 +52,7 @@ var Merlin = (function($){
 		    },400);
 		});
 
-        $(".merlin__button--closer").on('click', function(e){
+        $(".wizard__button--closer").on('click', function(e){
 
         	body.removeClass( drawer_opened );
 
@@ -70,7 +70,7 @@ var Merlin = (function($){
 
         $(".button-next").on( "click", function(e) {
             e.preventDefault();
-            var loading_button = merlin_loading_button(this);
+            var loading_button = wizard_loading_button(this);
             if ( ! loading_button ) {
                 return false;
             }
@@ -84,34 +84,34 @@ var Merlin = (function($){
             }
         });
 
-				$( document ).on( 'change', '.js-merlin-demo-import-select', function() {
+				$( document ).on( 'change', '.js-wizard-demo-import-select', function() {
 					var selectedIndex  = $( this ).val();
 
-					$( '.js-merlin-select-spinner' ).show();
+					$( '.js-wizard-select-spinner' ).show();
 
-					$.post( merlin_params.ajaxurl, {
-						action: 'merlin_update_selected_import_data_info',
-						wpnonce: merlin_params.wpnonce,
+					$.post( wizard_params.ajaxurl, {
+						action: 'wizard_update_selected_import_data_info',
+						wpnonce: wizard_params.wpnonce,
 						selected_index: selectedIndex,
 					}, function( response ) {
 						if ( response.success ) {
-							$( '.js-merlin-drawer-import-content' ).html( response.data );
+							$( '.js-wizard-drawer-import-content' ).html( response.data );
 						}
 						else {
-							alert( merlin_params.texts.something_went_wrong );
+							alert( wizard_params.texts.something_went_wrong );
 						}
 
-						$( '.js-merlin-select-spinner' ).hide();
+						$( '.js-wizard-select-spinner' ).hide();
 					} )
 						.fail( function() {
-							$( '.js-merlin-select-spinner' ).hide();
-							alert( merlin_params.texts.something_went_wrong )
+							$( '.js-wizard-select-spinner' ).hide();
+							alert( wizard_params.texts.something_went_wrong )
 						} );
 				} );
     }
 
     function ChildTheme() {
-    	var body 				= $('.merlin__body');
+    	var body 				= $('.wizard__body');
         var complete, notice 	= $("#child-theme-text");
 
         function ajax_callback(r) {
@@ -134,9 +134,9 @@ var Merlin = (function($){
         }
 
         function do_ajax() {
-            jQuery.post(merlin_params.ajaxurl, {
-                action: "merlin_child_theme",
-                wpnonce: merlin_params.wpnonce,
+            jQuery.post(wizard_params.ajaxurl, {
+                action: "wizard_child_theme",
+                wpnonce: wizard_params.wpnonce,
             }, ajax_callback).fail(ajax_callback);
         }
 
@@ -145,13 +145,13 @@ var Merlin = (function($){
                 complete = function() {
 
                 	setTimeout(function(){
-				$(".merlin__body").addClass('js--finished');
+				$(".wizard__body").addClass('js--finished');
 			},1500);
 
                 	body.removeClass( drawer_opened );
 
                 	setTimeout(function(){
-				$('.merlin__body').addClass('exiting');
+				$('.wizard__body').addClass('exiting');
 			},3500);
 
                     	setTimeout(function(){
@@ -174,8 +174,8 @@ var Merlin = (function($){
 
 
 function ActivateLicense() {
-    	var body 		= $( '.merlin__body' );
-    	var wrapper 		= $( '.merlin__content--license-key' );
+    	var body 		= $( '.wizard__body' );
+    	var wrapper 		= $( '.wizard__content--license-key' );
         var complete, notice 	= $( '#license-text' );
 
         function ajax_callback(r) {
@@ -191,7 +191,7 @@ function ActivateLicense() {
 			    },600);
                 complete();
             } else {
-                $( '.js-merlin-license-activate-button' ).removeClass( 'merlin__button--loading' ).data( 'done-loading', 'no' );
+                $( '.js-wizard-license-activate-button' ).removeClass( 'wizard__button--loading' ).data( 'done-loading', 'no' );
                 notice.siblings( '.error-message' ).remove();
                 wrapper.addClass('has-error');
                 notice.html(r.message);
@@ -204,9 +204,9 @@ function ActivateLicense() {
 
         	wrapper.removeClass('has-error');
 
-            jQuery.post(merlin_params.ajaxurl, {
-              action: "merlin_activate_license",
-              wpnonce: merlin_params.wpnonce,
+            jQuery.post(wizard_params.ajaxurl, {
+              action: "wizard_activate_license",
+              wpnonce: wizard_params.wpnonce,
               license_key: $( '.js-license-key' ).val()
             }, ajax_callback).fail(ajax_callback);
 
@@ -217,13 +217,13 @@ function ActivateLicense() {
             init: function(btn) {
                 complete = function() {
                 	setTimeout(function(){
-				$(".merlin__body").addClass('js--finished');
+				$(".wizard__body").addClass('js--finished');
 			},1500);
 
                 	body.removeClass( drawer_opened );
 
                 	setTimeout(function(){
-				$('.merlin__body').addClass('exiting');
+				$('.wizard__body').addClass('exiting');
 			},3500);
 
                     	setTimeout(function(){
@@ -238,7 +238,7 @@ function ActivateLicense() {
 
 function PluginManager(){
 
-    	var body = $('.merlin__body');
+    	var body = $('.wizard__body');
         var complete;
         var items_completed 	= 0;
         var current_item 		= "";
@@ -276,9 +276,9 @@ function PluginManager(){
             if(current_item){
                 var $check = $current_node.find("input:checkbox");
                 if($check.is(":checked")) {
-                    jQuery.post(merlin_params.ajaxurl, {
-                        action: "merlin_plugins",
-                        wpnonce: merlin_params.wpnonce,
+                    jQuery.post(wizard_params.ajaxurl, {
+                        action: "wizard_plugins",
+                        wpnonce: wizard_params.wpnonce,
                         slug: current_item,
                     }, ajax_callback).fail(ajax_callback);
                 }else{
@@ -296,7 +296,7 @@ function PluginManager(){
                 }
                 $current_node.find(".spinner").css("visibility","hidden");
             }
-            var $li = $(".merlin__drawer--install-plugins li");
+            var $li = $(".wizard__drawer--install-plugins li");
             $li.each(function(){
                 var $item = $(this);
 
@@ -317,18 +317,18 @@ function PluginManager(){
 
         return {
             init: function(btn){
-                $(".merlin__drawer--install-plugins").addClass("installing");
-                $(".merlin__drawer--install-plugins").find("input").prop("disabled", true);
+                $(".wizard__drawer--install-plugins").addClass("installing");
+                $(".wizard__drawer--install-plugins").find("input").prop("disabled", true);
                 complete = function(){
 
                 	setTimeout(function(){
-				        $(".merlin__body").addClass('js--finished');
+				        $(".wizard__body").addClass('js--finished');
 				    },1000);
 
                 	body.removeClass( drawer_opened );
 
                 	setTimeout(function(){
-				        $('.merlin__body').addClass('exiting');
+				        $('.wizard__body').addClass('exiting');
 				    },3000);
 
                     setTimeout(function(){
@@ -342,7 +342,7 @@ function PluginManager(){
     }
     function ContentManager(){
 
-    	var body 				= $('.merlin__body');
+    	var body 				= $('.wizard__body');
         var complete;
         var items_completed 	= 0;
         var current_item 		= "";
@@ -372,7 +372,7 @@ function PluginManager(){
 
                         // Fix the undefined selected_index issue on new AJAX calls.
                         if ( typeof response.selected_index === "undefined" ) {
-                            response.selected_index = $( '.js-merlin-demo-import-select' ).val() || 0;
+                            response.selected_index = $( '.js-wizard-demo-import-select' ).val() || 0;
                         }
 
                         jQuery.post(response.url, response, ajax_callback).fail(ajax_callback); // recuurrssionnnnn
@@ -396,11 +396,11 @@ function PluginManager(){
             if(current_item){
                 var $check = $current_node.find("input:checkbox");
                 if($check.is(":checked")) {
-                    jQuery.post(merlin_params.ajaxurl, {
-                        action: "merlin_content",
-                        wpnonce: merlin_params.wpnonce,
+                    jQuery.post(wizard_params.ajaxurl, {
+                        action: "wizard_content",
+                        wpnonce: wizard_params.wpnonce,
                         content: current_item,
-                        selected_index: $( '.js-merlin-demo-import-select' ).val() || 0
+                        selected_index: $( '.js-wizard-demo-import-select' ).val() || 0
                     }, ajax_callback).fail(ajax_callback);
                 }else{
                     $current_node.addClass("skipping");
@@ -418,8 +418,8 @@ function PluginManager(){
                 }
                 $current_node.find(".spinner").css("visibility","hidden");
             }
-            var $items = $(".merlin__drawer--import-content__list-item");
-            var $enabled_items = $(".merlin__drawer--import-content__list-item input:checked");
+            var $items = $(".wizard__drawer--import-content__list-item");
+            var $enabled_items = $(".wizard__drawer--import-content__list-item input:checked");
             $items.each(function(){
                 if (current_item == "" || do_next) {
                     current_item = $(this).data("content");
@@ -436,14 +436,14 @@ function PluginManager(){
         }
 
         function init_content_import_progress_bar() {
-            if( ! $(".merlin__drawer--import-content__list-item .checkbox-content").is( ':checked' ) ) {
+            if( ! $(".wizard__drawer--import-content__list-item .checkbox-content").is( ':checked' ) ) {
                 return false;
             }
 
-            jQuery.post(merlin_params.ajaxurl, {
-                action: "merlin_get_total_content_import_items",
-                wpnonce: merlin_params.wpnonce,
-                selected_index: $( '.js-merlin-demo-import-select' ).val() || 0
+            jQuery.post(wizard_params.ajaxurl, {
+                action: "wizard_get_total_content_import_items",
+                wpnonce: wizard_params.wpnonce,
+                selected_index: $( '.js-wizard-demo-import-select' ).val() || 0
             }, function( response ) {
                 total_content_import_items = response.data;
 
@@ -464,11 +464,11 @@ function PluginManager(){
         }
 
         function update_progress_bar() {
-            $('.js-merlin-progress-bar').css( 'width', (current_content_import_items/total_content_import_items) * 100 + '%' );
+            $('.js-wizard-progress-bar').css( 'width', (current_content_import_items/total_content_import_items) * 100 + '%' );
 
             var $percentage = valBetween( ((current_content_import_items/total_content_import_items) * 100) , 0, 99);
 
-            $('.js-merlin-progress-bar-percentage').html( Math.round( $percentage ) + '%' );
+            $('.js-wizard-progress-bar-percentage').html( Math.round( $percentage ) + '%' );
 
             if ( 1 === current_content_import_items/total_content_import_items ) {
                 clearInterval( progress_bar_interval );
@@ -477,18 +477,18 @@ function PluginManager(){
 
         return {
             init: function(btn){
-                $(".merlin__drawer--import-content").addClass("installing");
-                $(".merlin__drawer--import-content").find("input").prop("disabled", true);
+                $(".wizard__drawer--import-content").addClass("installing");
+                $(".wizard__drawer--import-content").find("input").prop("disabled", true);
                 complete = function(){
 
-			$.post(merlin_params.ajaxurl, {
-				action: "merlin_import_finished",
-				wpnonce: merlin_params.wpnonce,
-				selected_index: $( '.js-merlin-demo-import-select' ).val() || 0
+			$.post(wizard_params.ajaxurl, {
+				action: "wizard_import_finished",
+				wpnonce: wizard_params.wpnonce,
+				selected_index: $( '.js-wizard-demo-import-select' ).val() || 0
 			});
 
 			setTimeout(function(){
-				$('.js-merlin-progress-bar-percentage').html( '100%' );
+				$('.js-wizard-progress-bar-percentage').html( '100%' );
 			},100);
 
                 	setTimeout(function(){
@@ -496,11 +496,11 @@ function PluginManager(){
 				    },500);
 
                 	setTimeout(function(){
-				        $(".merlin__body").addClass('js--finished');
+				        $(".wizard__body").addClass('js--finished');
 				    },1500);
 
                 	setTimeout(function(){
-				        $('.merlin__body').addClass('exiting');
+				        $('.wizard__body').addClass('exiting');
 				    },3400);
 
                     setTimeout(function(){
@@ -513,7 +513,7 @@ function PluginManager(){
         }
     }
 
-    function merlin_loading_button( btn ){
+    function wizard_loading_button( btn ){
 
         var $button = jQuery(btn);
 
@@ -527,7 +527,7 @@ function PluginManager(){
 
         $button.data("done-loading","yes");
 
-        $button.addClass("merlin__button--loading");
+        $button.addClass("wizard__button--loading");
 
         return {
             done: function(){

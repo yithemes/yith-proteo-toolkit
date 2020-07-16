@@ -1,5 +1,5 @@
 (function ($) {
-	$('body').addClass('merlin__drawer--open');
+	$('body').addClass('wizard__drawer--open');
 	$('#demo-content-list li:first-child').addClass('selected');
 	$('#demo-content-list li').on('click', function () {
 		var t = $(this),

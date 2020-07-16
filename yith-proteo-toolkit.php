@@ -99,7 +99,7 @@ function yith_proteo_toolkit_disable() {
  * @return void
  */
 function yith_proteo_toolkit_add_admin_styles() {
-	wp_enqueue_style( 'yith_toolkit_admin_merlin_css', YITH_PROTEO_TOOLKIT_URL . 'assets/css/admin.css', array(), YITH_PROTEO_TOOLKIT_VERSION );
+	wp_enqueue_style( 'yith_toolkit_admin_wizard_css', YITH_PROTEO_TOOLKIT_URL . 'assets/css/admin.css', array(), YITH_PROTEO_TOOLKIT_VERSION );
 }
 
 add_action( 'admin_print_styles', 'yith_proteo_toolkit_add_admin_styles' );
@@ -111,7 +111,7 @@ add_action( 'admin_print_styles', 'yith_proteo_toolkit_add_admin_styles' );
  * @return void
  */
 function yith_proteo_toolkit_add_admin_scripts() {
-	wp_enqueue_script( 'yith_toolkit_admin_merlin_js', YITH_PROTEO_TOOLKIT_URL . 'assets/js/admin.js', array( 'jquery' ), YITH_PROTEO_TOOLKIT_VERSION, true );
+	wp_enqueue_script( 'yith_toolkit_admin_wizard_js', YITH_PROTEO_TOOLKIT_URL . 'assets/js/admin.js', array( 'jquery' ), YITH_PROTEO_TOOLKIT_VERSION, true );
 }
 
 add_action( 'admin_print_scripts', 'yith_proteo_toolkit_add_admin_scripts' );
@@ -160,14 +160,14 @@ function yith_proteo_toolkit_run_setup() {
 
 register_activation_hook( __FILE__, 'yith_proteo_toolkit_run_first_setup' );
 
-add_filter( 'merlin_regenerate_thumbnails_in_content_import', '__return_false' );
+add_filter( 'wizard_regenerate_thumbnails_in_content_import', '__return_false' );
 
-add_action( 'get_template_part_merlin-wp/assets/images/spinner', 'yith_proteo_toolkit_loading_spinner_icon_fix' );
+add_action( 'get_template_part_wizard/assets/images/spinner', 'yith_proteo_toolkit_loading_spinner_icon_fix' );
 
 add_action(
-	'get_template_part_merlin-wp/assets/images/spinner',
+	'get_template_part_wizard/assets/images/spinner',
 	function() {
-		require_once 'includes/third-party/merlin/assets/images/spinner.php';
+		require_once 'includes/third-party/importer/assets/images/spinner.php';
 	}
 );
 

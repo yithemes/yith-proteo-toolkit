@@ -14,7 +14,7 @@ if ( ! class_exists( 'YITH_Proteo_Wizard' ) ) {
  */
 $config = array(
 	'directory'            => 'includes/third-party/importer', // Location / directory where YITH_Proteo_Wizard is placed in your theme.
-	'merlin_url'           => 'setup-wizard', // The wp-admin page slug where YITH_Proteo_Wizard loads.
+	'wizard_url'           => 'setup-wizard', // The wp-admin page slug where YITH_Proteo_Wizard loads.
 	'parent_slug'          => 'themes.php', // The wp-admin parent page slug for the admin menu item.
 	'capability'           => 'manage_options', // The capability required for this menu to be displayed to the user.
 	'child_action_btn_url' => 'https://codex.wordpress.org/child_themes', // URL for the 'child-action-link'.
@@ -85,7 +85,7 @@ $wizard = new YITH_Proteo_Wizard(
  *
  * @return array()
  */
-function merlin_import_files() {
+function wizard_import_files() {
 	return array(
 		array(
 			'import_file_name'           => 'Classic Shop',
@@ -119,13 +119,13 @@ function merlin_import_files() {
 		),
 	);
 }
-add_filter( 'merlin_import_files', 'merlin_import_files' );
+add_filter( 'wizard_import_files', 'wizard_import_files' );
 
 
 /**
  * Execute custom code after the whole import has finished.
  */
-function prefix_merlin_after_import_setup() {
+function prefix_wizard_after_import_setup() {
 	// Assign menus to their locations.
 	$main_menu = get_term_by( 'name', 'Primary', 'nav_menu' );
 
@@ -145,7 +145,7 @@ function prefix_merlin_after_import_setup() {
 	update_option( 'page_for_posts', $blog_page_id->ID );
 
 }
-add_action( 'merlin_after_all_import', 'prefix_merlin_after_import_setup' );
+add_action( 'wizard_after_all_import', 'prefix_wizard_after_import_setup' );
 
 
 add_action( 'tgmpa_register', 'yith_proteo_toolkit_register_required_plugins' );

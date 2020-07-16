@@ -91,7 +91,7 @@ class YITH_Proteo_Wizard_Customizer_Importer {
 		}
 
 		// Import images.
-		if ( apply_filters( 'merlin_customizer_import_images', true ) ) {
+		if ( apply_filters( 'wizard_customizer_import_images', true ) ) {
 			$data['mods'] = self::import_customizer_images( $data['mods'] );
 		}
 
@@ -118,7 +118,7 @@ class YITH_Proteo_Wizard_Customizer_Importer {
 		}
 
 		// Should the customizer import use the WP customize_save* hooks?
-		$use_wp_customize_save_hooks = apply_filters( 'merlin_enable_wp_customize_save_hooks', false );
+		$use_wp_customize_save_hooks = apply_filters( 'wizard_enable_wp_customize_save_hooks', false );
 
 		if ( $use_wp_customize_save_hooks ) {
 			do_action( 'customize_save', $wp_customize );

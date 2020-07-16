@@ -85,7 +85,7 @@ class YITH_Proteo_Wizard_Downloader {
 		// Get file content from the server.
 		$response = wp_remote_get(
 			$url,
-			array( 'timeout' => apply_filters( 'merlin_timeout_for_downloading_import_file', 20 ) )
+			array( 'timeout' => apply_filters( 'wizard_timeout_for_downloading_import_file', 20 ) )
 		);
 
 		// Test if the get request was not successful.
@@ -150,7 +150,7 @@ class YITH_Proteo_Wizard_Downloader {
 			$this->download_directory_path = $download_directory_path;
 		} else {
 			$upload_dir                    = wp_upload_dir();
-			$this->download_directory_path = apply_filters( 'merlin_upload_file_path', trailingslashit( $upload_dir['path'] ) );
+			$this->download_directory_path = apply_filters( 'wizard_upload_file_path', trailingslashit( $upload_dir['path'] ) );
 		}
 	}
 

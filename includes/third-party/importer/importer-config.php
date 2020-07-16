@@ -87,7 +87,7 @@ function merlin_import_files() {
 			'import_file_name'           => 'Classic Shop',
 			'import_file_url'            => 'https://proteo.yithemes.com/demo-content/classic-shop/proteo-wordpress-export.xml',
 			'import_widget_file_url'     => 'https://proteo.yithemes.com/demo-content/classic-shop/proteo.yithemes.com-classic-shop-widgets.wie',
-			'import_customizer_file_url' => 'https://proteo.yithemes.com/demo-content/classic-shop/yith-proteo-export.dat',
+			'import_customizer_file_url' => 'https://proteo.yithemes.com/demo-content/classic-shop/yith-proteo-export.json',
 			'import_preview_image_url'   => 'https://proteo.yithemes.com/demo-content/classic-shop/screenshot.png',
 			'import_notice'              => __( 'This demo uses the following plugins: WooCommerce, YITH Slider for page builders, CF7, Wishlist, YITH Product slider carousel. Please be sure to enable these plugins prior to proceed.', 'yith-proteo' ),
 			'preview_url'                => 'https://proteo.yithemes.com/classic-shop/',

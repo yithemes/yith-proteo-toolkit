@@ -22,7 +22,7 @@ class YITH_Proteo_Wizard_Logger {
 	/**
 	 * Returns the *Singleton* instance of this class.
 	 *
-	 * @return object EasyDigitalDownloadsFastspring *Singleton* instance.
+	 * @return object *Singleton* instance.
 	 *
 	 * @codeCoverageIgnore Nothing to test, default PHP singleton functionality.
 	 */

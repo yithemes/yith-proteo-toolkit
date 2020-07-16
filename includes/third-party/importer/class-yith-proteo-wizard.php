@@ -285,7 +285,7 @@ class YITH_Proteo_Wizard {
 		}
 
 		require_once trailingslashit( $this->base_path ) . $this->directory . '/includes/class-merlin-customizer-option.php';
-		require_once trailingslashit( $this->base_path ) . $this->directory . '/includes/class-merlin-customizer-importer.php';
+		require_once trailingslashit( $this->base_path ) . $this->directory . '/includes/class-yith-proteo-wizard-customizer-importer.php';
 		require_once trailingslashit( $this->base_path ) . $this->directory . '/includes/class-merlin-hooks.php';
 
 		$this->hooks = new Merlin_Hooks();
@@ -1692,7 +1692,7 @@ class YITH_Proteo_Wizard {
 				'pending'          => esc_html__( 'Pending', 'merlin-wp' ),
 				'installing'       => esc_html__( 'Installing', 'merlin-wp' ),
 				'success'          => esc_html__( 'Success', 'merlin-wp' ),
-				'install_callback' => array( 'Merlin_Customizer_Importer', 'import' ),
+				'install_callback' => array( 'YITH_Proteo_Wizard_Customizer_Importer', 'import' ),
 				'checked'          => $this->is_possible_upgrade() ? 0 : 1,
 				'data'             => $import_files['options'],
 			);

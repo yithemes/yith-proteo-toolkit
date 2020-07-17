@@ -128,7 +128,7 @@ function yith_proteo_toolkit_run_first_setup() {
 		return;
 	}
 
-	$current_query_string = isset( $_GET['page'] ) ? wp_unslash( $_GET['page'] ) : false;
+	$current_query_string = isset( $_GET['page'] ) ? wp_unslash( $_GET['page'] ) : false; // phpcs:ignore
 
 	if ( 'themes.php' === $pagenow && 'setup-wizard' === $current_query_string && ! get_option( 'yith_proteo_toolkit_first_setup_run' ) ) {
 		update_option( 'yith_proteo_toolkit_first_setup_run', time() );

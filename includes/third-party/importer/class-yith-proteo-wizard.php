@@ -955,6 +955,7 @@ class YITH_Proteo_Wizard {
 										<?php esc_html_e( 'req', 'yith-proteo-toolkit' ); ?>
 									</span>
 								</span>
+								<em></em>
 							</label>
 						</li>
 					<?php endforeach; ?>
@@ -967,6 +968,7 @@ class YITH_Proteo_Wizard {
 
 							<label for="default_plugins_<?php echo esc_attr( $slug ); ?>">
 								<i></i><span><?php echo esc_html( $plugin['name'] ); ?></span>
+								<em></em>
 							</label>
 						</li>
 					<?php endforeach; ?>
@@ -1960,6 +1962,7 @@ class YITH_Proteo_Wizard {
 						<?php
 					endif;
 					?>
+					<em></em>
 					</label>
 				</li>
 

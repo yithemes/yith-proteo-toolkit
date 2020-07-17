@@ -57,8 +57,8 @@ $strings = array(
 
 	'plugins-header'           => esc_html__( 'Install Plugins', 'yith-proteo-toolkit' ),
 	'plugins-header-success'   => esc_html__( 'You\'re ready for demo contents!', 'yith-proteo-toolkit' ),
-	'plugins'                  => esc_html__( 'Let\'s install some essential WordPress plugins to get your site ready for demo contents.', 'yith-proteo-toolkit' ),
-	'plugins-success%s'        => esc_html__( 'The required WordPress plugins are all installed and up to date. Press "Next" to continue the setup wizard.', 'yith-proteo-toolkit' ),
+	'plugins'                  => esc_html__( 'Let\'s install and activate some essential plugins to get your site ready for demo contents.', 'yith-proteo-toolkit' ),
+	'plugins-success%s'        => esc_html__( 'The required plugins are all installed and up to date. Press "Next" to continue the setup wizard.', 'yith-proteo-toolkit' ),
 	'plugins-action-link'      => esc_html__( 'Advanced', 'yith-proteo-toolkit' ),
 
 	'import-header'            => esc_html__( 'Import Content', 'yith-proteo-toolkit' ),
@@ -71,8 +71,8 @@ $strings = array(
 	'ready%s'                  => esc_html__( 'Your theme has been all set up. Enjoy your new theme by %s.', 'yith-proteo-toolkit' ),
 	'ready-action-link'        => esc_html__( 'Extras', 'yith-proteo-toolkit' ),
 	'ready-big-button'         => esc_html__( 'View your website', 'yith-proteo-toolkit' ),
-	'ready-link-1'             => sprintf( '<a href="%1$s" target="_blank">%2$s</a>', 'https://docs.yithemes.com/yith-proteo/', esc_html__( 'Read the documentation', 'yith-proteo-toolkit' ) ),
-	'ready-link-2'             => sprintf( '<a href="%1$s">%2$s</a>', admin_url( 'customize.php' ), esc_html__( 'Start customizing Proteo', 'yith-proteo-toolkit' ) ),
+	'ready-link-1'             => sprintf( '<a href="%1$s" target="_blank">%2$s</a>', 'https://docs.yithemes.com/yith-proteo/', esc_html__( 'Read YITH Proteo theme documentation', 'yith-proteo-toolkit' ) ),
+	'ready-link-2'             => sprintf( '<a href="%1$s">%2$s</a>', admin_url( 'customize.php' ), esc_html__( 'Start customizing your theme', 'yith-proteo-toolkit' ) ),
 );
 
 $wizard = new YITH_Proteo_Wizard(

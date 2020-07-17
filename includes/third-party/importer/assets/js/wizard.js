@@ -1,5 +1,5 @@
 
-var Merlin = (function($){
+var Wizard = (function($){
 
     var t;
 
@@ -551,4 +551,4 @@ function PluginManager(){
 
 })(jQuery);
 
-Merlin.init();
+Wizard.init();

@@ -4,7 +4,7 @@
 	$('#demo-content-list li').on('click', function () {
 		var t = $(this),
 			chosen_demo = t.attr('data-demo'),
-			selected_demo = $('.js-merlin-demo-import-select');
+			selected_demo = $('.js-wizard-demo-import-select');
 		t.addClass('selected').siblings().removeClass('selected');
 		selected_demo.val(chosen_demo);
 	});

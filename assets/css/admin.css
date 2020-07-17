@@ -79,7 +79,7 @@
 	display: none;
 }
 
-ul.wizard__drawer.wizard__drawer--import-content.js-merlin-drawer-import-content {
+ul.wizard__drawer.wizard__drawer--import-content.js-wizard-drawer-import-content {
 	max-width: 400px;
 	margin: 0 auto;
 }

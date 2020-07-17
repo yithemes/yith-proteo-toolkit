@@ -165,28 +165,12 @@ class YITH_Proteo_Wizard {
 	public $logger;
 
 	/**
-	 * Setup plugin version.
-	 *
-	 * @access private
-	 * @since 1.0
-	 * @return void
-	 */
-	private function version() {
-
-		if ( ! defined( 'MERLIN_VERSION' ) ) {
-			define( 'MERLIN_VERSION', '1.0.0' );
-		}
-	}
-
-	/**
 	 * Class Constructor.
 	 *
 	 * @param array $config Package-specific configuration args.
 	 * @param array $strings Text for the different elements.
 	 */
 	public function __construct( $config = array(), $strings = array() ) {
-
-		$this->version();
 
 		$config = wp_parse_args(
 			$config,
@@ -334,7 +318,7 @@ class YITH_Proteo_Wizard {
 	public function ignore() {
 
 		// Bail out if not on correct page.
-		if ( ! isset( $_GET['_wpnonce'] ) || ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'merlinwp-ignore-nounce' ) || ! is_admin() || ! isset( $_GET[ $this->ignore ] ) || ! current_user_can( 'manage_options' ) ) ) {
+		if ( ! isset( $_GET['_wpnonce'] ) || ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'wizard-ignore-nounce' ) || ! is_admin() || ! isset( $_GET[ $this->ignore ] ) || ! current_user_can( 'manage_options' ) ) ) {
 			return;
 		}
 
@@ -398,14 +382,16 @@ class YITH_Proteo_Wizard {
 
 		$this->step = isset( $_GET['step'] ) ? sanitize_key( $_GET['step'] ) : current( array_keys( $this->steps ) );
 
+		wp_enqueue_media();
+
 		// Use minified libraries if dev mode is turned on.
 		$suffix = ( ( true === $this->dev_mode ) ) ? '' : '.min';
 
 		// Enqueue styles.
-		wp_enqueue_style( 'merlin', trailingslashit( $this->base_url ) . $this->directory . '/assets/css/merlin' . $suffix . '.css', array( 'wp-admin' ), MERLIN_VERSION );
+		wp_enqueue_style( 'proteo-wizard', trailingslashit( $this->base_url ) . $this->directory . '/assets/css/wizard' . $suffix . '.css', array( 'wp-admin' ), YITH_PROTEO_TOOLKIT_VERSION );
 
 		// Enqueue javascript.
-		wp_enqueue_script( 'merlin', trailingslashit( $this->base_url ) . $this->directory . '/assets/js/merlin' . $suffix . '.js', array( 'jquery-core' ), MERLIN_VERSION );
+		wp_enqueue_script( 'proteo-wizard', trailingslashit( $this->base_url ) . $this->directory . '/assets/js/wizard' . $suffix . '.js', array( 'jquery-core' ), YITH_PROTEO_TOOLKIT_VERSION, true );
 
 		$texts = array(
 			'something_went_wrong' => esc_html__( 'Something went wrong. Please refresh the page and try again!', 'yith-proteo-toolkit' ),
@@ -415,7 +401,7 @@ class YITH_Proteo_Wizard {
 		if ( class_exists( 'TGM_Plugin_Activation' ) ) {
 			// Check first if TMGPA is included.
 			wp_localize_script(
-				'merlin',
+				'proteo-wizard',
 				'wizard_params',
 				array(
 					'tgm_plugin_nonce' => array(
@@ -431,7 +417,7 @@ class YITH_Proteo_Wizard {
 		} else {
 			// If TMGPA is not included.
 			wp_localize_script(
-				'merlin',
+				'wizard',
 				'wizard_params',
 				array(
 					'ajaxurl' => admin_url( 'admin-ajax.php' ),
@@ -469,9 +455,9 @@ class YITH_Proteo_Wizard {
 
 			</div>
 
-			<?php echo sprintf( '<a class="return-to-dashboard" href="%s">%s</a>', esc_url( admin_url( '/' ) ), esc_html( $strings['return-to-dashboard'] ) ); ?>
+			<?php echo sprintf( '<a class="return-to-dashboard" href="%s">%s</>', esc_url( admin_url( '/' ) ), esc_html( $strings['return-to-dashboard'] ) ); ?>
 
-			<?php $ignore_url = wp_nonce_url( admin_url( '?' . $this->ignore . '=true' ), 'merlinwp-ignore-nounce' ); ?>
+			<?php $ignore_url = wp_nonce_url( admin_url( '?' . $this->ignore . '=true' ), 'wizard-ignore-nounce' ); ?>
 
 			<?php echo sprintf( '<a class="return-to-dashboard ignore" href="%s">%s</a>', esc_url( $ignore_url ), esc_html( $strings['ignore'] ) ); ?>
 
@@ -802,7 +788,7 @@ class YITH_Proteo_Wizard {
 		<footer class="wizard__content__footer">
 			<a href="<?php echo esc_url( wp_get_referer() && ! strpos( wp_get_referer(), 'update.php' ) ? wp_get_referer() : admin_url( '/' ) ); ?>" class="wizard__button wizard__button--skip"><?php echo esc_html( $no ); ?></a>
 			<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--next wizard__button--proceed wizard__button--colorchange"><?php echo esc_html( $start ); ?></a>
-			<?php wp_nonce_field( 'merlin' ); ?>
+			<?php wp_nonce_field( 'wizard' ); ?>
 		</footer>
 
 		<?php
@@ -815,7 +801,7 @@ class YITH_Proteo_Wizard {
 	 */
 	protected function welcome_handler() {
 
-		check_admin_referer( 'merlin' );
+		check_admin_referer( 'wizard' );
 
 		return false;
 	}
@@ -873,7 +859,7 @@ class YITH_Proteo_Wizard {
 			<?php else : ?>
 				<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--next wizard__button--proceed wizard__button--colorchange"><?php echo esc_html( $next ); ?></a>
 			<?php endif; ?>
-			<?php wp_nonce_field( 'merlin' ); ?>
+			<?php wp_nonce_field( 'wizard' ); ?>
 		</footer>
 		<?php
 		$this->logger->debug( __( 'The child theme installation step has been displayed', 'yith-proteo-toolkit' ) );
@@ -885,7 +871,7 @@ class YITH_Proteo_Wizard {
 	protected function plugins() {
 
 		// Variables.
-		$url    = wp_nonce_url( add_query_arg( array( 'plugins' => 'go' ) ), 'merlin' );
+		$url    = wp_nonce_url( add_query_arg( array( 'plugins' => 'go' ) ), 'wizard' );
 		$method = '';
 		$fields = array_keys( $_POST );
 		$creds  = request_filesystem_credentials( esc_url_raw( $url ), $method, false, false, $fields );
@@ -1000,7 +986,7 @@ class YITH_Proteo_Wizard {
 				<?php else : ?>
 					<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--next wizard__button--proceed wizard__button--colorchange"><?php echo esc_html( $next ); ?></a>
 				<?php endif; ?>
-				<?php wp_nonce_field( 'merlin' ); ?>
+				<?php wp_nonce_field( 'wizard' ); ?>
 			</footer>
 		</form>
 
@@ -1092,7 +1078,7 @@ class YITH_Proteo_Wizard {
 					<span class="js-wizard-progress-bar-percentage">0%</span>
 				</a>
 
-				<?php wp_nonce_field( 'merlin' ); ?>
+				<?php wp_nonce_field( 'wizard' ); ?>
 			</footer>
 		</form>
 
@@ -1234,7 +1220,7 @@ class YITH_Proteo_Wizard {
 		if ( ! file_exists( $path ) ) {
 
 			self::get_filesystem()->mkdir( $path );
-			self::get_filesystem()->put_contents( $path . '/style.css', $this->generate_child_style_css( $this->theme->template, $this->theme->name, $this->theme->author, $this->theme->version ) );
+			self::get_filesystem()->put_contents( $path . '/style.css', $this->generate_child_style_css( $this->theme->template, $this->theme->name, $this->theme->author, YITH_PROTEO_TOOLKIT_VERSION ) );
 			self::get_filesystem()->put_contents( $path . '/functions.php', $this->generate_child_functions_php( $this->theme->template ) );
 
 			$this->generate_child_screenshot( $path );

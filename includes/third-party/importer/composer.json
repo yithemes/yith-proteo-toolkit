@@ -1,7 +1,7 @@
 {
   "name": "yithemes/yith-proteo-toolkit",
-  "description": "YITH Proteo Theme Onboarding.",
-  "keywords": ["wp", "wordpress", "theme", "onboarding", "import", "content"],
+  "description": "YITH Proteo Theme Toolkit plugin.",
+  "keywords": ["wp", "wordpress", "theme", "import", "content"],
   "license": "GPL-3.0+",
   "authors": [
     {

@@ -3,7 +3,7 @@
  * Plugin Name:         YITH Proteo Toolkit
  * Plugin URI:          https://yithemes.com
  * Description:         Add extra features to YITH Proteo theme.
- * Version:             1.0.0.1
+ * Version:             1.0.0.2
  * Author:              YITH
  * Author URI:          https://yithemes.com/
  * Requires at least:   5.3
@@ -47,7 +47,7 @@ if ( ! defined( 'YITH_PROTEO_TOOLKIT' ) ) {
 }
 
 if ( ! defined( 'YITH_PROTEO_TOOLKIT_VERSION' ) ) {
-	define( 'YITH_PROTEO_TOOLKIT_VERSION', '1.0.0.1' );
+	define( 'YITH_PROTEO_TOOLKIT_VERSION', '1.0.0.2' );
 }
 
 if ( ! defined( 'YITH_PROTEO_TOOLKIT_PATH' ) ) {
@@ -130,11 +130,11 @@ function yith_proteo_toolkit_run_first_setup() {
 
 	$current_query_string = isset( $_GET['page'] ) ? wp_unslash( $_GET['page'] ) : false;
 
-	if ( 'themes.php' == $pagenow && 'setup-wizard' == $current_query_string && ! get_option( 'yith_proteo_toolkit_first_setup_run' ) ) {
+	if ( 'themes.php' === $pagenow && 'setup-wizard' === $current_query_string && ! get_option( 'yith_proteo_toolkit_first_setup_run' ) ) {
 		update_option( 'yith_proteo_toolkit_first_setup_run', time() );
 	}
 
-	if ( get_option( 'yith_proteo_toolkit_first_setup_run' ) || ( 'themes.php' == $pagenow && 'setup-wizard' == $current_query_string ) ) {
+	if ( get_option( 'yith_proteo_toolkit_first_setup_run' ) || ( 'themes.php' === $pagenow && 'setup-wizard' === $current_query_string ) ) {
 		return;
 	}
 

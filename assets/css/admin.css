@@ -159,6 +159,11 @@ ul.wizard__drawer.wizard__drawer--import-content.js-wizard-drawer-import-content
 	color: #fff;
 }
 
+.wizard__button--loading[data-callback="install_plugins"] {
+	outline: none;
+	box-shadow: none;
+}
+
 @-webkit-keyframes popIn {
 	0% {
 		background: #e3e3e3;

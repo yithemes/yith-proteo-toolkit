@@ -772,7 +772,6 @@ class YITH_Proteo_Wizard {
 		$header    = ! $already_setup ? $strings['welcome-header%s'] : $strings['welcome-header-success%s'];
 		$paragraph = ! $already_setup ? $strings['welcome%s'] : $strings['welcome-success%s'];
 		$start     = $strings['btn-start'];
-		$no        = $strings['btn-no'];
 		?>
 
 		<div class="wizard__content--transition">
@@ -786,7 +785,6 @@ class YITH_Proteo_Wizard {
 		</div>
 
 		<footer class="wizard__content__footer">
-			<a href="<?php echo esc_url( wp_get_referer() && ! strpos( wp_get_referer(), 'update.php' ) ? wp_get_referer() : admin_url( '/' ) ); ?>" class="wizard__button wizard__button--skip"><?php echo esc_html( $no ); ?></a>
 			<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--next wizard__button--proceed wizard__button--colorchange"><?php echo esc_html( $start ); ?></a>
 			<?php wp_nonce_field( 'wizard' ); ?>
 		</footer>
@@ -1953,7 +1951,15 @@ class YITH_Proteo_Wizard {
 				<li class="wizard__drawer--import-content__list-item status status--Pending" data-content="<?php echo esc_attr( $slug ); ?>">
 					<input type="checkbox" name="default_content[<?php echo esc_attr( $slug ); ?>]" class="checkbox checkbox-<?php echo esc_attr( $slug ); ?>" id="default_content_<?php echo esc_attr( $slug ); ?>" value="1" checked>
 					<label for="default_content_<?php echo esc_attr( $slug ); ?>">
+					<?php
+					if ( 'after_import' === $slug ) :
+						?>
+						<i></i><span><?php echo esc_html__( 'Configure pages, menus and sidebars', 'yith-proteo-toolkit' ); ?></span>
+					<?php else : ?>
 						<i></i><span><?php echo esc_html( ucfirst( str_replace( '_', ' ', $slug ) ) ); ?></span>
+						<?php
+					endif;
+					?>
 					</label>
 				</li>
 

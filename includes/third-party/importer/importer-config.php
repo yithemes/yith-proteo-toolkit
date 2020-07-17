@@ -29,8 +29,8 @@ $strings = array(
 
 	/* translators: 1: Title Tag 2: Theme Name 3: Closing Title Tag */
 	'title%s%s%s%s'            => esc_html__( '%1$s%2$s Themes &lsaquo; Theme Setup: %3$s%4$s', 'yith-proteo-toolkit' ),
-	'return-to-dashboard'      => esc_html__( 'Return to the dashboard', 'yith-proteo-toolkit' ),
-	'ignore'                   => esc_html__( 'Disable this wizard', 'yith-proteo-toolkit' ),
+	'return-to-dashboard'      => esc_html__( 'Close and return to the dashboard', 'yith-proteo-toolkit' ),
+	'ignore'                   => esc_html__( 'Close this wizard', 'yith-proteo-toolkit' ),
 
 	'btn-skip'                 => esc_html__( 'Skip', 'yith-proteo-toolkit' ),
 	'btn-next'                 => esc_html__( 'Next', 'yith-proteo-toolkit' ),
@@ -44,10 +44,10 @@ $strings = array(
 	/* translators: Theme Name */
 	'welcome-header%s'         => esc_html__( 'Welcome to %s', 'yith-proteo-toolkit' ),
 	'welcome-header-success%s' => esc_html__( 'Hi. Welcome back', 'yith-proteo-toolkit' ),
-	'welcome%s'                => esc_html__( 'This wizard will set up your theme, install plugins, and import content. It is optional & should take only a few minutes.', 'yith-proteo-toolkit' ),
+	'welcome%s'                => esc_html__( 'This wizard will set up your theme, install plugins, and import demo content. It is optional & should take only a few minutes.', 'yith-proteo-toolkit' ),
 	'welcome-success%s'        => esc_html__( 'You may have already run this theme setup wizard. If you would like to proceed anyway, click on the "Start" button below.', 'yith-proteo-toolkit' ),
 
-	'child-header'             => esc_html__( 'Install Child Theme', 'yith-proteo-toolkit' ),
+	'child-header'             => esc_html__( 'Create and install Child Theme', 'yith-proteo-toolkit' ),
 	'child-header-success'     => esc_html__( 'You\'re good to go!', 'yith-proteo-toolkit' ),
 	'child'                    => esc_html__( 'Let\'s build & activate a child theme so you may easily make theme changes.', 'yith-proteo-toolkit' ),
 	'child-success%s'          => esc_html__( 'Your child theme has already been installed and is now activated, if it wasn\'t already.', 'yith-proteo-toolkit' ),
@@ -56,8 +56,8 @@ $strings = array(
 	'child-json-already%s'     => esc_html__( 'Awesome. Your child theme has been created and is now activated.', 'yith-proteo-toolkit' ),
 
 	'plugins-header'           => esc_html__( 'Install Plugins', 'yith-proteo-toolkit' ),
-	'plugins-header-success'   => esc_html__( 'You\'re up to speed!', 'yith-proteo-toolkit' ),
-	'plugins'                  => esc_html__( 'Let\'s install some essential WordPress plugins to get your site up to speed.', 'yith-proteo-toolkit' ),
+	'plugins-header-success'   => esc_html__( 'You\'re ready for demo contents!', 'yith-proteo-toolkit' ),
+	'plugins'                  => esc_html__( 'Let\'s install some essential WordPress plugins to get your site ready for demo contents.', 'yith-proteo-toolkit' ),
 	'plugins-success%s'        => esc_html__( 'The required WordPress plugins are all installed and up to date. Press "Next" to continue the setup wizard.', 'yith-proteo-toolkit' ),
 	'plugins-action-link'      => esc_html__( 'Advanced', 'yith-proteo-toolkit' ),
 
@@ -89,10 +89,10 @@ function wizard_import_files() {
 	return array(
 		array(
 			'import_file_name'           => 'Classic Shop',
-			'import_file_url'            => 'https://proteo.yithemes.com/demo-content/classic-shop/proteo-wordpress-export.xml',
-			'import_widget_file_url'     => 'https://proteo.yithemes.com/demo-content/classic-shop/proteo.yithemes.com-classic-shop-widgets.wie',
-			'import_customizer_file_url' => 'https://proteo.yithemes.com/demo-content/classic-shop/yith-proteo-export.json',
-			'import_preview_image_url'   => 'https://proteo.yithemes.com/demo-content/classic-shop/screenshot.png',
+			'import_file_url'            => 'https://update.yithemes.com/proteo-demo-content/classic-shop/proteo-wordpress-export.xml',
+			'import_widget_file_url'     => 'https://update.yithemes.com/proteo-demo-content/classic-shop/proteo.yithemes.com-classic-shop-widgets.wie',
+			'import_customizer_file_url' => 'https://update.yithemes.com/proteo-demo-content/classic-shop/yith-proteo-export.json',
+			'import_preview_image_url'   => 'https://update.yithemes.com/proteo-demo-content/classic-shop/screenshot.png',
 			'import_notice'              => __( 'This demo uses the following plugins: WooCommerce, YITH Slider for page builders, CF7, Wishlist, YITH Product slider carousel. Please be sure to enable these plugins prior to proceed.', 'yith-proteo' ),
 			'preview_url'                => 'https://proteo.yithemes.com/classic-shop/',
 			'state'                      => 'live',
@@ -102,7 +102,7 @@ function wizard_import_files() {
 			'import_file_url'            => '',
 			'import_widget_file_url'     => '',
 			'import_customizer_file_url' => '',
-			'import_preview_image_url'   => 'https://proteo.yithemes.com/demo-content/food/food.jpg',
+			'import_preview_image_url'   => 'https://update.yithemes.com/proteo-demo-content/food/food.jpg',
 			'import_notice'              => '',
 			'preview_url'                => '',
 			'state'                      => 'coming-soon',
@@ -112,7 +112,7 @@ function wizard_import_files() {
 			'import_file_url'            => '',
 			'import_widget_file_url'     => '',
 			'import_customizer_file_url' => '',
-			'import_preview_image_url'   => 'https://proteo.yithemes.com/demo-content/desire/desire.jpg',
+			'import_preview_image_url'   => 'https://update.yithemes.com/proteo-demo-content/desire/desire.jpg',
 			'import_notice'              => '',
 			'preview_url'                => '',
 			'state'                      => 'coming-soon',
@@ -143,6 +143,35 @@ function prefix_wizard_after_import_setup() {
 	update_option( 'show_on_front', 'page' );
 	update_option( 'page_on_front', $front_page_id->ID );
 	update_option( 'page_for_posts', $blog_page_id->ID );
+
+	if ( function_exists( 'wc' ) ) {
+		$shop_page      = get_page_by_path( 'shop' );
+		$cart_page      = get_page_by_path( 'cart' );
+		$checkout_page  = get_page_by_path( 'checkout' );
+		$myaccount_page = get_page_by_path( 'my-account' );
+
+		if ( $shop_page ) {
+			update_option( 'woocommerce_shop_page_id', $shop_page->ID );
+		}
+		if ( $cart_page ) {
+			update_option( 'woocommerce_cart_page_id', $cart_page->ID );
+		}
+		if ( $checkout_page ) {
+			update_option( 'woocommerce_checkout_page_id', $checkout_page->ID );
+		}
+		if ( $myaccount_page ) {
+			update_option( 'woocommerce_myaccount_page_id', $myaccount_page->ID );
+		}
+	}
+
+	$myaccount_widgets = get_option( 'widget_yith_proteo_account_widget', array() );
+	if ( ! empty( $myaccount_widgets ) ) {
+		foreach ( $myaccount_widgets as & $myaccount_widget ) {
+			$myaccount_widget['login-url']     = str_replace( 'https://proteo.yithemes.com', untrailingslashit( site_url() ), $myaccount_widget['login-url'] );
+			$myaccount_widget['myaccount-url'] = str_replace( 'https://proteo.yithemes.com', untrailingslashit( site_url() ), $myaccount_widget['myaccount-url'] );
+		}
+		update_option( 'widget_yith_proteo_account_widget', $myaccount_widgets );
+	}
 
 }
 add_action( 'wizard_after_all_import', 'prefix_wizard_after_import_setup' );

@@ -238,9 +238,9 @@ class YITH_Proteo_Wizard {
 		add_action( 'admin_init', array( $this, 'ignore' ), 5 );
 		add_action( 'admin_footer', array( $this, 'svg_sprite' ) );
 		add_filter( 'tgmpa_load', array( $this, 'load_tgmpa' ), 10, 1 );
-		add_action( 'wp_ajax_wizard_content', array( $this, '_ajax_content' ), 10, 0 );
-		add_action( 'wp_ajax_wizard_get_total_content_import_items', array( $this, '_ajax_get_total_content_import_items' ), 10, 0 );
-		add_action( 'wp_ajax_wizard_plugins', array( $this, '_ajax_plugins' ), 10, 0 );
+		add_action( 'wp_ajax_wizard_content', array( $this, 'ajax_content' ), 10, 0 );
+		add_action( 'wp_ajax_wizard_get_total_content_import_items', array( $this, 'ajax_get_total_content_import_items' ), 10, 0 );
+		add_action( 'wp_ajax_wizard_plugins', array( $this, 'ajax_plugins' ), 10, 0 );
 		add_action( 'wp_ajax_wizard_child_theme', array( $this, 'generate_child' ), 10, 0 );
 		add_action( 'wp_ajax_wizard_update_selected_import_data_info', array( $this, 'update_selected_import_data_info' ), 10, 0 );
 		add_action( 'wp_ajax_wizard_import_finished', array( $this, 'import_finished' ), 10, 0 );
@@ -372,7 +372,7 @@ class YITH_Proteo_Wizard {
 		$strings = $this->strings;
 
 		// Do not proceed, if we're not on the right page.
-		if ( empty( $_GET['page'] ) || $this->wizard_url !== $_GET['page'] ) {
+		if ( empty( $_GET['page'] ) || $this->wizard_url !== $_GET['page'] ) { // phpcs:ignore
 			return;
 		}
 
@@ -380,7 +380,7 @@ class YITH_Proteo_Wizard {
 			ob_end_clean();
 		}
 
-		$this->step = isset( $_GET['step'] ) ? sanitize_key( $_GET['step'] ) : current( array_keys( $this->steps ) );
+		$this->step = isset( $_GET['step'] ) ? sanitize_key( wp_unslash( $_GET['step'] ) ) : current( array_keys( $this->steps ) ); // phpcs:ignore
 
 		wp_enqueue_media();
 
@@ -442,7 +442,7 @@ class YITH_Proteo_Wizard {
 				// Content Handlers.
 				$show_content = true;
 
-				if ( ! empty( $_REQUEST['save_step'] ) && isset( $this->steps[ $this->step ]['handler'] ) ) {
+				if ( ! empty( $_REQUEST['save_step'] ) && isset( $this->steps[ $this->step ]['handler'] ) ) { // phpcs:ignore
 					$show_content = call_user_func( $this->steps[ $this->step ]['handler'] );
 				}
 
@@ -873,18 +873,21 @@ class YITH_Proteo_Wizard {
 		// Variables.
 		$url    = wp_nonce_url( add_query_arg( array( 'plugins' => 'go' ) ), 'wizard' );
 		$method = '';
-		$fields = array_keys( $_POST );
-		$creds  = request_filesystem_credentials( esc_url_raw( $url ), $method, false, false, $fields );
 
 		tgmpa_load_bulk_installer();
 
-		if ( false === $creds ) {
-			return true;
-		}
+		if ( isset( $_POST['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'wizard' ) ) {
+			$fields = array_keys( $_POST );
+			$creds  = request_filesystem_credentials( esc_url_raw( $url ), $method, false, false, $fields );
 
-		if ( ! WP_Filesystem( $creds ) ) {
-			request_filesystem_credentials( esc_url_raw( $url ), $method, true, false, $fields );
-			return true;
+			if ( false === $creds ) {
+				return true;
+			}
+
+			if ( ! WP_Filesystem( $creds ) ) {
+				request_filesystem_credentials( esc_url_raw( $url ), $method, true, false, $fields );
+				return true;
+			}
 		}
 
 		// Are there plugins that need installing/activating?
@@ -1059,7 +1062,7 @@ class YITH_Proteo_Wizard {
 
 		<form action="" method="post" class="<?php echo esc_attr( $multi_import ); ?>">
 			<ul class="wizard__drawer wizard__drawer--import-content js-wizard-drawer-import-content">
-				<?php echo $this->get_import_steps_html( $import_info ); ?>
+				<?php echo $this->get_import_steps_html( $import_info ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</ul>
 
 			<footer class="wizard__content__footer">
@@ -1140,7 +1143,7 @@ class YITH_Proteo_Wizard {
 
 			<h1><?php echo esc_html( sprintf( $header, $theme ) ); ?></h1>
 
-			<p><?php wp_kses( printf( $paragraph, $author ), $allowed_html_array ); ?></p>
+			<p><?php echo wp_kses( sprintf( $paragraph, $author ), $allowed_html_array ); ?></p>
 
 		</div>
 
@@ -1386,9 +1389,9 @@ class YITH_Proteo_Wizard {
 	/**
 	 * Do plugins' AJAX
 	 *
-	 * @internal    Used as a calback.
+	 * @internal    Used as a callback.
 	 */
-	function _ajax_plugins() {
+	public function ajax_plugins() {
 
 		if ( ! check_ajax_referer( 'wizard_nonce', 'wpnonce' ) || empty( $_POST['slug'] ) ) {
 			exit( 0 );
@@ -1450,19 +1453,19 @@ class YITH_Proteo_Wizard {
 			$this->logger->debug(
 				__( 'A plugin with the following data will be processed', 'yith-proteo-toolkit' ),
 				array(
-					'plugin_slug' => $_POST['slug'],
+					'plugin_slug' => sanitize_text_field( wp_unslash( $_POST['slug'] ) ),
 					'message'     => $json['message'],
 				)
 			);
 
-			$json['hash']    = md5( serialize( $json ) );
+			$json['hash']    = md5( wp_json_encode( $json ) );
 			$json['message'] = esc_html__( 'Installing', 'yith-proteo-toolkit' );
 			wp_send_json( $json );
 		} else {
 			$this->logger->debug(
 				__( 'A plugin with the following data was processed', 'yith-proteo-toolkit' ),
 				array(
-					'plugin_slug' => $_POST['slug'],
+					'plugin_slug' => sanitize_text_field( wp_unslash( $_POST['slug'] ) ),
 				)
 			);
 
@@ -1482,10 +1485,10 @@ class YITH_Proteo_Wizard {
 	 *
 	 * @internal    Used as a callback.
 	 */
-	function _ajax_content() {
+	public function ajax_content() {
 		static $content = null;
 
-		$selected_import = intval( $_POST['selected_index'] );
+		$selected_import = isset( $_POST['selected_index'] ) ? intval( $_POST['selected_index'] ) : 0;
 
 		if ( null === $content ) {
 			$content = $this->get_import_data( $selected_import );
@@ -1503,7 +1506,7 @@ class YITH_Proteo_Wizard {
 		}
 
 		$json         = false;
-		$this_content = $content[ $_POST['content'] ];
+		$this_content = $content[ sanitize_text_field( wp_unslash( $_POST['content'] ) ) ];
 
 		if ( isset( $_POST['proceed'] ) ) {
 			if ( is_callable( $this_content['install_callback'] ) ) {
@@ -1536,7 +1539,7 @@ class YITH_Proteo_Wizard {
 				'url'            => admin_url( 'admin-ajax.php' ),
 				'action'         => 'wizard_content',
 				'proceed'        => 'true',
-				'content'        => $_POST['content'],
+				'content'        => sanitize_text_field( wp_unslash( $_POST['content'] ) ),
 				'_wpnonce'       => wp_create_nonce( 'wizard_nonce' ),
 				'selected_index' => $selected_import,
 				'message'        => $this_content['installing'],
@@ -1546,14 +1549,14 @@ class YITH_Proteo_Wizard {
 		}
 
 		if ( $json ) {
-			$json['hash'] = md5( serialize( $json ) );
+			$json['hash'] = md5( wp_json_encode( $json ) );
 			wp_send_json( $json );
 		} else {
 			$this->logger->error(
 				__( 'The content import AJAX call failed with this passed data', 'yith-proteo-toolkit' ),
 				array(
 					'selected_content_index' => $selected_import,
-					'importing_content'      => $_POST['content'],
+					'importing_content'      => sanitize_text_field( wp_unslash( $_POST['content'] ) ),
 					'importing_data'         => $this_content['data'],
 				)
 			);
@@ -1573,7 +1576,7 @@ class YITH_Proteo_Wizard {
 	/**
 	 * AJAX call to retrieve total items (posts, pages, CPT, attachments) for the content import.
 	 */
-	public function _ajax_get_total_content_import_items() {
+	public function ajax_get_total_content_import_items() {
 		if ( ! check_ajax_referer( 'wizard_nonce', 'wpnonce' ) && empty( $_POST['selected_index'] ) ) {
 			$this->logger->error( __( 'The content importer AJAX call for retrieving total content import items failed to start, because of incorrect data.', 'yith-proteo-toolkit' ) );
 
@@ -1724,7 +1727,7 @@ class YITH_Proteo_Wizard {
 		$data['action']   = 'wizard_content';
 		$data['content']  = 'content';
 		$data['_wpnonce'] = wp_create_nonce( 'wizard_nonce' );
-		$data['hash']     = md5( rand() ); // Has to be unique (check JS code catching this AJAX response).
+		$data['hash']     = md5( wp_rand() ); // Has to be unique (check JS code catching this AJAX response).
 
 		return $data;
 	}
@@ -1806,7 +1809,7 @@ class YITH_Proteo_Wizard {
 		if ( ! empty( $existing_name ) ) {
 			$this->import_file_base_name = $existing_name;
 		} else {
-			$this->import_file_base_name = date( 'Y-m-d__H-i-s' );
+			$this->import_file_base_name = gmdate( 'Y-m-d__H-i-s' );
 		}
 
 		set_transient( 'wizard_import_file_base_name', $this->import_file_base_name, MINUTE_IN_SECONDS );
@@ -1915,6 +1918,9 @@ class YITH_Proteo_Wizard {
 	 * AJAX callback for the 'wizard_update_selected_import_data_info' action.
 	 */
 	public function update_selected_import_data_info() {
+		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'wizard' ) ) {
+			wp_send_json_error();
+		}
 		$selected_index = ! isset( $_POST['selected_index'] ) ? false : intval( $_POST['selected_index'] );
 
 		if ( false === $selected_index ) {

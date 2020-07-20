@@ -3,7 +3,7 @@
  * Plugin Name:         YITH Proteo Toolkit
  * Plugin URI:          https://yithemes.com
  * Description:         Add extra features to YITH Proteo theme.
- * Version:             1.0.0.2
+ * Version:             1.0.0.3
  * Author:              YITH
  * Author URI:          https://yithemes.com/
  * Requires at least:   5.3
@@ -12,7 +12,6 @@
  * Text Domain: yith-proteo-toolkit
  *
  * @package YITH_Proteo_tookit
- * @category Core
  * @author YITH
  */
 

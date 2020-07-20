@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: proteo, yith, yithemes, toolkit, wizard, utils, yith proteo
 Requires at least: 5.0
 Tested up to: 5.4
-Stable tag: 1.0.0
+Stable tag: 1.0.0.3
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -67,6 +67,9 @@ You can find the setup wizard in Dashboard > Appearance > Theme Setup
 
 
 == Changelog ==
+=  1.0.0.3 - Released on 20 July 2020 =
+
+* Code refactoring
 
 =  1.0.0 - Released on 27 May 2020 =
 

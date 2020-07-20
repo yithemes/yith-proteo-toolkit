@@ -38,23 +38,23 @@ class WXRImporter extends \WP_Importer {
 
 	// information to import from WXR file
 	protected $categories = array();
-	protected $tags = array();
-	protected $base_url = '';
+	protected $tags       = array();
+	protected $base_url   = '';
 
 	// TODO: REMOVE THESE
-	protected $processed_terms = array();
-	protected $processed_posts = array();
+	protected $processed_terms      = array();
+	protected $processed_posts      = array();
 	protected $processed_menu_items = array();
-	protected $menu_item_orphans = array();
-	protected $missing_menu_items = array();
+	protected $menu_item_orphans    = array();
+	protected $missing_menu_items   = array();
 
 	// NEW STYLE
-	protected $mapping = array();
+	protected $mapping            = array();
 	protected $requires_remapping = array();
-	protected $exists = array();
+	protected $exists             = array();
 	protected $user_slug_override = array();
 
-	protected $url_remap = array();
+	protected $url_remap       = array();
 	protected $featured_images = array();
 
 	/**
@@ -86,21 +86,24 @@ class WXRImporter extends \WP_Importer {
 			'user'    => array(),
 		);
 
-		$this->mapping = $empty_types;
+		$this->mapping              = $empty_types;
 		$this->mapping['user_slug'] = array();
-		$this->mapping['term_id'] = array();
-		$this->requires_remapping = $empty_types;
-		$this->exists = $empty_types;
+		$this->mapping['term_id']   = array();
+		$this->requires_remapping   = $empty_types;
+		$this->exists               = $empty_types;
 
-		$this->options = wp_parse_args( $options, array(
-			'prefill_existing_posts'    => true,
-			'prefill_existing_comments' => true,
-			'prefill_existing_terms'    => true,
-			'update_attachment_guids'   => false,
-			'fetch_attachments'         => false,
-			'aggressive_url_search'     => false,
-			'default_author'            => null,
-		) );
+		$this->options = wp_parse_args(
+			$options,
+			array(
+				'prefill_existing_posts'    => true,
+				'prefill_existing_comments' => true,
+				'prefill_existing_terms'    => true,
+				'update_attachment_guids'   => false,
+				'fetch_attachments'         => false,
+				'aggressive_url_search'     => false,
+				'default_author'            => null,
+			)
+		);
 	}
 
 	public function set_logger( $logger ) {
@@ -163,11 +166,13 @@ class WXRImporter extends \WP_Importer {
 					$this->version = $reader->readString();
 
 					if ( version_compare( $this->version, self::MAX_WXR_VERSION, '>' ) ) {
-						$this->logger->warning( sprintf(
-							__( 'This WXR file (version %s) is newer than the importer (version %s) and may not be supported. Please consider updating.', 'wordpress-importer' ),
-							$this->version,
-							self::MAX_WXR_VERSION
-						) );
+						$this->logger->warning(
+							sprintf(
+								__( 'This WXR file (version %1$s) is newer than the importer (version %2$s) and may not be supported. Please consider updating.', 'wordpress-importer' ),
+								$this->version,
+								self::MAX_WXR_VERSION
+							)
+						);
 					}
 
 					// Handled everything in this node, move on to the next
@@ -213,7 +218,7 @@ class WXRImporter extends \WP_Importer {
 					break;
 
 				case 'item':
-					$node = $reader->expand();
+					$node   = $reader->expand();
 					$parsed = $this->parse_post_node( $node );
 					if ( is_wp_error( $parsed ) ) {
 						$this->log_error( $parsed );
@@ -279,11 +284,13 @@ class WXRImporter extends \WP_Importer {
 					$this->version = $reader->readString();
 
 					if ( version_compare( $this->version, self::MAX_WXR_VERSION, '>' ) ) {
-						$this->logger->warning( sprintf(
-							__( 'This WXR file (version %s) is newer than the importer (version %s) and may not be supported. Please consider updating.', 'wordpress-importer' ),
-							$this->version,
-							self::MAX_WXR_VERSION
-						) );
+						$this->logger->warning(
+							sprintf(
+								__( 'This WXR file (version %1$s) is newer than the importer (version %2$s) and may not be supported. Please consider updating.', 'wordpress-importer' ),
+								$this->version,
+								self::MAX_WXR_VERSION
+							)
+						);
 					}
 
 					// Handled everything in this node, move on to the next
@@ -352,11 +359,13 @@ class WXRImporter extends \WP_Importer {
 					$this->version = $reader->readString();
 
 					if ( version_compare( $this->version, self::MAX_WXR_VERSION, '>' ) ) {
-						$this->logger->warning( sprintf(
-							__( 'This WXR file (version %s) is newer than the importer (version %s) and may not be supported. Please consider updating.', 'wordpress-importer' ),
-							$this->version,
-							self::MAX_WXR_VERSION
-						) );
+						$this->logger->warning(
+							sprintf(
+								__( 'This WXR file (version %1$s) is newer than the importer (version %2$s) and may not be supported. Please consider updating.', 'wordpress-importer' ),
+								$this->version,
+								self::MAX_WXR_VERSION
+							)
+						);
 					}
 
 					// Handled everything in this node, move on to the next
@@ -371,7 +380,7 @@ class WXRImporter extends \WP_Importer {
 					break;
 
 				case 'item':
-					$node = $reader->expand();
+					$node   = $reader->expand();
 					$parsed = $this->parse_post_node( $node );
 					if ( is_wp_error( $parsed ) ) {
 						$this->log_error( $parsed );
@@ -597,10 +606,10 @@ class WXRImporter extends \WP_Importer {
 	 * @return array|WP_Error Post data array on success, error otherwise.
 	 */
 	protected function parse_post_node( $node ) {
-		$data = array();
-		$meta = array();
+		$data     = array();
+		$meta     = array();
 		$comments = array();
-		$terms = array();
+		$terms    = array();
 
 		foreach ( $node->childNodes as $child ) {
 			// We only care about child elements
@@ -738,7 +747,7 @@ class WXRImporter extends \WP_Importer {
 			return false;
 		}
 
-		$original_id = isset( $data['post_id'] )     ? (int) $data['post_id']     : 0;
+		$original_id = isset( $data['post_id'] ) ? (int) $data['post_id'] : 0;
 		$parent_id   = isset( $data['post_parent'] ) ? (int) $data['post_parent'] : 0;
 		$author_id   = isset( $data['post_author'] ) ? (int) $data['post_author'] : 0;
 
@@ -751,21 +760,25 @@ class WXRImporter extends \WP_Importer {
 
 		// Is this type even valid?
 		if ( ! $post_type_object ) {
-			$this->logger->warning( sprintf(
-				__( 'Failed to import "%s": Invalid post type %s', 'wordpress-importer' ),
-				$data['post_title'],
-				$data['post_type']
-			) );
+			$this->logger->warning(
+				sprintf(
+					__( 'Failed to import "%1$s": Invalid post type %2$s', 'wordpress-importer' ),
+					$data['post_title'],
+					$data['post_type']
+				)
+			);
 			return false;
 		}
 
 		$post_exists = $this->post_exists( $data );
 		if ( $post_exists ) {
-			$this->logger->info( sprintf(
-				__( '%s "%s" already exists.', 'wordpress-importer' ),
-				$post_type_object->labels->singular_name,
-				$data['post_title']
-			) );
+			$this->logger->info(
+				sprintf(
+					__( '%1$s "%2$s" already exists.', 'wordpress-importer' ),
+					$post_type_object->labels->singular_name,
+					$data['post_title']
+				)
+			);
 
 			// Even though this post already exists, new comments might need importing
 			$this->process_comments( $comments, $original_id, $data, $post_exists );
@@ -779,7 +792,10 @@ class WXRImporter extends \WP_Importer {
 			if ( isset( $this->mapping['post'][ $parent_id ] ) ) {
 				$data['post_parent'] = $this->mapping['post'][ $parent_id ];
 			} else {
-				$meta[] = array( 'key' => '_wxr_import_parent', 'value' => $parent_id );
+				$meta[]             = array(
+					'key'   => '_wxr_import_parent',
+					'value' => $parent_id,
+				);
 				$requires_remapping = true;
 
 				$data['post_parent'] = 0;
@@ -794,7 +810,10 @@ class WXRImporter extends \WP_Importer {
 		} elseif ( isset( $this->mapping['user_slug'][ $author ] ) ) {
 			$data['post_author'] = $this->mapping['user_slug'][ $author ];
 		} else {
-			$meta[] = array( 'key' => '_wxr_import_user_slug', 'value' => $author );
+			$meta[]             = array(
+				'key'   => '_wxr_import_user_slug',
+				'value' => $author,
+			);
 			$requires_remapping = true;
 
 			$data['post_author'] = (int) get_current_user_id();
@@ -802,7 +821,10 @@ class WXRImporter extends \WP_Importer {
 
 		// Does the post look like it contains attachment images?
 		if ( preg_match( self::REGEX_HAS_ATTACHMENT_REFS, $data['post_content'] ) ) {
-			$meta[] = array( 'key' => '_wxr_import_has_attachment_refs', 'value' => true );
+			$meta[]             = array(
+				'key'   => '_wxr_import_has_attachment_refs',
+				'value' => true,
+			);
 			$requires_remapping = true;
 		}
 
@@ -810,7 +832,7 @@ class WXRImporter extends \WP_Importer {
 		$postdata = array(
 			'import_id' => $data['post_id'],
 		);
-		$allowed = array(
+		$allowed  = array(
 			'post_author'    => true,
 			'post_date'      => true,
 			'post_date_gmt'  => true,
@@ -839,25 +861,29 @@ class WXRImporter extends \WP_Importer {
 
 		if ( 'attachment' === $postdata['post_type'] ) {
 			if ( ! $this->options['fetch_attachments'] ) {
-				$this->logger->notice( sprintf(
-					__( 'Skipping attachment "%s", fetching attachments disabled' ),
-					$data['post_title']
-				) );
+				$this->logger->notice(
+					sprintf(
+						__( 'Skipping attachment "%s", fetching attachments disabled' ),
+						$data['post_title']
+					)
+				);
 				return false;
 			}
 			$remote_url = ! empty( $data['attachment_url'] ) ? $data['attachment_url'] : $data['guid'];
-			$post_id = $this->process_attachment( $postdata, $meta, $remote_url );
+			$post_id    = $this->process_attachment( $postdata, $meta, $remote_url );
 		} else {
 			$post_id = wp_insert_post( $postdata, true );
 			do_action( 'wp_import_insert_post', $post_id, $original_id, $postdata, $data );
 		}
 
 		if ( is_wp_error( $post_id ) ) {
-			$this->logger->error( sprintf(
-				__( 'Failed to import "%s" (%s)', 'wordpress-importer' ),
-				$data['post_title'],
-				$post_type_object->labels->singular_name
-			) );
+			$this->logger->error(
+				sprintf(
+					__( 'Failed to import "%1$s" (%2$s)', 'wordpress-importer' ),
+					$data['post_title'],
+					$post_type_object->labels->singular_name
+				)
+			);
 			$this->logger->debug( $post_id->get_error_message() );
 
 			/**
@@ -885,16 +911,20 @@ class WXRImporter extends \WP_Importer {
 		}
 		$this->mark_post_exists( $data, $post_id );
 
-		$this->logger->info( sprintf(
-			__( 'Imported "%s" (%s)', 'wordpress-importer' ),
-			$data['post_title'],
-			$post_type_object->labels->singular_name
-		) );
-		$this->logger->debug( sprintf(
-			__( 'Post %d remapped to %d', 'wordpress-importer' ),
-			$original_id,
-			$post_id
-		) );
+		$this->logger->info(
+			sprintf(
+				__( 'Imported "%1$s" (%2$s)', 'wordpress-importer' ),
+				$data['post_title'],
+				$post_type_object->labels->singular_name
+			)
+		);
+		$this->logger->debug(
+			sprintf(
+				__( 'Post %1$d remapped to %2$d', 'wordpress-importer' ),
+				$original_id,
+				$post_id
+			)
+		);
 
 		// Handle the terms too
 		$terms = apply_filters( 'wp_import_post_terms', $terms, $post_id, $data );
@@ -903,7 +933,7 @@ class WXRImporter extends \WP_Importer {
 			$term_ids = array();
 			foreach ( $terms as $term ) {
 				$taxonomy = $term['taxonomy'];
-				$key = sha1( $taxonomy . ':' . $term['slug'] );
+				$key      = sha1( $taxonomy . ':' . $term['slug'] );
 
 				if ( isset( $this->mapping['term'][ $key ] ) ) {
 					$term_ids[ $taxonomy ][] = (int) $this->mapping['term'][ $key ];
@@ -918,23 +948,24 @@ class WXRImporter extends \WP_Importer {
 					 * Maybe something better can be done in the future?
 					 *
 					 * Original issue reported here: https://wordpress.org/support/topic/post-format-videoquotegallery-became-format-standard/#post-8447683
-					 *
 					 */
 					if ( 'post_format' === $taxonomy ) {
 						$term_exists = term_exists( $term['slug'], $taxonomy );
-						$term_id = is_array( $term_exists ) ? $term_exists['term_id'] : $term_exists;
+						$term_id     = is_array( $term_exists ) ? $term_exists['term_id'] : $term_exists;
 
 						if ( empty( $term_id ) ) {
 							$t = wp_insert_term( $term['name'], $taxonomy, array( 'slug' => $term['slug'] ) );
 							if ( ! is_wp_error( $t ) ) {
-								$term_id = $t['term_id'];
+								$term_id                       = $t['term_id'];
 								$this->mapping['term'][ $key ] = $term_id;
 							} else {
-								$this->logger->warning( sprintf(
-									esc_html__( 'Failed to import term: %s - %s', 'wordpress-importer' ),
-									esc_html( $taxonomy ),
-									esc_html( $term['name'] )
-								) );
+								$this->logger->warning(
+									sprintf(
+										esc_html__( 'Failed to import term: %1$s - %2$s', 'wordpress-importer' ),
+										esc_html( $taxonomy ),
+										esc_html( $term['name'] )
+									)
+								);
 								continue;
 							}
 						}
@@ -944,7 +975,10 @@ class WXRImporter extends \WP_Importer {
 						}
 					} // End of fix.
 					else {
-						$meta[] = array( 'key' => '_wxr_import_term', 'value' => $term );
+						$meta[]             = array(
+							'key'   => '_wxr_import_term',
+							'value' => $term,
+						);
 						$requires_remapping = true;
 					}
 				}
@@ -987,9 +1021,9 @@ class WXRImporter extends \WP_Importer {
 	 */
 	protected function process_menu_item_meta( $post_id, $data, $meta ) {
 
-		$item_type = get_post_meta( $post_id, '_menu_item_type', true );
+		$item_type          = get_post_meta( $post_id, '_menu_item_type', true );
 		$original_object_id = get_post_meta( $post_id, '_menu_item_object_id', true );
-		$object_id = null;
+		$object_id          = null;
 
 		$this->logger->debug( sprintf( 'Processing menu item %s', $item_type ) );
 
@@ -1041,7 +1075,7 @@ class WXRImporter extends \WP_Importer {
 	/**
 	 * If fetching attachments is enabled then attempt to create a new attachment
 	 *
-	 * @param array $post Attachment post details from WXR
+	 * @param array  $post Attachment post details from WXR
 	 * @param string $url URL to fetch attachment from
 	 * @return int|WP_Error Post ID on success, WP_Error otherwise
 	 */
@@ -1097,13 +1131,14 @@ class WXRImporter extends \WP_Importer {
 
 		// If we have a HTTPS URL, ensure the HTTP URL gets replaced too
 		if ( substr( $remote_url, 0, 8 ) === 'https://' ) {
-			$insecure_url = 'http' . substr( $remote_url, 5 );
+			$insecure_url                     = 'http' . substr( $remote_url, 5 );
 			$this->url_remap[ $insecure_url ] = $upload['url'];
 		}
 
 		if ( $this->options['aggressive_url_search'] ) {
 			// remap resized image URLs, works by stripping the extension and remapping the URL stub.
-			/*if ( preg_match( '!^image/!', $info['type'] ) ) {
+			/*
+			if ( preg_match( '!^image/!', $info['type'] ) ) {
 				$parts = pathinfo( $remote_url );
 				$name = basename( $parts['basename'], ".{$parts['extension']}" ); // PATHINFO_FILENAME in PHP 5.2
 
@@ -1152,7 +1187,7 @@ class WXRImporter extends \WP_Importer {
 	 * Process and import post meta items.
 	 *
 	 * @param array $meta List of meta data arrays
-	 * @param int $post_id Post to associate with
+	 * @param int   $post_id Post to associate with
 	 * @param array $post Post data
 	 * @return int|WP_Error Number of meta items imported on success, error otherwise.
 	 */
@@ -1173,7 +1208,7 @@ class WXRImporter extends \WP_Importer {
 				return false;
 			}
 
-			$key = apply_filters( 'import_post_meta_key', $meta_item['key'], $post_id, $post );
+			$key   = apply_filters( 'import_post_meta_key', $meta_item['key'], $post_id, $post );
 			$value = false;
 
 			if ( '_edit_last' === $key ) {
@@ -1286,7 +1321,7 @@ class WXRImporter extends \WP_Importer {
 	 * Process and import comment data.
 	 *
 	 * @param array $comments List of comment data arrays.
-	 * @param int $post_id Post to associate with.
+	 * @param int   $post_id Post to associate with.
 	 * @param array $post Post data.
 	 * @return int|WP_Error Number of comments imported on success, error otherwise.
 	 */
@@ -1314,8 +1349,8 @@ class WXRImporter extends \WP_Importer {
 				return false;
 			}
 
-			$original_id = isset( $comment['comment_id'] )      ? (int) $comment['comment_id']      : 0;
-			$parent_id   = isset( $comment['comment_parent'] )  ? (int) $comment['comment_parent']  : 0;
+			$original_id = isset( $comment['comment_id'] ) ? (int) $comment['comment_id'] : 0;
+			$parent_id   = isset( $comment['comment_parent'] ) ? (int) $comment['comment_parent'] : 0;
 			$author_id   = isset( $comment['comment_user_id'] ) ? (int) $comment['comment_user_id'] : 0;
 
 			// if this is a new post we can skip the comment_exists() check
@@ -1339,7 +1374,10 @@ class WXRImporter extends \WP_Importer {
 					$comment['comment_parent'] = $this->mapping['comment'][ $parent_id ];
 				} else {
 					// Prepare for remapping later
-					$meta[] = array( 'key' => '_wxr_import_parent', 'value' => $parent_id );
+					$meta[]             = array(
+						'key'   => '_wxr_import_parent',
+						'value' => $parent_id,
+					);
 					$requires_remapping = true;
 
 					// Wipe the parent for now
@@ -1353,7 +1391,10 @@ class WXRImporter extends \WP_Importer {
 					$comment['user_id'] = $this->mapping['user'][ $author_id ];
 				} else {
 					// Prepare for remapping later
-					$meta[] = array( 'key' => '_wxr_import_user', 'value' => $author_id );
+					$meta[]             = array(
+						'key'   => '_wxr_import_user',
+						'value' => $author_id,
+					);
 					$requires_remapping = true;
 
 					// Wipe the user for now
@@ -1363,10 +1404,10 @@ class WXRImporter extends \WP_Importer {
 
 			// Run standard core filters
 			$comment['comment_post_ID'] = $post_id;
-			$comment = wp_filter_comment( $comment );
+			$comment                    = wp_filter_comment( $comment );
 
 			// wp_insert_comment expects slashed data
-			$comment_id = wp_insert_comment( wp_slash( $comment ) );
+			$comment_id                               = wp_insert_comment( wp_slash( $comment ) );
 			$this->mapping['comment'][ $original_id ] = $comment_id;
 			if ( $requires_remapping ) {
 				$this->requires_remapping['comment'][ $comment_id ] = true;
@@ -1504,7 +1545,7 @@ class WXRImporter extends \WP_Importer {
 		}
 
 		// Have we already handled this user?
-		$original_id = isset( $data['ID'] ) ? $data['ID'] : 0;
+		$original_id   = isset( $data['ID'] ) ? $data['ID'] : 0;
 		$original_slug = $data['user_login'];
 
 		if ( isset( $this->mapping['user'][ $original_id ] ) ) {
@@ -1534,8 +1575,8 @@ class WXRImporter extends \WP_Importer {
 		}
 
 		$userdata = array(
-			'user_login'   => sanitize_user( $login, true ),
-			'user_pass'    => wp_generate_password(),
+			'user_login' => sanitize_user( $login, true ),
+			'user_pass'  => wp_generate_password(),
 		);
 
 		$allowed = array(
@@ -1554,10 +1595,12 @@ class WXRImporter extends \WP_Importer {
 
 		$user_id = wp_insert_user( wp_slash( $userdata ) );
 		if ( is_wp_error( $user_id ) ) {
-			$this->logger->error( sprintf(
-				__( 'Failed to import user "%s"', 'wordpress-importer' ),
-				$userdata['user_login']
-			) );
+			$this->logger->error(
+				sprintf(
+					__( 'Failed to import user "%s"', 'wordpress-importer' ),
+					$userdata['user_login']
+				)
+			);
 			$this->logger->debug( $user_id->get_error_message() );
 
 			/**
@@ -1575,15 +1618,19 @@ class WXRImporter extends \WP_Importer {
 		}
 		$this->mapping['user_slug'][ $original_slug ] = $user_id;
 
-		$this->logger->info( sprintf(
-			__( 'Imported user "%s"', 'wordpress-importer' ),
-			$userdata['user_login']
-		) );
-		$this->logger->debug( sprintf(
-			__( 'User %d remapped to %d', 'wordpress-importer' ),
-			$original_id,
-			$user_id
-		) );
+		$this->logger->info(
+			sprintf(
+				__( 'Imported user "%s"', 'wordpress-importer' ),
+				$userdata['user_login']
+			)
+		);
+		$this->logger->debug(
+			sprintf(
+				__( 'User %1$d remapped to %2$d', 'wordpress-importer' ),
+				$original_id,
+				$user_id
+			)
+		);
 
 		// TODO: Implement meta handling once WXR includes it
 		/**
@@ -1641,7 +1688,7 @@ class WXRImporter extends \WP_Importer {
 			$key = array_search( $child->tagName, $tag_name );
 			if ( $key ) {
 				$data[ $key ] = $child->textContent;
-			} else if ( $child->tagName == 'wp:termmeta' ) {
+			} elseif ( $child->tagName == 'wp:termmeta' ) {
 				$meta_item = $this->parse_meta_node( $child );
 				if ( ! empty( $meta_item ) ) {
 					$meta[] = $meta_item;
@@ -1675,18 +1722,19 @@ class WXRImporter extends \WP_Importer {
 
 		$original_id = isset( $data['id'] ) ? (int) $data['id'] : 0;
 
-		/* FIX for OCDI!
+		/*
+		 FIX for OCDI!
 		 * As of WP 4.5, export.php returns the SLUG for the term's parent,
 		 * rather than an integer ID (this differs from a post_parent)
 		 * wp_insert_term and wp_update_term use the key: 'parent' and an integer value 'id'
 		 */
 		$term_slug   = isset( $data['slug'] ) ? $data['slug'] : '';
- 		$parent_slug = isset( $data['parent'] ) ? $data['parent'] : '';
+		$parent_slug = isset( $data['parent'] ) ? $data['parent'] : '';
 
 		$mapping_key = sha1( $data['taxonomy'] . ':' . $data['slug'] );
-		$existing = $this->term_exists( $data );
+		$existing    = $this->term_exists( $data );
 		if ( $existing ) {
-			$this->mapping['term'][ $mapping_key ] = $existing;
+			$this->mapping['term'][ $mapping_key ]    = $existing;
 			$this->mapping['term_id'][ $original_id ] = $existing;
 			$this->mapping['term_slug'][ $term_slug ] = $existing;
 			return false;
@@ -1698,10 +1746,10 @@ class WXRImporter extends \WP_Importer {
 		}
 
 		$termdata = array();
-		$allowed = array(
-			'slug' => true,
+		$allowed  = array(
+			'slug'        => true,
 			'description' => true,
-			'parent' => true, // The parent_id may have already been set, so pass this back to the newly inserted term.
+			'parent'      => true, // The parent_id may have already been set, so pass this back to the newly inserted term.
 		);
 
 		// Map the parent comment, or mark it as one we need to fix
@@ -1711,7 +1759,10 @@ class WXRImporter extends \WP_Importer {
 				$data['parent'] = $this->mapping['term_slug'][ $parent_slug ];
 			} else {
 				// Prepare for remapping later
-				$meta[] = array( 'key' => '_wxr_import_parent', 'value' => $parent_slug );
+				$meta[]             = array(
+					'key'   => '_wxr_import_parent',
+					'value' => $parent_slug,
+				);
 				$requires_remapping = true;
 
 				// Wipe the parent id for now
@@ -1729,11 +1780,13 @@ class WXRImporter extends \WP_Importer {
 
 		$result = wp_insert_term( $data['name'], $data['taxonomy'], $termdata );
 		if ( is_wp_error( $result ) ) {
-			$this->logger->warning( sprintf(
-				__( 'Failed to import %s %s', 'wordpress-importer' ),
-				$data['taxonomy'],
-				$data['name']
-			) );
+			$this->logger->warning(
+				sprintf(
+					__( 'Failed to import %1$s %2$s', 'wordpress-importer' ),
+					$data['taxonomy'],
+					$data['name']
+				)
+			);
 			$this->logger->debug( $result->get_error_message() );
 			do_action( 'wp_import_insert_term_failed', $result, $data );
 
@@ -1751,7 +1804,7 @@ class WXRImporter extends \WP_Importer {
 		$term_id = $result['term_id'];
 
 		// Now prepare to map this new term.
-		$this->mapping['term'][ $mapping_key ] = $term_id;
+		$this->mapping['term'][ $mapping_key ]    = $term_id;
 		$this->mapping['term_id'][ $original_id ] = $term_id;
 		$this->mapping['term_slug'][ $term_slug ] = $term_id;
 
@@ -1768,16 +1821,20 @@ class WXRImporter extends \WP_Importer {
 			$this->requires_remapping['term'][ $term_id ] = $data['taxonomy'];
 		}
 
-		$this->logger->info( sprintf(
-			__( 'Imported "%s" (%s)', 'wordpress-importer' ),
-			$data['name'],
-			$data['taxonomy']
-		) );
-		$this->logger->debug( sprintf(
-			__( 'Term %d remapped to %d', 'wordpress-importer' ),
-			$original_id,
-			$term_id
-		) );
+		$this->logger->info(
+			sprintf(
+				__( 'Imported "%1$s" (%2$s)', 'wordpress-importer' ),
+				$data['name'],
+				$data['taxonomy']
+			)
+		);
+		$this->logger->debug(
+			sprintf(
+				__( 'Term %1$d remapped to %2$d', 'wordpress-importer' ),
+				$original_id,
+				$term_id
+			)
+		);
 
 		// Actuall process of the term meta data.
 		$this->process_term_meta( $meta, $term_id, $data );
@@ -1797,7 +1854,7 @@ class WXRImporter extends \WP_Importer {
 	 * Process and import term meta items.
 	 *
 	 * @param array $meta List of meta data arrays
-	 * @param int $term_id Term ID to associate with
+	 * @param int   $term_id Term ID to associate with
 	 * @param array $term Term data
 	 * @return int|bool Number of meta items imported on success, false otherwise.
 	 */
@@ -1819,7 +1876,7 @@ class WXRImporter extends \WP_Importer {
 				continue;
 			}
 
-			$key = apply_filters( 'import_term_meta_key', $meta_item['key'], $term_id, $term );
+			$key   = apply_filters( 'import_term_meta_key', $meta_item['key'], $term_id, $term );
 			$value = false;
 
 			if ( $key ) {
@@ -1831,21 +1888,24 @@ class WXRImporter extends \WP_Importer {
 				$result = add_term_meta( $term_id, $key, $value );
 
 				if ( is_wp_error( $result ) ) {
-					$this->logger->warning( sprintf(
-						__( 'Failed to add metakey: %s, metavalue: %s to term_id: %d', 'wordpress-importer' ),
-						$key,
-						$value,
-						$term_id
-					) );
+					$this->logger->warning(
+						sprintf(
+							__( 'Failed to add metakey: %1$s, metavalue: %2$s to term_id: %3$d', 'wordpress-importer' ),
+							$key,
+							$value,
+							$term_id
+						)
+					);
 					do_action( 'wxr_importer.process_failed.termmeta', $result, $meta_item, $term_id, $term );
-				}
-				else {
-					$this->logger->debug( sprintf(
-						__( 'Meta for term_id %d : %s => %s ; successfully added!', 'wordpress-importer' ),
-						$term_id,
-						$key,
-						$value
-					) );
+				} else {
+					$this->logger->debug(
+						sprintf(
+							__( 'Meta for term_id %1$d : %2$s => %3$s ; successfully added!', 'wordpress-importer' ),
+							$term_id,
+							$key,
+							$value
+						)
+					);
 				}
 
 				do_action( 'import_term_meta', $term_id, $key, $value );
@@ -1859,7 +1919,7 @@ class WXRImporter extends \WP_Importer {
 	 * Attempt to download a remote file attachment
 	 *
 	 * @param string $url URL of item to fetch
-	 * @param array $post Attachment details
+	 * @param array  $post Attachment details
 	 * @return array|WP_Error Local file location details on success, WP_Error otherwise
 	 */
 	protected function fetch_remote_file( $url, $post ) {
@@ -1873,10 +1933,13 @@ class WXRImporter extends \WP_Importer {
 		}
 
 		// fetch the remote url and write it to the placeholder file
-		$response = wp_remote_get( $url, array(
-			'stream' => true,
-			'filename' => $upload['file'],
-		) );
+		$response = wp_remote_get(
+			$url,
+			array(
+				'stream'   => true,
+				'filename' => $upload['file'],
+			)
+		);
 
 		// request failed
 		if ( is_wp_error( $response ) ) {
@@ -1901,15 +1964,15 @@ class WXRImporter extends \WP_Importer {
 		}
 
 		$filesize = filesize( $upload['file'] );
-		$headers = wp_remote_retrieve_headers( $response );
+		$headers  = wp_remote_retrieve_headers( $response );
 
 		// OCDI fix!
 		// Smaller images with server compression do not pass this rule.
 		// More info here: https://github.com/proteusthemes/WordPress-Importer/pull/2
 		//
 		// if ( isset( $headers['content-length'] ) && $filesize !== (int) $headers['content-length'] ) {
-		// 	unlink( $upload['file'] );
-		// 	return new \WP_Error( 'import_file_error', __( 'Remote file is incorrect size', 'wordpress-importer' ) );
+		// unlink( $upload['file'] );
+		// return new \WP_Error( 'import_file_error', __( 'Remote file is incorrect size', 'wordpress-importer' ) );
 		// }
 
 		if ( 0 === $filesize ) {
@@ -1942,12 +2005,14 @@ class WXRImporter extends \WP_Importer {
 
 	protected function post_process_posts( $todo ) {
 		foreach ( $todo as $post_id => $_ ) {
-			$this->logger->debug( sprintf(
+			$this->logger->debug(
+				sprintf(
 				// Note: title intentionally not used to skip extra processing
 				// for when debug logging is off
-				__( 'Running post-processing for post %d', 'wordpress-importer' ),
-				$post_id
-			) );
+					__( 'Running post-processing for post %d', 'wordpress-importer' ),
+					$post_id
+				)
+			);
 
 			$data = array();
 
@@ -1957,16 +2022,20 @@ class WXRImporter extends \WP_Importer {
 				if ( isset( $this->mapping['post'][ $parent_id ] ) ) {
 					$data['post_parent'] = $this->mapping['post'][ $parent_id ];
 				} else {
-					$this->logger->warning( sprintf(
-						__( 'Could not find the post parent for "%s" (post #%d)', 'wordpress-importer' ),
-						get_the_title( $post_id ),
-						$post_id
-					) );
-					$this->logger->debug( sprintf(
-						__( 'Post %d was imported with parent %d, but could not be found', 'wordpress-importer' ),
-						$post_id,
-						$parent_id
-					) );
+					$this->logger->warning(
+						sprintf(
+							__( 'Could not find the post parent for "%1$s" (post #%2$d)', 'wordpress-importer' ),
+							get_the_title( $post_id ),
+							$post_id
+						)
+					);
+					$this->logger->debug(
+						sprintf(
+							__( 'Post %1$d was imported with parent %2$d, but could not be found', 'wordpress-importer' ),
+							$post_id,
+							$parent_id
+						)
+					);
 				}
 			}
 
@@ -1976,22 +2045,26 @@ class WXRImporter extends \WP_Importer {
 				if ( isset( $this->mapping['user_slug'][ $author_slug ] ) ) {
 					$data['post_author'] = $this->mapping['user_slug'][ $author_slug ];
 				} else {
-					$this->logger->warning( sprintf(
-						__( 'Could not find the author for "%s" (post #%d)', 'wordpress-importer' ),
-						get_the_title( $post_id ),
-						$post_id
-					) );
-					$this->logger->debug( sprintf(
-						__( 'Post %d was imported with author "%s", but could not be found', 'wordpress-importer' ),
-						$post_id,
-						$author_slug
-					) );
+					$this->logger->warning(
+						sprintf(
+							__( 'Could not find the author for "%1$s" (post #%2$d)', 'wordpress-importer' ),
+							get_the_title( $post_id ),
+							$post_id
+						)
+					);
+					$this->logger->debug(
+						sprintf(
+							__( 'Post %1$d was imported with author "%2$s", but could not be found', 'wordpress-importer' ),
+							$post_id,
+							$author_slug
+						)
+					);
 				}
 			}
 
 			$has_attachments = get_post_meta( $post_id, '_wxr_import_has_attachment_refs', true );
 			if ( ! empty( $has_attachments ) ) {
-				$post = get_post( $post_id );
+				$post    = get_post( $post_id );
 				$content = $post->post_content;
 
 				// Replace all the URLs we've got
@@ -2007,22 +2080,26 @@ class WXRImporter extends \WP_Importer {
 
 			// Do we have updates to make?
 			if ( empty( $data ) ) {
-				$this->logger->debug( sprintf(
-					__( 'Post %d was marked for post-processing, but none was required.', 'wordpress-importer' ),
-					$post_id
-				) );
+				$this->logger->debug(
+					sprintf(
+						__( 'Post %d was marked for post-processing, but none was required.', 'wordpress-importer' ),
+						$post_id
+					)
+				);
 				continue;
 			}
 
 			// Run the update
 			$data['ID'] = $post_id;
-			$result = wp_update_post( $data, true );
+			$result     = wp_update_post( $data, true );
 			if ( is_wp_error( $result ) ) {
-				$this->logger->warning( sprintf(
-					__( 'Could not update "%s" (post #%d) with mapped data', 'wordpress-importer' ),
-					get_the_title( $post_id ),
-					$post_id
-				) );
+				$this->logger->warning(
+					sprintf(
+						__( 'Could not update "%1$s" (post #%2$d) with mapped data', 'wordpress-importer' ),
+						get_the_title( $post_id ),
+						$post_id
+					)
+				);
 				$this->logger->debug( $result->get_error_message() );
 				continue;
 			}
@@ -2063,17 +2140,21 @@ class WXRImporter extends \WP_Importer {
 		if ( ! empty( $menu_object ) ) {
 			update_post_meta( $post_id, '_menu_item_object_id', wp_slash( $menu_object ) );
 		} else {
-			$this->logger->warning( sprintf(
-				__( 'Could not find the menu object for "%s" (post #%d)', 'wordpress-importer' ),
-				get_the_title( $post_id ),
-				$post_id
-			) );
-			$this->logger->debug( sprintf(
-				__( 'Post %d was imported with object "%d" of type "%s", but could not be found', 'wordpress-importer' ),
-				$post_id,
-				$menu_object_id,
-				$menu_item_type
-			) );
+			$this->logger->warning(
+				sprintf(
+					__( 'Could not find the menu object for "%1$s" (post #%2$d)', 'wordpress-importer' ),
+					get_the_title( $post_id ),
+					$post_id
+				)
+			);
+			$this->logger->debug(
+				sprintf(
+					__( 'Post %1$d was imported with object "%2$d" of type "%3$s", but could not be found', 'wordpress-importer' ),
+					$post_id,
+					$menu_object_id,
+					$menu_item_type
+				)
+			);
 		}
 
 		delete_post_meta( $post_id, '_wxr_import_menu_item' );
@@ -2090,15 +2171,19 @@ class WXRImporter extends \WP_Importer {
 				if ( isset( $this->mapping['comment'][ $parent_id ] ) ) {
 					$data['comment_parent'] = $this->mapping['comment'][ $parent_id ];
 				} else {
-					$this->logger->warning( sprintf(
-						__( 'Could not find the comment parent for comment #%d', 'wordpress-importer' ),
-						$comment_id
-					) );
-					$this->logger->debug( sprintf(
-						__( 'Comment %d was imported with parent %d, but could not be found', 'wordpress-importer' ),
-						$comment_id,
-						$parent_id
-					) );
+					$this->logger->warning(
+						sprintf(
+							__( 'Could not find the comment parent for comment #%d', 'wordpress-importer' ),
+							$comment_id
+						)
+					);
+					$this->logger->debug(
+						sprintf(
+							__( 'Comment %1$d was imported with parent %2$d, but could not be found', 'wordpress-importer' ),
+							$comment_id,
+							$parent_id
+						)
+					);
 				}
 			}
 
@@ -2108,15 +2193,19 @@ class WXRImporter extends \WP_Importer {
 				if ( isset( $this->mapping['user'][ $author_id ] ) ) {
 					$data['user_id'] = $this->mapping['user'][ $author_id ];
 				} else {
-					$this->logger->warning( sprintf(
-						__( 'Could not find the author for comment #%d', 'wordpress-importer' ),
-						$comment_id
-					) );
-					$this->logger->debug( sprintf(
-						__( 'Comment %d was imported with author %d, but could not be found', 'wordpress-importer' ),
-						$comment_id,
-						$author_id
-					) );
+					$this->logger->warning(
+						sprintf(
+							__( 'Could not find the author for comment #%d', 'wordpress-importer' ),
+							$comment_id
+						)
+					);
+					$this->logger->debug(
+						sprintf(
+							__( 'Comment %1$d was imported with author %2$d, but could not be found', 'wordpress-importer' ),
+							$comment_id,
+							$author_id
+						)
+					);
 				}
 			}
 
@@ -2127,12 +2216,14 @@ class WXRImporter extends \WP_Importer {
 
 			// Run the update
 			$data['comment_ID'] = $comment_ID;
-			$result = wp_update_comment( wp_slash( $data ) );
+			$result             = wp_update_comment( wp_slash( $data ) );
 			if ( empty( $result ) ) {
-				$this->logger->warning( sprintf(
-					__( 'Could not update comment #%d with mapped data', 'wordpress-importer' ),
-					$comment_id
-				) );
+				$this->logger->warning(
+					sprintf(
+						__( 'Could not update comment #%d with mapped data', 'wordpress-importer' ),
+						$comment_id
+					)
+				);
 				continue;
 			}
 
@@ -2157,41 +2248,49 @@ class WXRImporter extends \WP_Importer {
 		// The term_id and term_taxonomy are passed-in with $this->requires_remapping['term'].
 		foreach ( $terms_to_be_remapped as $termid => $term_taxonomy ) {
 			// Basic check.
-			if( empty( $termid ) || ! is_numeric( $termid ) ) {
-				$this->logger->warning( sprintf(
-					__( 'Faulty term_id provided in terms-to-be-remapped array %s', 'wordpress-importer' ),
-					$termid
-					) );
+			if ( empty( $termid ) || ! is_numeric( $termid ) ) {
+				$this->logger->warning(
+					sprintf(
+						__( 'Faulty term_id provided in terms-to-be-remapped array %s', 'wordpress-importer' ),
+						$termid
+					)
+				);
 				continue;
 			}
 			// This cast to integer may be unnecessary.
 			$term_id = (int) $termid;
 
-			if( empty( $term_taxonomy ) ){
-				$this->logger->warning( sprintf(
-					__( 'No taxonomy provided in terms-to-be-remapped array for term #%d', 'wordpress-importer' ),
-					$term_id
-					) );
+			if ( empty( $term_taxonomy ) ) {
+				$this->logger->warning(
+					sprintf(
+						__( 'No taxonomy provided in terms-to-be-remapped array for term #%d', 'wordpress-importer' ),
+						$term_id
+					)
+				);
 				continue;
 			}
 
-			$data = array();
+			$data        = array();
 			$parent_slug = get_term_meta( $term_id, '_wxr_import_parent', true );
 
 			if ( empty( $parent_slug ) ) {
-				$this->logger->warning( sprintf(
-					__( 'No parent_slug identified in remapping-array for term: %d', 'wordpress-importer' ),
-					$term_id
-					) );
+				$this->logger->warning(
+					sprintf(
+						__( 'No parent_slug identified in remapping-array for term: %d', 'wordpress-importer' ),
+						$term_id
+					)
+				);
 				continue;
 			}
 
 			if ( ! isset( $this->mapping['term_slug'][ $parent_slug ] ) || ! is_numeric( $this->mapping['term_slug'][ $parent_slug ] ) ) {
-				$this->logger->warning( sprintf(
-					__( 'The term(%d)"s parent_slug (%s) is not found in the remapping-array.', 'wordpress-importer' ),
-					$term_id,
-					$parent_slug
-					) );
+				$this->logger->warning(
+					sprintf(
+						__( 'The term(%1$d)"s parent_slug (%2$s) is not found in the remapping-array.', 'wordpress-importer' ),
+						$term_id,
+						$parent_slug
+					)
+				);
 				continue;
 			}
 
@@ -2201,14 +2300,16 @@ class WXRImporter extends \WP_Importer {
 			// Note: the default OBJECT return results in a reserved-word clash with 'parent' [$termattributes->parent], so instead return an associative array.
 
 			if ( empty( $termattributes ) ) {
-				$this->logger->warning( sprintf(
-					__( 'No data returned by get_term_by for term_id #%d', 'wordpress-importer' ),
-					$term_id
-					) );
+				$this->logger->warning(
+					sprintf(
+						__( 'No data returned by get_term_by for term_id #%d', 'wordpress-importer' ),
+						$term_id
+					)
+				);
 				continue;
 			}
 			// Check if the correct parent id is already correctly mapped.
-			if ( isset( $termattributes['parent'] ) &&  $termattributes['parent'] == $mapped_parent ) {
+			if ( isset( $termattributes['parent'] ) && $termattributes['parent'] == $mapped_parent ) {
 				// Clear out our temporary meta key.
 				delete_term_meta( $term_id, '_wxr_import_parent' );
 				continue;
@@ -2220,21 +2321,25 @@ class WXRImporter extends \WP_Importer {
 			$result = wp_update_term( $term_id, $termattributes['taxonomy'], $termattributes );
 
 			if ( is_wp_error( $result ) ) {
-			$this->logger->warning( sprintf(
-					__( 'Could not update "%s" (term #%d) with mapped data', 'wordpress-importer' ),
-					$termattributes['name'],
-					$term_id
-				) );
+				$this->logger->warning(
+					sprintf(
+						__( 'Could not update "%1$s" (term #%2$d) with mapped data', 'wordpress-importer' ),
+						$termattributes['name'],
+						$term_id
+					)
+				);
 				$this->logger->debug( $result->get_error_message() );
 				continue;
 			}
 			// Clear out our temporary meta key.
 			delete_term_meta( $term_id, '_wxr_import_parent' );
-			$this->logger->debug( sprintf(
-				__( 'Term %d was successfully updated with parent %d', 'wordpress-importer' ),
-				$term_id,
-				$mapped_parent
-			) );
+			$this->logger->debug(
+				sprintf(
+					__( 'Term %1$d was successfully updated with parent %2$d', 'wordpress-importer' ),
+					$term_id,
+					$mapped_parent
+				)
+			);
 		}
 	}
 
@@ -2253,7 +2358,7 @@ class WXRImporter extends \WP_Importer {
 			$wpdb->query( $query );
 
 			// remap enclosure urls
-			$query = $wpdb->prepare( "UPDATE {$wpdb->postmeta} SET meta_value = REPLACE(meta_value, %s, %s) WHERE meta_key='enclosure'", $from_url, $to_url );
+			$query  = $wpdb->prepare( "UPDATE {$wpdb->postmeta} SET meta_value = REPLACE(meta_value, %s, %s) WHERE meta_key='enclosure'", $from_url, $to_url );
 			$result = $wpdb->query( $query );
 		}
 	}
@@ -2275,7 +2380,7 @@ class WXRImporter extends \WP_Importer {
 
 				// Only update if there's a difference.
 				if ( $new_id !== $value ) {
-					$this->logger->info( sprintf( esc_html__( 'Remapping featured image ID %d to new ID %d for post ID %d', 'wordpress-importer' ), $value, $new_id, $post_id ) );
+					$this->logger->info( sprintf( esc_html__( 'Remapping featured image ID %1$d to new ID %2$d for post ID %3$d', 'wordpress-importer' ), $value, $new_id, $post_id ) );
 
 					update_post_meta( $post_id, '_thumbnail_id', $new_id );
 				}
@@ -2315,7 +2420,7 @@ class WXRImporter extends \WP_Importer {
 	 * @access protected
 	 * @return int 60
 	 */
-	function bump_request_timeout($val) {
+	function bump_request_timeout( $val ) {
 		return 60;
 	}
 
@@ -2367,7 +2472,7 @@ class WXRImporter extends \WP_Importer {
 		}
 
 		// Still nothing, try post_exists, and cache it
-		$exists = post_exists( $data['post_title'], $data['post_content'], $data['post_date'] );
+		$exists                              = post_exists( $data['post_title'], $data['post_content'], $data['post_date'] );
 		$this->exists['post'][ $exists_key ] = $exists;
 
 		return $exists;
@@ -2377,10 +2482,10 @@ class WXRImporter extends \WP_Importer {
 	 * Mark the post as existing.
 	 *
 	 * @param array $data Post data to mark as existing.
-	 * @param int $post_id Post ID.
+	 * @param int   $post_id Post ID.
 	 */
 	protected function mark_post_exists( $data, $post_id ) {
-		$exists_key = $data['guid'];
+		$exists_key                          = $data['guid'];
 		$this->exists['post'][ $exists_key ] = $post_id;
 	}
 
@@ -2394,7 +2499,7 @@ class WXRImporter extends \WP_Importer {
 		$posts = $wpdb->get_results( "SELECT comment_ID, comment_author, comment_date FROM {$wpdb->comments}" );
 
 		foreach ( $posts as $item ) {
-			$exists_key = sha1( $item->comment_author . ':' . $item->comment_date );
+			$exists_key                             = sha1( $item->comment_author . ':' . $item->comment_date );
 			$this->exists['comment'][ $exists_key ] = $item->comment_ID;
 		}
 	}
@@ -2419,7 +2524,7 @@ class WXRImporter extends \WP_Importer {
 		}
 
 		// Still nothing, try comment_exists, and cache it
-		$exists = comment_exists( $data['comment_author'], $data['comment_date'] );
+		$exists                                 = comment_exists( $data['comment_author'], $data['comment_date'] );
 		$this->exists['comment'][ $exists_key ] = $exists;
 
 		return $exists;
@@ -2429,10 +2534,10 @@ class WXRImporter extends \WP_Importer {
 	 * Mark the comment as existing.
 	 *
 	 * @param array $data Comment data to mark as existing.
-	 * @param int $comment_id Comment ID.
+	 * @param int   $comment_id Comment ID.
 	 */
 	protected function mark_comment_exists( $data, $comment_id ) {
-		$exists_key = sha1( $data['comment_author'] . ':' . $data['comment_date'] );
+		$exists_key                             = sha1( $data['comment_author'] . ':' . $data['comment_date'] );
 		$this->exists['comment'][ $exists_key ] = $comment_id;
 	}
 
@@ -2443,12 +2548,12 @@ class WXRImporter extends \WP_Importer {
 	 */
 	protected function prefill_existing_terms() {
 		global $wpdb;
-		$query = "SELECT t.term_id, tt.taxonomy, t.slug FROM {$wpdb->terms} AS t";
+		$query  = "SELECT t.term_id, tt.taxonomy, t.slug FROM {$wpdb->terms} AS t";
 		$query .= " JOIN {$wpdb->term_taxonomy} AS tt ON t.term_id = tt.term_id";
-		$terms = $wpdb->get_results( $query );
+		$terms  = $wpdb->get_results( $query );
 
 		foreach ( $terms as $item ) {
-			$exists_key = sha1( $item->taxonomy . ':' . $item->slug );
+			$exists_key                          = sha1( $item->taxonomy . ':' . $item->slug );
 			$this->exists['term'][ $exists_key ] = $item->term_id;
 		}
 	}
@@ -2487,10 +2592,10 @@ class WXRImporter extends \WP_Importer {
 	 * Mark the term as existing.
 	 *
 	 * @param array $data Term data to mark as existing.
-	 * @param int $term_id Term ID.
+	 * @param int   $term_id Term ID.
 	 */
 	protected function mark_term_exists( $data, $term_id ) {
-		$exists_key = sha1( $data['taxonomy'] . ':' . $data['slug'] );
+		$exists_key                          = sha1( $data['taxonomy'] . ':' . $data['slug'] );
 		$this->exists['term'][ $exists_key ] = $term_id;
 	}
 }

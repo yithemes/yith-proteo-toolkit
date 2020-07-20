@@ -7,6 +7,9 @@ namespace ProteusThemes\WPContentImporter2;
 
 use XMLReader;
 
+/**
+ * Main importer class
+ */
 class Importer extends WXRImporter {
 
 	/**
@@ -45,11 +48,8 @@ class Importer extends WXRImporter {
 	 * @return XMLReader|boolean Reader instance on success, false otherwise.
 	 */
 	protected function get_reader( $file ) {
-		// Avoid loading external entities for security
+		// Avoid loading external entities for security.
 		$old_value = null;
-		if ( function_exists( 'libxml_disable_entity_loader' ) ) {
-			// $old_value = libxml_disable_entity_loader( true );
-		}
 
 		if ( ! class_exists( 'XMLReader' ) ) {
 			$this->logger->critical( __( 'The XMLReader class is missing! Please install the XMLReader PHP extension on your server', 'wordpress-importer' ) );
@@ -59,10 +59,6 @@ class Importer extends WXRImporter {
 
 		$reader = new XMLReader();
 		$status = $reader->open( $file );
-
-		if ( ! is_null( $old_value ) ) {
-			// libxml_disable_entity_loader( $old_value );
-		}
 
 		if ( ! $status ) {
 			$this->logger->error( __( 'Could not open the XML file for parsing!', 'wordpress-importer' ) );
@@ -77,7 +73,7 @@ class Importer extends WXRImporter {
 	 * Get the basic import content data.
 	 * Which elements are present in this import file (check possible elements in the $data variable)?
 	 *
-	 * @param $file
+	 * @param string $file Path to the WXR file for importing.
 	 *
 	 * @return array|bool
 	 */
@@ -100,7 +96,7 @@ class Importer extends WXRImporter {
 		// Start parsing!
 		while ( $reader->read() ) {
 			// Only deal with element opens.
-			if ( $reader->nodeType !== XMLReader::ELEMENT ) {
+			if ( XMLReader::ELEMENT !== $reader->nodeType ) {
 				continue;
 			}
 
@@ -145,26 +141,26 @@ class Importer extends WXRImporter {
 
 					$data['posts'] = true;
 
-					// Handled everything in this node, move on to the next
+					// Handled everything in this node, move on to the next.
 					$reader->next();
 					break;
 
 				case 'wp:category':
 					$data['categories'] = true;
 
-					// Handled everything in this node, move on to the next
+					// Handled everything in this node, move on to the next.
 					$reader->next();
 					break;
 				case 'wp:tag':
 					$data['tags'] = true;
 
-					// Handled everything in this node, move on to the next
+					// Handled everything in this node, move on to the next.
 					$reader->next();
 					break;
 				case 'wp:term':
 					$data['terms'] = true;
 
-					// Handled everything in this node, move on to the next
+					// Handled everything in this node, move on to the next.
 					$reader->next();
 					break;
 			}
@@ -177,7 +173,7 @@ class Importer extends WXRImporter {
 	/**
 	 * Get the number of posts (posts, pages, CPT, attachments), that the import file has.
 	 *
-	 * @param $file
+	 * @param string $file Path to the file for importing.
 	 *
 	 * @return int
 	 */
@@ -192,11 +188,11 @@ class Importer extends WXRImporter {
 		// Start parsing!
 		while ( $reader->read() ) {
 			// Only deal with element opens.
-			if ( $reader->nodeType !== XMLReader::ELEMENT ) {
+			if ( XMLReader::ELEMENT !== $reader->nodeType ) {
 				continue;
 			}
 
-			if ( 'item' == $reader->name ) {
+			if ( 'item' === $reader->name ) {
 				$node   = $reader->expand();
 				$parsed = $this->parse_post_node( $node );
 
@@ -257,27 +253,28 @@ class Importer extends WXRImporter {
 			return false;
 		}
 
-		// Set the version to compatibility mode first
+		// Set the version to compatibility mode first.
 		$this->version = '1.0';
 
-		// Reset other variables
+		// Reset other variables.
 		$this->base_url = '';
 
 		// Start parsing!
 		while ( $reader->read() ) {
 			// Only deal with element opens.
-			if ( $reader->nodeType !== XMLReader::ELEMENT ) {
+			if ( XMLReader::ELEMENT !== $reader->nodeType ) {
 				continue;
 			}
 
 			switch ( $reader->name ) {
 				case 'wp:wxr_version':
-					// Upgrade to the correct version
+					// Upgrade to the correct version.
 					$this->version = $reader->readString();
 
 					if ( version_compare( $this->version, self::MAX_WXR_VERSION, '>' ) ) {
 						$this->logger->warning(
 							sprintf(
+								/* translators: %1$s: version number; %2$s: version number; */
 								__( 'This WXR file (version %1$s) is newer than the importer (version %2$s) and may not be supported. Please consider updating.', 'wordpress-importer' ),
 								$this->version,
 								self::MAX_WXR_VERSION
@@ -285,14 +282,14 @@ class Importer extends WXRImporter {
 						);
 					}
 
-					// Handled everything in this node, move on to the next
+					// Handled everything in this node, move on to the next.
 					$reader->next();
 					break;
 
 				case 'wp:base_site_url':
 					$this->base_url = $reader->readString();
 
-					// Handled everything in this node, move on to the next
+					// Handled everything in this node, move on to the next.
 					$reader->next();
 					break;
 
@@ -308,14 +305,14 @@ class Importer extends WXRImporter {
 					if ( is_wp_error( $parsed ) ) {
 						$this->log_error( $parsed );
 
-						// Skip the rest of this post
+						// Skip the rest of this post.
 						$reader->next();
 						break;
 					}
 
 					$this->process_post( $parsed['data'], $parsed['meta'], $parsed['comments'], $parsed['terms'] );
 
-					// Handled everything in this node, move on to the next
+					// Handled everything in this node, move on to the next.
 					$reader->next();
 					break;
 
@@ -331,7 +328,7 @@ class Importer extends WXRImporter {
 					if ( is_wp_error( $parsed ) ) {
 						$this->log_error( $parsed );
 
-						// Skip the rest of this post
+						// Skip the rest of this post.
 						$reader->next();
 						break;
 					}
@@ -342,7 +339,7 @@ class Importer extends WXRImporter {
 						$this->log_error( $status );
 					}
 
-					// Handled everything in this node, move on to the next
+					// Handled everything in this node, move on to the next.
 					$reader->next();
 					break;
 
@@ -358,14 +355,14 @@ class Importer extends WXRImporter {
 					if ( is_wp_error( $parsed ) ) {
 						$this->log_error( $parsed );
 
-						// Skip the rest of this post
+						// Skip the rest of this post.
 						$reader->next();
 						break;
 					}
 
 					$status = $this->process_term( $parsed['data'], $parsed['meta'] );
 
-					// Handled everything in this node, move on to the next
+					// Handled everything in this node, move on to the next.
 					$reader->next();
 					break;
 
@@ -381,14 +378,14 @@ class Importer extends WXRImporter {
 					if ( is_wp_error( $parsed ) ) {
 						$this->log_error( $parsed );
 
-						// Skip the rest of this post
+						// Skip the rest of this post.
 						$reader->next();
 						break;
 					}
 
 					$status = $this->process_term( $parsed['data'], $parsed['meta'] );
 
-					// Handled everything in this node, move on to the next
+					// Handled everything in this node, move on to the next.
 					$reader->next();
 					break;
 
@@ -404,24 +401,24 @@ class Importer extends WXRImporter {
 					if ( is_wp_error( $parsed ) ) {
 						$this->log_error( $parsed );
 
-						// Skip the rest of this post
+						// Skip the rest of this post.
 						$reader->next();
 						break;
 					}
 
 					$status = $this->process_term( $parsed['data'], $parsed['meta'] );
 
-					// Handled everything in this node, move on to the next
+					// Handled everything in this node, move on to the next.
 					$reader->next();
 					break;
 
 				default:
-					// Skip this node, probably handled by something already
+					// Skip this node, probably handled by something already.
 					break;
 			}
 		}
 
-		// Now that we've done the main processing, do any required
+		// Now that we've done the main processing, do any required.
 		// post-processing and remapping.
 		$this->post_process();
 
@@ -558,7 +555,8 @@ class Importer extends WXRImporter {
 	 * @return boolean
 	 */
 	public function restore_import_data_transient() {
-		if ( $data = get_transient( 'pt_importer_data' ) ) {
+		$data = get_transient( 'pt_importer_data' );
+		if ( $data ) {
 			$this->options            = empty( $data['options'] ) ? array() : $data['options'];
 			$this->mapping            = empty( $data['mapping'] ) ? array() : $data['mapping'];
 			$this->requires_remapping = empty( $data['requires_remapping'] ) ? array() : $data['requires_remapping'];
@@ -595,7 +593,7 @@ class Importer extends WXRImporter {
 	 *
 	 * Github issue: https://github.com/proteusthemes/one-click-demo-import/issues/71
 	 *
-	 * @param  array $date The term data to import.
+	 * @param  array $data The term data to import.
 	 * @return array       The unchanged term data.
 	 */
 	public function woocommerce_product_attributes_registration( $data ) {
@@ -605,7 +603,7 @@ class Importer extends WXRImporter {
 			if ( ! taxonomy_exists( $data['taxonomy'] ) ) {
 				$attribute_name = wc_sanitize_taxonomy_name( str_replace( 'pa_', '', $data['taxonomy'] ) );
 
-				// Create the taxonomy
+				// Create the taxonomy.
 				if ( ! in_array( $attribute_name, wc_get_attribute_taxonomies() ) ) {
 					$attribute = array(
 						'attribute_label'   => $attribute_name,

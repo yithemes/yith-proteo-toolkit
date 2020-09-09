@@ -1301,7 +1301,7 @@ class YITH_Proteo_Wizard {
 			 * @link https://codex.wordpress.org/Child_Themes
 			 */
 			function {$slug_no_hyphens}_child_enqueue_styles() {
-			    wp_enqueue_style( '{$slug}-style' , get_template_directory_uri() . '/style.css' );
+			    wp_enqueue_style( '{$slug}-style' , get_template_directory_uri() . '/style.css', array('select2') );
 			    wp_enqueue_style( '{$slug}-child-style',
 			        get_stylesheet_directory_uri() . '/style.css',
 			        array( '{$slug}-style' ),

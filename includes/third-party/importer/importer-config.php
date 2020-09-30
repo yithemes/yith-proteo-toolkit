@@ -9,6 +9,9 @@ if ( ! class_exists( 'YITH_Proteo_Wizard' ) ) {
 	return;
 }
 
+global $proteo_setup_wizard;
+
+
 /**
  * Set directory locations, text strings, and settings.
  */
@@ -75,7 +78,7 @@ $strings = array(
 	'ready-link-2'             => sprintf( '<a href="%1$s">%2$s</a>', admin_url( 'customize.php' ), esc_html__( 'Start customizing your theme', 'yith-proteo-toolkit' ) ),
 );
 
-$wizard = new YITH_Proteo_Wizard(
+$proteo_setup_wizard = new YITH_Proteo_Wizard(
 	$config,
 	$strings
 );
@@ -96,16 +99,22 @@ function wizard_import_files() {
 			'import_notice'              => __( 'This demo uses the following plugins: WooCommerce, YITH Slider for page builders, CF7, Wishlist, YITH Product slider carousel. Please be sure to enable these plugins prior to proceed.', 'yith-proteo' ),
 			'preview_url'                => 'https://proteo.yithemes.com/classic-shop/',
 			'state'                      => 'live',
+			'front_page_title'           => 'Front Page',
+			'blog_page_title'            => 'Blog',
+			'primary_menu_name'          => 'Primary',
 		),
 		array(
 			'import_file_name'           => 'Food',
-			'import_file_url'            => '',
-			'import_widget_file_url'     => '',
-			'import_customizer_file_url' => '',
+			'import_file_url'            => 'https://update.yithemes.com/proteo-demo-content/food/proteo-food-wordpress-export.xml',
+			'import_widget_file_url'     => 'https://update.yithemes.com/proteo-demo-content/food/proteo.yithemes.com-food-widgets.wie',
+			'import_customizer_file_url' => 'https://update.yithemes.com/proteo-demo-content/food/yith-proteo-export.json',
 			'import_preview_image_url'   => 'https://update.yithemes.com/proteo-demo-content/food/food.jpg',
-			'import_notice'              => '',
-			'preview_url'                => '',
-			'state'                      => 'coming-soon',
+			'import_notice'              => __( 'This demo uses the following plugins: WooCommerce, YITH Slider for page builders, CF7, EditorsKit, YITH Wishlist, YITH Product slider carousel. Please be sure to enable these plugins prior to proceed.', 'yith-proteo' ),
+			'preview_url'                => 'https://proteo.yithemes.com/food/',
+			'state'                      => 'live',
+			'front_page_title'           => 'Food Home 1',
+			'blog_page_title'            => 'Blog',
+			'primary_menu_name'          => 'Food Main Menu',
 		),
 		array(
 			'import_file_name'           => 'Desire',
@@ -116,6 +125,9 @@ function wizard_import_files() {
 			'import_notice'              => '',
 			'preview_url'                => '',
 			'state'                      => 'coming-soon',
+			'front_page_title'           => '',
+			'blog_page_title'            => '',
+			'primary_menu_name'          => '',
 		),
 	);
 }
@@ -124,10 +136,24 @@ add_filter( 'wizard_import_files', 'wizard_import_files' );
 
 /**
  * Execute custom code after the whole import has finished.
+ *
+ * @param int $demo_index The demo index.
  */
-function prefix_wizard_after_import_setup() {
+function prefix_wizard_after_import_setup( $demo_index ) {
+	global $proteo_setup_wizard;
+
+	$demo_configuration_variables = $proteo_setup_wizard->import_files[ $demo_index ];
+
+	if ( empty( $demo_configuration_variables ) ) {
+		$demo_configuration_variables = array(
+			'front_page_title'  => 'Front Page',
+			'blog_page_title'   => 'Blog',
+			'primary_menu_name' => 'Primary',
+		);
+	}
+
 	// Assign menus to their locations.
-	$main_menu = get_term_by( 'name', 'Primary', 'nav_menu' );
+	$main_menu = get_term_by( 'name', $demo_configuration_variables['primary_menu_name'], 'nav_menu' );
 
 	set_theme_mod(
 		'nav_menu_locations',
@@ -137,8 +163,8 @@ function prefix_wizard_after_import_setup() {
 	);
 
 	// Assign front page and posts page (blog page).
-	$front_page_id = get_page_by_title( 'Front Page' );
-	$blog_page_id  = get_page_by_title( 'Blog' );
+	$front_page_id = get_page_by_title( $demo_configuration_variables['front_page_title'] );
+	$blog_page_id  = get_page_by_title( $demo_configuration_variables['blog_page_title'] );
 
 	update_option( 'show_on_front', 'page' );
 	update_option( 'page_on_front', $front_page_id->ID );
@@ -222,6 +248,11 @@ function yith_proteo_toolkit_register_required_plugins() {
 			'required' => true,
 		),
 
+		array(
+			'name'     => 'EditorsKit',
+			'slug'     => 'block-options',
+			'required' => false,
+		),
 	);
 
 	$config = array(

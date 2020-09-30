@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: proteo, yith, yithemes, toolkit, wizard, utils, yith proteo, sample, demo, sample data, companion plugin, setup wizard
 Requires at least: 5.3
 Tested up to: 5.5
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -67,6 +67,10 @@ You can find the setup wizard in Dashboard > Appearance > Theme Setup
 
 
 == Changelog ==
+
+=  1.0.2 - Released on 30 September 2020 =
+
+* New Professionally designed demo: Food Shop
 
 =  1.0.1 - Released on 09 September 2020 =
 

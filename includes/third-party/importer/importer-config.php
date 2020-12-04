@@ -52,9 +52,9 @@ $strings = array(
 
 	'child-header'             => esc_html__( 'Create and install Child Theme', 'yith-proteo-toolkit' ),
 	'child-header-success'     => esc_html__( 'You\'re good to go!', 'yith-proteo-toolkit' ),
-	'child'                    => esc_html__( 'Let\'s build & activate a child theme so you may easily make theme changes.', 'yith-proteo-toolkit' ),
+	'child'                    => esc_html__( 'Let\'s create & activate a child theme, so you can make future changes without these being lost.', 'yith-proteo-toolkit' ),
 	'child-success%s'          => esc_html__( 'Your child theme has already been installed and is now activated, if it wasn\'t already.', 'yith-proteo-toolkit' ),
-	'child-action-link'        => esc_html__( 'Learn about child themes', 'yith-proteo-toolkit' ),
+	'child-action-link'        => esc_html__( 'Learn more about child themes', 'yith-proteo-toolkit' ),
 	'child-json-success%s'     => esc_html__( 'Awesome. Your child theme has already been installed and is now activated.', 'yith-proteo-toolkit' ),
 	'child-json-already%s'     => esc_html__( 'Awesome. Your child theme has been created and is now activated.', 'yith-proteo-toolkit' ),
 

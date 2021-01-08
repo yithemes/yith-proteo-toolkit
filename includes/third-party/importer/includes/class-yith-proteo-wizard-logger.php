@@ -126,17 +126,17 @@ class YITH_Proteo_Wizard_Logger {
 
 
 	/**
-	 * Private clone method to prevent cloning of the instance of the *Singleton* instance.
+	 * Avoid clone method to be overrided.
 	 *
 	 * @return void
 	 */
-	private function __clone() {}
+	final public function __clone() {}
 
 
 	/**
-	 * Private unserialize method to prevent unserializing of the *Singleton* instance.
+	 * Avoid override of unserialize method.
 	 *
 	 * @return void
 	 */
-	private function __wakeup() {}
+	final public function __wakeup() {}
 }

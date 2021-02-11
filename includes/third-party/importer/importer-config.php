@@ -118,16 +118,16 @@ function wizard_import_files() {
 		),
 		array(
 			'import_file_name'           => 'Desire',
-			'import_file_url'            => '',
-			'import_widget_file_url'     => '',
-			'import_customizer_file_url' => '',
+			'import_file_url'            => 'https://update.yithemes.com/proteo-demo-content/desire/proteo-desire-wordpress-export.xml',
+			'import_widget_file_url'     => 'https://update.yithemes.com/proteo-demo-content/desire/proteo.yithemes.com-desire-widgets.wie',
+			'import_customizer_file_url' => 'https://update.yithemes.com/proteo-demo-content/desire/yith-proteo-desire.json',
 			'import_preview_image_url'   => 'https://update.yithemes.com/proteo-demo-content/desire/desire.jpg',
-			'import_notice'              => '',
-			'preview_url'                => '',
-			'state'                      => 'coming-soon',
-			'front_page_title'           => '',
-			'blog_page_title'            => '',
-			'primary_menu_name'          => '',
+			'import_notice'              => __( 'This demo uses the following plugins: WooCommerce, YITH Slider for page builders, CF7, EditorsKit, YITH Wishlist, YITH Product slider carousel. Please be sure to enable these plugins prior to proceed.', 'yith-proteo' ),
+			'preview_url'                => 'https://proteo.yithemes.com/desire/',
+			'state'                      => 'live',
+			'front_page_title'           => 'Desire home page',
+			'blog_page_title'            => 'SEXY NEWS',
+			'primary_menu_name'          => 'Desire Main Menu',
 		),
 	);
 }
@@ -251,6 +251,12 @@ function yith_proteo_toolkit_register_required_plugins() {
 		array(
 			'name'     => 'EditorsKit',
 			'slug'     => 'block-options',
+			'required' => false,
+		),
+
+		array(
+			'name'     => 'Gutenberg',
+			'slug'     => 'gutenberg',
 			'required' => false,
 		),
 	);

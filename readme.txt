@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: proteo, yith, yithemes, toolkit, wizard, utils, yith proteo, sample, demo, sample data, companion plugin, setup wizard
 Requires at least: 5.3
 Tested up to: 5.7
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -53,13 +53,17 @@ Automatic updates should work smoothly, but we still recommend you back up your 
 
 == Frequently Asked Questions ==
 
+= Version 1.0.6 broke my website =
+
+Version 1.0.6 was wrongly released with a missing file inclusion. To fix your website, you can delete the old plugin folder from <code>wp-content/plugins/yith-proteo-toolkit</code> and install the new plugin version as you do for every plugin. You can also download the latest available version of YITH Proteo Toolkit from this page and updload it to your hosting using FTP in <code>wp-content/plugins/yith-proteo-toolkit</code>.
+
 = Is the plugin compatible with all WordPress themes? =
 
-This plugin is specifically create for YITH Proteo theme. 
+This plugin is specifically created for YITH Proteo theme. 
 
 = I installed the plugin, but it deactivates immediatly with a message =
 
-This plugin is specifically create for YITH Proteo theme and Proteo child themes. It will deactivate if another theme is used.
+This plugin is specifically created for YITH Proteo theme and Proteo child themes. It will deactivate if another theme is used.
 
 = I wrongly skipped the setup wizard. How can i run it again? =
 
@@ -67,6 +71,10 @@ You can find the setup wizard in Dashboard > Appearance > Theme Setup
 
 
 == Changelog ==
+=  1.0.7 - Released on 16 March 2021 =
+
+* Fix missing file required
+
 =  1.0.6 - Released on 16 March 2021 =
 
 * Improve PHPCS
@@ -100,3 +108,8 @@ You can find the setup wizard in Dashboard > Appearance > Theme Setup
 =  1.0.0 - Released on 22 July 2020 =
 
 * Initial release
+
+== Upgrade Notice ==
+
+= 1.0.7 =
+This update fix missing file requirement causing Fatal Errors

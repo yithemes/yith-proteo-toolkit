@@ -85,16 +85,16 @@ if ( ! function_exists( 'yith_proteo_register_block_patterns_categories' ) ) {
 	function yith_proteo_register_block_patterns_categories() {
 		register_block_pattern_category(
 			'proteo-classic-shop',
-			array( 'label' => __( 'Proteo Classic Shop', 'yith-proteo-toolkit' ) )
+			array( 'label' => esc_html__( 'Proteo Classic Shop', 'yith-proteo-toolkit' ) )
 		);
 		register_block_pattern_category(
 			'proteo-food',
-			array( 'label' => __( 'Proteo Food', 'yith-proteo-toolkit' ) )
+			array( 'label' => esc_html__( 'Proteo Food', 'yith-proteo-toolkit' ) )
 		);
 
 		register_block_pattern_category(
 			'proteo-homepages',
-			array( 'label' => __( 'Proteo Homepages', 'yith-proteo-toolkit' ) )
+			array( 'label' => esc_html__( 'Proteo Homepages', 'yith-proteo-toolkit' ) )
 		);
 	}
 }

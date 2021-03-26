@@ -659,21 +659,21 @@ class YITH_Proteo_Wizard {
 
 		$this->steps = array(
 			'welcome' => array(
-				'name'    => esc_html__( 'Welcome', 'yith-proteo-toolkit' ),
+				'name'    => esc_html( 'Welcome' ),
 				'view'    => array( $this, 'welcome' ),
 				'handler' => array( $this, 'welcome_handler' ),
 			),
 		);
 
 		$this->steps['child'] = array(
-			'name' => esc_html__( 'Child', 'yith-proteo-toolkit' ),
+			'name' => esc_html( 'Child' ),
 			'view' => array( $this, 'child' ),
 		);
 
 		// Show the plugin importer, only if TGMPA is included.
 		if ( class_exists( 'TGM_Plugin_Activation' ) ) {
 			$this->steps['plugins'] = array(
-				'name' => esc_html__( 'Plugins', 'yith-proteo-toolkit' ),
+				'name' => esc_html( 'Plugins' ),
 				'view' => array( $this, 'plugins' ),
 			);
 		}
@@ -681,13 +681,13 @@ class YITH_Proteo_Wizard {
 		// Show the content importer, only if there's demo content added.
 		if ( ! empty( $this->import_files ) ) {
 			$this->steps['content'] = array(
-				'name' => esc_html__( 'Content', 'yith-proteo-toolkit' ),
+				'name' => esc_html( 'Content' ),
 				'view' => array( $this, 'content' ),
 			);
 		}
 
 		$this->steps['ready'] = array(
-			'name' => esc_html__( 'Ready', 'yith-proteo-toolkit' ),
+			'name' => esc_html( 'Ready' ),
 			'view' => array( $this, 'ready' ),
 		);
 
@@ -1411,7 +1411,7 @@ class YITH_Proteo_Wizard {
 					'_wpnonce'      => wp_create_nonce( 'bulk-plugins' ),
 					'action'        => 'tgmpa-bulk-activate',
 					'action2'       => - 1,
-					'message'       => esc_html__( 'Activating', 'yith-proteo-toolkit' ),
+					'message'       => esc_html( 'Activating' ),
 				);
 				break;
 			}
@@ -1427,7 +1427,7 @@ class YITH_Proteo_Wizard {
 					'_wpnonce'      => wp_create_nonce( 'bulk-plugins' ),
 					'action'        => 'tgmpa-bulk-update',
 					'action2'       => - 1,
-					'message'       => esc_html__( 'Updating', 'yith-proteo-toolkit' ),
+					'message'       => esc_html( 'Updating' ),
 				);
 				break;
 			}
@@ -1443,7 +1443,7 @@ class YITH_Proteo_Wizard {
 					'_wpnonce'      => wp_create_nonce( 'bulk-plugins' ),
 					'action'        => 'tgmpa-bulk-install',
 					'action2'       => - 1,
-					'message'       => esc_html__( 'Installing', 'yith-proteo-toolkit' ),
+					'message'       => esc_html( 'Installing' ),
 				);
 				break;
 			}
@@ -1459,7 +1459,7 @@ class YITH_Proteo_Wizard {
 			);
 
 			$json['hash']    = md5( wp_json_encode( $json ) );
-			$json['message'] = esc_html__( 'Installing', 'yith-proteo-toolkit' );
+			$json['message'] = esc_html( 'Installing' );
 			wp_send_json( $json );
 		} else {
 			$this->logger->debug(
@@ -1472,7 +1472,7 @@ class YITH_Proteo_Wizard {
 			wp_send_json(
 				array(
 					'done'    => 1,
-					'message' => esc_html__( 'Success', 'yith-proteo-toolkit' ),
+					'message' => esc_html( 'Success' ),
 				)
 			);
 		}
@@ -1564,7 +1564,7 @@ class YITH_Proteo_Wizard {
 			wp_send_json(
 				array(
 					'error'   => 1,
-					'message' => esc_html__( 'Error', 'yith-proteo-toolkit' ),
+					'message' => esc_html( 'Error' ),
 					'logs'    => '',
 					'errors'  => '',
 				)
@@ -1660,9 +1660,9 @@ class YITH_Proteo_Wizard {
 			$content['content'] = array(
 				'title'            => esc_html__( 'Content', 'yith-proteo-toolkit' ),
 				'description'      => esc_html__( 'Demo content data.', 'yith-proteo-toolkit' ),
-				'pending'          => esc_html__( 'Pending', 'yith-proteo-toolkit' ),
-				'installing'       => esc_html__( 'Installing', 'yith-proteo-toolkit' ),
-				'success'          => esc_html__( 'Success', 'yith-proteo-toolkit' ),
+				'pending'          => esc_html( 'Pending' ),
+				'installing'       => esc_html( 'Installing' ),
+				'success'          => esc_html( 'Success' ),
 				'checked'          => $this->is_possible_upgrade() ? 0 : 1,
 				'install_callback' => array( $this->importer, 'import' ),
 				'data'             => $import_files['content'],
@@ -1673,9 +1673,9 @@ class YITH_Proteo_Wizard {
 			$content['widgets'] = array(
 				'title'            => esc_html__( 'Widgets', 'yith-proteo-toolkit' ),
 				'description'      => esc_html__( 'Sample widgets data.', 'yith-proteo-toolkit' ),
-				'pending'          => esc_html__( 'Pending', 'yith-proteo-toolkit' ),
-				'installing'       => esc_html__( 'Installing', 'yith-proteo-toolkit' ),
-				'success'          => esc_html__( 'Success', 'yith-proteo-toolkit' ),
+				'pending'          => esc_html( 'Pending' ),
+				'installing'       => esc_html( 'Installing' ),
+				'success'          => esc_html( 'Success' ),
 				'install_callback' => array( 'YITH_Proteo_Wizard_Widget_Importer', 'import' ),
 				'checked'          => $this->is_possible_upgrade() ? 0 : 1,
 				'data'             => $import_files['widgets'],
@@ -1686,9 +1686,9 @@ class YITH_Proteo_Wizard {
 			$content['options'] = array(
 				'title'            => esc_html__( 'Options', 'yith-proteo-toolkit' ),
 				'description'      => esc_html__( 'Sample theme options data.', 'yith-proteo-toolkit' ),
-				'pending'          => esc_html__( 'Pending', 'yith-proteo-toolkit' ),
-				'installing'       => esc_html__( 'Installing', 'yith-proteo-toolkit' ),
-				'success'          => esc_html__( 'Success', 'yith-proteo-toolkit' ),
+				'pending'          => esc_html( 'Pending' ),
+				'installing'       => esc_html( 'Installing' ),
+				'success'          => esc_html( 'Success' ),
 				'install_callback' => array( 'YITH_Proteo_Wizard_Customizer_Importer', 'import' ),
 				'checked'          => $this->is_possible_upgrade() ? 0 : 1,
 				'data'             => $import_files['options'],
@@ -1699,9 +1699,9 @@ class YITH_Proteo_Wizard {
 			$content['after_import'] = array(
 				'title'            => esc_html__( 'After import setup', 'yith-proteo-toolkit' ),
 				'description'      => esc_html__( 'After import setup.', 'yith-proteo-toolkit' ),
-				'pending'          => esc_html__( 'Pending', 'yith-proteo-toolkit' ),
-				'installing'       => esc_html__( 'Installing', 'yith-proteo-toolkit' ),
-				'success'          => esc_html__( 'Success', 'yith-proteo-toolkit' ),
+				'pending'          => esc_html( 'Pending' ),
+				'installing'       => esc_html( 'Installing' ),
+				'success'          => esc_html( 'Success' ),
 				'install_callback' => array( $this->hooks, 'after_all_import_action' ),
 				'checked'          => $this->is_possible_upgrade() ? 0 : 1,
 				'data'             => $selected_import_index,
@@ -1722,7 +1722,7 @@ class YITH_Proteo_Wizard {
 	 */
 	public function pt_importer_new_ajax_request_response_data( $data ) {
 		$data['url']      = admin_url( 'admin-ajax.php' );
-		$data['message']  = esc_html__( 'Installing', 'yith-proteo-toolkit' );
+		$data['message']  = esc_html( 'Installing' );
 		$data['proceed']  = 'true';
 		$data['action']   = 'wizard_content';
 		$data['content']  = 'content';

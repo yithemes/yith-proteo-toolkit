@@ -1368,11 +1368,11 @@ class YITH_Proteo_Wizard {
 				$screenshot_ext = 'jpg';
 			}
 		} else {
-			if ( file_exists( $this->base_path . '/screenshot.png' ) ) {
-				$screenshot     = $this->base_path . '/screenshot.png';
+			if ( file_exists( trailingslashit( $this->base_path ) . $this->directory . '/assets/images/screenshot.png' ) ) {
+				$screenshot     = trailingslashit( $this->base_path ) . $this->directory . '/assets/images/screenshot.png';
 				$screenshot_ext = 'png';
-			} elseif ( file_exists( $this->base_path . '/screenshot.jpg' ) ) {
-				$screenshot     = $this->base_path . '/screenshot.jpg';
+			} elseif ( file_exists( trailingslashit( $this->base_path ) . $this->directory . '/assets/images/screenshot.jpg' ) ) {
+				$screenshot     = trailingslashit( $this->base_path ) . $this->directory . '/assets/images/screenshot.jpg';
 				$screenshot_ext = 'jpg';
 			}
 		}

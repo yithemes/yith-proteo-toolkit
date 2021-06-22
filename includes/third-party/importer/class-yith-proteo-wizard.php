@@ -670,6 +670,11 @@ class YITH_Proteo_Wizard {
 			'view' => array( $this, 'child' ),
 		);
 
+		$this->steps['skin'] = array(
+			'name' => esc_html( 'Skin' ),
+			'view' => array( $this, 'skin' ),
+		);
+
 		// Show the plugin importer, only if TGMPA is included.
 		if ( class_exists( 'TGM_Plugin_Activation' ) ) {
 			$this->steps['plugins'] = array(
@@ -864,6 +869,63 @@ class YITH_Proteo_Wizard {
 	}
 
 	/**
+	 * Skin chooser.
+	 */
+	protected function skin() {
+		// Strings passed in from the config file.
+		$strings = $this->strings;
+		$next    = $strings['btn-next'];
+		$header  = $strings['skin-header'];
+		?>
+
+		<div class="wizard__content--transition">
+
+			<?php yith_proteo_toolkit_wizard_step_icon( 'skin' ); ?>
+
+			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+				<circle class="icon--checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="icon--checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+			</svg>
+
+			<h1><?php echo esc_html( $header ); ?></h1>
+
+			<?php if ( 1 < count( $this->import_files ) ) : ?>
+				<ul id="demo-content-list">
+				<?php foreach ( $this->import_files as $index => $import_file ) : ?>
+					<li class="demo-content <?php echo esc_attr( $import_file['state'] ); ?>" data-demo="<?php echo esc_attr( $index ); ?>">
+						<img src="<?php echo esc_url( $import_file['import_preview_image_url'] ); ?>" width="250">
+						<?php echo esc_html( $import_file['import_file_name'] ); ?>
+						<a href="<?php echo esc_url( $import_file['preview_url'] ); ?>" target="_blank" rel="nofollow noopener" class="preview-link" title="<?php esc_html_e( 'Preview', 'yith-proteo-toolkit' ); ?>"><span class="dashicons dashicons-external"></span></a>
+					</li>
+				<?php endforeach; ?>
+				</ul>
+
+				<div class="wizard__select-control-wrapper">
+
+					<select class="wizard__select-control js-wizard-demo-import-select">
+						<?php foreach ( $this->import_files as $index => $import_file ) : ?>
+							<option value="<?php echo esc_attr( $index ); ?>"><?php echo esc_html( $import_file['import_file_name'] ); ?></option>
+						<?php endforeach; ?>
+					</select>
+
+					<div class="wizard__select-control-help">
+						<span class="hint--top" aria-label="<?php echo esc_attr__( 'Select skin', 'yith-proteo-toolkit' ); ?>">
+							<?php echo wp_kses( $this->svg( array( 'icon' => 'downarrow' ) ), $this->svg_allowed_html() ); ?>
+						</span>
+					</div>
+				</div>
+			<?php endif; ?>
+
+		</div>
+
+		<footer class="wizard__content__footer">
+			<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--next wizard__button--proceed wizard__button--colorchange"><?php echo esc_html( $next ); ?></a>
+			<?php wp_nonce_field( 'wizard' ); ?>
+		</footer>
+		<?php
+		$this->logger->debug( __( 'The skin chooser step has been displayed', 'yith-proteo-toolkit' ) );
+	}
+
+	/**
 	 * Theme plugins
 	 */
 	protected function plugins() {
@@ -888,8 +950,9 @@ class YITH_Proteo_Wizard {
 			}
 		}
 
+		$selected_skin = isset( $_GET['selected_skin'] ) ? sanitize_text_field( wp_unslash( $_GET['selected_skin'] ) ) : null;
 		// Are there plugins that need installing/activating?
-		$plugins             = $this->get_tgmpa_plugins();
+		$plugins             = $this->get_tgmpa_plugins( $selected_skin );
 		$recommended_plugins = array();
 		$required_plugins    = array();
 		$count               = count( $plugins['all'] );
@@ -1030,7 +1093,7 @@ class YITH_Proteo_Wizard {
 			<p><?php echo esc_html( $paragraph ); ?></p>
 
 			<?php if ( 1 < count( $this->import_files ) ) : ?>
-				<ul id="demo-content-list">
+				<ul id="demo-content-list" style="display: none;">
 				<?php foreach ( $this->import_files as $index => $import_file ) : ?>
 					<li class="demo-content <?php echo esc_attr( $import_file['state'] ); ?>" data-demo="<?php echo esc_attr( $index ); ?>">
 						<img src="<?php echo esc_url( $import_file['import_preview_image_url'] ); ?>" width="250">
@@ -1172,9 +1235,11 @@ class YITH_Proteo_Wizard {
 	/**
 	 * Get registered TGMPA plugins
 	 *
+	 * @param string|null $skin The selected skin to import.
+	 *
 	 * @return    array
 	 */
-	protected function get_tgmpa_plugins() {
+	protected function get_tgmpa_plugins( $skin = null ) {
 		$plugins = array(
 			'all'      => array(), // Meaning: all plugins which still have open actions.
 			'install'  => array(),
@@ -1183,6 +1248,12 @@ class YITH_Proteo_Wizard {
 		);
 
 		foreach ( $this->tgmpa->plugins as $slug => $plugin ) {
+			$plugin_skins = isset( $plugin['skin'] ) ? (array) $plugin['skin'] : array();
+
+			if ( $skin && $plugin_skins && ! in_array( $skin, $plugin_skins, true ) ) {
+				continue;
+			}
+
 			if ( $this->tgmpa->is_plugin_active( $slug ) && false === $this->tgmpa->does_plugin_have_update( $slug ) ) {
 				continue;
 			} else {

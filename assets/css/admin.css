@@ -1,4 +1,5 @@
-.wizard__content.wizard__content--content {
+.wizard__content.wizard__content--content,
+.wizard__content.wizard__content--skin {
 	max-width: 800px;
 }
 

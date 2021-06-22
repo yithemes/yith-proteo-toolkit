@@ -58,6 +58,8 @@ $strings = array(
 	'child-json-success%s'     => esc_html__( 'Awesome. Your child theme has already been installed and is now activated.', 'yith-proteo-toolkit' ),
 	'child-json-already%s'     => esc_html__( 'Awesome. Your child theme has been created and is now activated.', 'yith-proteo-toolkit' ),
 
+	'skin-header'              => esc_html__( 'Select the skin for your site', 'yith-proteo-toolkit' ),
+
 	'plugins-header'           => esc_html__( 'Install Plugins', 'yith-proteo-toolkit' ),
 	'plugins-header-success'   => esc_html__( 'You\'re ready for demo contents!', 'yith-proteo-toolkit' ),
 	'plugins'                  => esc_html__( 'Let\'s install and activate some essential plugins to get your site ready for demo contents.', 'yith-proteo-toolkit' ),
@@ -92,6 +94,7 @@ function wizard_import_files() {
 	return array(
 		array(
 			'import_file_name'           => 'Classic Shop',
+			'slug'                       => 'classic-shop',
 			'import_file_url'            => 'https://update.yithemes.com/proteo-demo-content/classic-shop/proteo-wordpress-export.xml',
 			'import_widget_file_url'     => 'https://update.yithemes.com/proteo-demo-content/classic-shop/proteo.yithemes.com-classic-shop-widgets.wie',
 			'import_customizer_file_url' => 'https://update.yithemes.com/proteo-demo-content/classic-shop/yith-proteo-export.json',
@@ -105,6 +108,7 @@ function wizard_import_files() {
 		),
 		array(
 			'import_file_name'           => 'Food',
+			'slug'                       => 'food',
 			'import_file_url'            => 'https://update.yithemes.com/proteo-demo-content/food/proteo-food-wordpress-export.xml',
 			'import_widget_file_url'     => 'https://update.yithemes.com/proteo-demo-content/food/proteo.yithemes.com-food-widgets.wie',
 			'import_customizer_file_url' => 'https://update.yithemes.com/proteo-demo-content/food/yith-proteo-export.json',
@@ -118,6 +122,7 @@ function wizard_import_files() {
 		),
 		array(
 			'import_file_name'           => 'Desire',
+			'slug'                       => 'desire',
 			'import_file_url'            => 'https://update.yithemes.com/proteo-demo-content/desire/proteo-desire-wordpress-export.xml',
 			'import_widget_file_url'     => 'https://update.yithemes.com/proteo-demo-content/desire/proteo.yithemes.com-desire-widgets.wie',
 			'import_customizer_file_url' => 'https://update.yithemes.com/proteo-demo-content/desire/yith-proteo-desire.json',
@@ -220,6 +225,7 @@ function yith_proteo_toolkit_register_required_plugins() {
 			'name'        => 'YITH WooCommerce Wishlist',
 			'slug'        => 'yith-woocommerce-wishlist',
 			'required'    => false,
+			'skin'        => array( '1', '2', '3' ),
 			'is_callable' => 'YITH_WCWL_Premium',
 		),
 
@@ -227,36 +233,42 @@ function yith_proteo_toolkit_register_required_plugins() {
 			'name'        => 'YITH WooCommerce Product Slider Carousel',
 			'slug'        => 'yith-woocommerce-product-slider-carousel',
 			'required'    => false,
+			'skin'        => array( '1', '2', '3' ),
 			'is_callable' => 'YITH_WooCommerce_Product_Slider_Premium',
 		),
 
 		array(
 			'name'     => 'YITH Slider for page builders',
 			'slug'     => 'yith-slider-for-page-builders',
+			'skin'     => array( '1', '2', '3' ),
 			'required' => false,
 		),
 
 		array(
 			'name'     => 'Contact Form 7',
 			'slug'     => 'contact-form-7',
+			'skin'     => array( '1', '2', '3' ),
 			'required' => false,
 		),
 
 		array(
 			'name'     => 'WooCommerce',
 			'slug'     => 'woocommerce',
+			'skin'     => array( '1', '2', '3' ),
 			'required' => false,
 		),
 
 		array(
 			'name'     => 'EditorsKit',
 			'slug'     => 'block-options',
+			'skin'     => array( '1', '2', '3' ),
 			'required' => false,
 		),
 
 		array(
 			'name'     => 'Gutenberg',
 			'slug'     => 'gutenberg',
+			'skin'     => array( '1', '2', '3' ),
 			'required' => false,
 		),
 	);

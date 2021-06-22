@@ -829,7 +829,7 @@ svg:not(:root) {
 	color: #444;
 	display: block;
 	margin: 1.5em auto 0;
-	max-width: 350px;
+	max-width: 500px;
 	overflow: hidden;
 	padding: 60px 33px 35px;
 	position: relative;

@@ -3,7 +3,7 @@
  * Plugin Name:         YITH Proteo Toolkit
  * Plugin URI:          https://yithemes.com
  * Description:         Add extra features and a setup wizard to YITH Proteo theme.
- * Version:             1.0.8
+ * Version:             1.0.9
  * Author:              YITH
  * Author URI:          https://yithemes.com/
  * Requires at least:   5.3
@@ -46,7 +46,7 @@ if ( ! defined( 'YITH_PROTEO_TOOLKIT' ) ) {
 }
 
 if ( ! defined( 'YITH_PROTEO_TOOLKIT_VERSION' ) ) {
-	define( 'YITH_PROTEO_TOOLKIT_VERSION', '1.0.8' );
+	define( 'YITH_PROTEO_TOOLKIT_VERSION', '1.0.9' );
 }
 
 if ( ! defined( 'YITH_PROTEO_TOOLKIT_PATH' ) ) {

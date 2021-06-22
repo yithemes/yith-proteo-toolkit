@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: proteo, yith, yithemes, toolkit, wizard, utils, yith proteo, sample, demo, sample data, companion plugin, setup wizard
 Requires at least: 5.3
 Tested up to: 5.7
-Stable tag: 1.0.8
+Stable tag: 1.0.9
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -71,6 +71,11 @@ You can find the setup wizard in Dashboard > Appearance > Theme Setup
 
 
 == Changelog ==
+=  1.0.9 - Released on 22 June 2021 =
+
+* Add new skin chooser step and install plugins based on the chosen skin
+* Fix missing child theme screenshot
+
 =  1.0.8 - Released on 26 March 2021 =
 
 * Fix localization issues in setup wizard procedure

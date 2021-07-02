@@ -31,16 +31,19 @@ class Proteo_Testimonials_Metabox {
 			'label' => 'Review',
 			'id'    => 'proteo_testimonial_review',
 			'type'  => 'editor',
+			'class' => '',
 		),
 		array(
 			'label' => 'Small quote',
 			'id'    => 'proteo_testimonial_small_quote',
 			'type'  => 'textarea',
+			'class' => '',
 		),
 		array(
 			'label'   => 'Rating',
 			'id'      => 'proteo_testimonial_rating',
 			'type'    => 'select',
+			'class'   => '',
 			'options' => array(
 				1 => '1',
 				2 => '2',
@@ -50,6 +53,15 @@ class Proteo_Testimonials_Metabox {
 			),
 		),
 	);
+
+	/**
+	 * Retrieve filtered meta fields array
+	 *
+	 * @return void
+	 */
+	public function get_fields() {
+		return apply_filters( 'proteo_testimonial_meta_fields', $this->fields );
+	}
 
 	/**
 	 * Metabox constructor method.
@@ -111,7 +123,7 @@ class Proteo_Testimonials_Metabox {
 		);
 
 		$output = '';
-		foreach ( $this->fields as $field ) {
+		foreach ( $this->get_fields() as $field ) {
 			switch ( $field['type'] ) {
 				case 'select':
 					$meta_value = get_post_meta( $post->ID, $field['id'], true );
@@ -192,7 +204,7 @@ class Proteo_Testimonials_Metabox {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return $post_id;
 		}
-		foreach ( $this->fields as $field ) {
+		foreach ( $this->get_fields() as $field ) {
 			if ( isset( $_POST[ $field['id'] ] ) ) {
 				switch ( $field['type'] ) {
 					case 'email':

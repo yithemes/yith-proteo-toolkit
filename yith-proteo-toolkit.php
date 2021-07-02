@@ -186,3 +186,5 @@ add_action( 'init', 'theme_prefix_remove_elementor_splash' );
 
 // Disable WooCommerce spash screen when activating.
 add_filter( 'woocommerce_prevent_automatic_wizard_redirect', '__return_true' );
+
+require_once 'includes/testimonials-module/module.php';

@@ -55,7 +55,7 @@ function yith_proteo_toolkit_register_testimonials_post_type() {
 		'publicly_queryable'  => false,
 		'capability_type'     => 'page',
 	);
-	register_post_type( 'proteo-testimonials', $args );
+	register_post_type( 'proteo_testimonials', $args );
 
 }
 
@@ -70,9 +70,46 @@ add_filter( 'enter_title_here', 'yith_proteo_toolkit_testimonials_title_placehol
  * @return string
  */
 function yith_proteo_toolkit_testimonials_title_placeholder( $input ) {
-	if ( 'proteo-testimonials' === get_post_type() ) {
+	if ( 'proteo_testimonials' === get_post_type() ) {
 		return esc_html__( 'Testimonial name', 'yith-proteo-toolkit' );
 	}
 
 	return $input;
 }
+
+
+/**
+ * Register testimonials taxonomy
+ *
+ * @return void
+ */
+function yith_proteo_toolkit_create_testimonials_tax() {
+
+	$labels = array(
+		'name'          => esc_html_x( 'Testimonials taxonomy', 'taxonomy general name', 'yith-proteo-toolkit' ),
+		'singular_name' => esc_html_x( 'Testimonial taxonomy', 'taxonomy singular name', 'yith-proteo-toolkit' ),
+		'search_items'  => esc_html__( 'Search testimonials taxonomy', 'yith-proteo-toolkit' ),
+		'edit_item'     => esc_html__( 'Edit testimonials taxonomy', 'yith-proteo-toolkit' ),
+		'update_item'   => esc_html__( 'Update testimonials taxonomy', 'yith-proteo-toolkit' ),
+		'add_new_item'  => esc_html__( 'Add new testimonials taxonomy', 'yith-proteo-toolkit' ),
+		'new_item_name' => esc_html__( 'New testimonials taxonomy name', 'yith-proteo-toolkit' ),
+		'menu_name'     => esc_html__( 'Testimonials taxonomies', 'yith-proteo-toolkit' ),
+	);
+	$args   = array(
+		'labels'             => $labels,
+		'description'        => esc_html__( 'Testimonials taxonomy', 'yith-proteo-toolkit' ),
+		'hierarchical'       => false,
+		'public'             => true,
+		'publicly_queryable' => true,
+		'show_ui'            => true,
+		'show_in_menu'       => true,
+		'show_in_nav_menus'  => false,
+		'show_tagcloud'      => false,
+		'show_in_quick_edit' => false,
+		'show_admin_column'  => true,
+		'show_in_rest'       => true,
+	);
+	register_taxonomy( 'proteo_testimonials_tax', array( 'proteo_testimonials' ), $args );
+
+}
+add_action( 'init', 'yith_proteo_toolkit_create_testimonials_tax' );

@@ -15,10 +15,10 @@ class Proteo_Testimonials_Metabox {
 	/**
 	 * Post type
 	 *
-	 * @var array $screens
+	 * @var array $custom_post_types
 	 */
-	private $screens = array(
-		'proteo-testimonials',
+	private $custom_post_types = array(
+		'proteo_testimonials',
 	);
 
 	/**
@@ -38,6 +38,19 @@ class Proteo_Testimonials_Metabox {
 			'id'    => 'proteo_testimonial_small_quote',
 			'type'  => 'textarea',
 			'class' => '',
+		),
+		array(
+			'label'   => 'Rating',
+			'id'      => 'proteo_testimonial_rating',
+			'type'    => 'select',
+			'class'   => '',
+			'options' => array(
+				1 => '1',
+				2 => '2',
+				3 => '3',
+				4 => '4',
+				5 => '5',
+			),
 		),
 		array(
 			'label' => 'Website',
@@ -75,19 +88,6 @@ class Proteo_Testimonials_Metabox {
 			'type'  => 'url',
 			'class' => '',
 		),
-		array(
-			'label'   => 'Rating',
-			'id'      => 'proteo_testimonial_rating',
-			'type'    => 'select',
-			'class'   => '',
-			'options' => array(
-				1 => '1',
-				2 => '2',
-				3 => '3',
-				4 => '4',
-				5 => '5',
-			),
-		),
 	);
 
 	/**
@@ -113,12 +113,12 @@ class Proteo_Testimonials_Metabox {
 	 * @return void
 	 */
 	public function add_meta_boxes() {
-		foreach ( $this->screens as $screen ) {
+		foreach ( $this->custom_post_types as $custom_post_type ) {
 			add_meta_box(
 				'proteo_testimonial_meta',
 				__( 'Testimonial review', 'yith-proteo-toolkit' ),
 				array( $this, 'meta_box_callback' ),
-				$screen,
+				$custom_post_type,
 				'normal',
 				'default'
 			);
@@ -219,6 +219,7 @@ class Proteo_Testimonials_Metabox {
 					);
 			}
 			$output .= $this->format_rows( $label, $input );
+
 		}
 		echo '<table class="form-table"><tbody>' . $output . '</tbody></table>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
@@ -258,11 +259,14 @@ class Proteo_Testimonials_Metabox {
 					case 'email':
 						$_POST[ $field['id'] ] = sanitize_email( wp_unslash( $_POST[ $field['id'] ] ) );
 						break;
+					case 'url':
+						$_POST[ $field['id'] ] = esc_url_raw( wp_unslash( $_POST[ $field['id'] ] ) );
+						break;
 					case 'text':
 						$_POST[ $field['id'] ] = sanitize_text_field( wp_unslash( $_POST[ $field['id'] ] ) );
 						break;
 				}
-				update_post_meta( $post_id, $field['id'], intval( wp_unslash( $_POST[ $field['id'] ] ) ) );
+				update_post_meta( $post_id, $field['id'], wp_kses_post( wp_unslash( $_POST[ $field['id'] ] ) ) );
 			} elseif ( 'checkbox' === $field['type'] ) {
 				update_post_meta( $post_id, $field['id'], '0' );
 			}

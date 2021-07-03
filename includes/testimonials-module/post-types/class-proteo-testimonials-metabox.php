@@ -40,6 +40,42 @@ class Proteo_Testimonials_Metabox {
 			'class' => '',
 		),
 		array(
+			'label' => 'Website',
+			'id'    => 'proteo_testimonial_website',
+			'type'  => 'url',
+			'class' => '',
+		),
+		array(
+			'label' => 'Facebook',
+			'id'    => 'proteo_testimonial_website',
+			'type'  => 'url',
+			'class' => '',
+		),
+		array(
+			'label' => 'Twitter',
+			'id'    => 'proteo_testimonial_social_twitter',
+			'type'  => 'url',
+			'class' => '',
+		),
+		array(
+			'label' => 'Youtube',
+			'id'    => 'proteo_testimonial_social_youtube',
+			'type'  => 'url',
+			'class' => '',
+		),
+		array(
+			'label' => 'Instagram',
+			'id'    => 'proteo_testimonial_social_instagram',
+			'type'  => 'url',
+			'class' => '',
+		),
+		array(
+			'label' => 'TikTok',
+			'id'    => 'proteo_testimonial_social_tiktok',
+			'type'  => 'url',
+			'class' => '',
+		),
+		array(
 			'label'   => 'Rating',
 			'id'      => 'proteo_testimonial_rating',
 			'type'    => 'select',
@@ -57,7 +93,7 @@ class Proteo_Testimonials_Metabox {
 	/**
 	 * Retrieve filtered meta fields array
 	 *
-	 * @return void
+	 * @return array
 	 */
 	public function get_fields() {
 		return apply_filters( 'proteo_testimonial_meta_fields', $this->fields );
@@ -155,7 +191,19 @@ class Proteo_Testimonials_Metabox {
 						'<textarea id="%s" name="%s" rows="5">%s</textarea>',
 						esc_attr( $field['id'] ),
 						esc_attr( $field['id'] ),
-						$meta_value
+						esc_html( $meta_value )
+					);
+					break;
+				case 'url':
+					$meta_value = get_post_meta( $post->ID, $field['id'], true );
+					$label      = '<label for="' . $field['id'] . '">' . $field['label'] . '</label>';
+					$input      = sprintf(
+						'<input %s id="%s" name="%s" type="%s" value="%s">',
+						'color' !== $field['type'] ? 'style="width: 100%"' : '',
+						esc_attr( $field['id'] ),
+						esc_attr( $field['id'] ),
+						esc_attr( $field['type'] ),
+						esc_url( $meta_value )
 					);
 					break;
 				default:

@@ -2,6 +2,7 @@
 /**
  * Module starter file
  *
+ * @since 1.1.0
  * @package YITH_Proteo_tookit
  */
 

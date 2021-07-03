@@ -2,6 +2,7 @@
 /**
  * Testimonials post type
  *
+ * @since 1.1.0
  * @package YITH_Proteo_tookit
  */
 

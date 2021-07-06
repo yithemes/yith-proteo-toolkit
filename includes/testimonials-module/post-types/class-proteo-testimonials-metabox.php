@@ -32,19 +32,19 @@ class Proteo_Testimonials_Metabox {
 			'label' => 'Review',
 			'id'    => 'proteo_testimonial_review',
 			'type'  => 'editor',
-			'class' => '',
+			'class' => 'testimonial-review',
 		),
 		array(
 			'label' => 'Small quote',
 			'id'    => 'proteo_testimonial_small_quote',
 			'type'  => 'textarea',
-			'class' => '',
+			'class' => 'testimonial-small-quote',
 		),
 		array(
-			'label'   => 'Rating',
+			'label'   => 'Rating (1 - 5)',
 			'id'      => 'proteo_testimonial_rating',
 			'type'    => 'select',
-			'class'   => '',
+			'class'   => 'testimonial-rating',
 			'options' => array(
 				1 => '1',
 				2 => '2',
@@ -57,37 +57,37 @@ class Proteo_Testimonials_Metabox {
 			'label' => 'Website',
 			'id'    => 'proteo_testimonial_website',
 			'type'  => 'url',
-			'class' => '',
+			'class' => 'testimonial-website',
 		),
 		array(
 			'label' => 'Facebook',
 			'id'    => 'proteo_testimonial_website',
 			'type'  => 'url',
-			'class' => '',
+			'class' => 'testimonial-facebook',
 		),
 		array(
 			'label' => 'Twitter',
 			'id'    => 'proteo_testimonial_social_twitter',
 			'type'  => 'url',
-			'class' => '',
+			'class' => 'testimonial-twitter',
 		),
 		array(
 			'label' => 'Youtube',
 			'id'    => 'proteo_testimonial_social_youtube',
 			'type'  => 'url',
-			'class' => '',
+			'class' => 'testimonial-youtube',
 		),
 		array(
 			'label' => 'Instagram',
 			'id'    => 'proteo_testimonial_social_instagram',
 			'type'  => 'url',
-			'class' => '',
+			'class' => 'testimonial-instagram',
 		),
 		array(
 			'label' => 'TikTok',
 			'id'    => 'proteo_testimonial_social_tiktok',
 			'type'  => 'url',
-			'class' => '',
+			'class' => 'testimonial-tiktok',
 		),
 	);
 
@@ -106,6 +106,7 @@ class Proteo_Testimonials_Metabox {
 	public function __construct() {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_action( 'save_post', array( $this, 'save_fields' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_css' ) );
 	}
 
 	/**
@@ -164,11 +165,12 @@ class Proteo_Testimonials_Metabox {
 			switch ( $field['type'] ) {
 				case 'select':
 					$meta_value = get_post_meta( $post->ID, $field['id'], true );
-					$label      = '<label for="' . $field['id'] . '">' . esc_html( $field['label'] ) . '</label>';
+					$label      = '<label for="' . $field['id'] . '">' . $field['label'] . '</label>';
 					$input      = sprintf(
-						'<select id="%s" name="%s">',
+						'<select id="%s" name="%s" class="%s">',
 						esc_attr( $field['id'] ),
-						esc_attr( $field['id'] )
+						esc_attr( $field['id'] ),
+						esc_attr( $field['class'] )
 					);
 					foreach ( $field['options'] as $key => $value ) {
 						$field_value = ! is_numeric( $key ) ? $key : $value;
@@ -189,9 +191,10 @@ class Proteo_Testimonials_Metabox {
 					$meta_value = get_post_meta( $post->ID, $field['id'], true );
 					$label      = '<label for="' . $field['id'] . '">' . $field['label'] . '</label>';
 					$input      = sprintf(
-						'<textarea id="%s" name="%s" rows="5">%s</textarea>',
+						'<textarea id="%s" name="%s" rows="5" class="%s">%s</textarea>',
 						esc_attr( $field['id'] ),
 						esc_attr( $field['id'] ),
+						esc_attr( $field['class'] ),
 						esc_html( $meta_value )
 					);
 					break;
@@ -199,8 +202,9 @@ class Proteo_Testimonials_Metabox {
 					$meta_value = get_post_meta( $post->ID, $field['id'], true );
 					$label      = '<label for="' . $field['id'] . '">' . $field['label'] . '</label>';
 					$input      = sprintf(
-						'<input %s id="%s" name="%s" type="%s" value="%s">',
+						'<input %s class="%s" id="%s" name="%s" type="%s" value="%s">',
 						'color' !== $field['type'] ? 'style="width: 100%"' : '',
+						esc_attr( $field['class'] ),
 						esc_attr( $field['id'] ),
 						esc_attr( $field['id'] ),
 						esc_attr( $field['type'] ),
@@ -211,8 +215,9 @@ class Proteo_Testimonials_Metabox {
 					$meta_value = get_post_meta( $post->ID, $field['id'], true );
 					$label      = '<label for="' . $field['id'] . '">' . $field['label'] . '</label>';
 					$input      = sprintf(
-						'<input %s id="%s" name="%s" type="%s" value="%s">',
+						'<input %s class="%s" id="%s" name="%s" type="%s" value="%s">',
 						'color' !== $field['type'] ? 'style="width: 100%"' : '',
+						esc_attr( $field['class'] ),
 						esc_attr( $field['id'] ),
 						esc_attr( $field['id'] ),
 						esc_attr( $field['type'] ),
@@ -233,7 +238,7 @@ class Proteo_Testimonials_Metabox {
 	 * @return string
 	 */
 	public function format_rows( $label, $input ) {
-		return '<div style="margin-top: 10px;"><strong>' . $label . '</strong></div><div>' . $input . '</div>';
+		return '<div class="proteo-testimonials-meta" style="margin-top: 10px;">' . $label . $input . '</div>';
 	}
 
 	/**
@@ -270,6 +275,20 @@ class Proteo_Testimonials_Metabox {
 				update_post_meta( $post_id, $field['id'], wp_kses_post( wp_unslash( $_POST[ $field['id'] ] ) ) );
 			} elseif ( 'checkbox' === $field['type'] ) {
 				update_post_meta( $post_id, $field['id'], '0' );
+			}
+		}
+	}
+
+	/**
+	 * Enqueue custom admin css for the metaboxes
+	 */
+	public function admin_css() {
+
+		if ( 'proteo_testimonials' === get_post_type() ) {
+			wp_enqueue_style( 'proteo_testimonials_admin_css', YITH_PROTEO_TOOLKIT_URL . 'includes/testimonials-module/assets/testimonials-admin.css', array(), YITH_PROTEO_TOOLKIT_VERSION );
+
+			if ( function_exists( 'WC' ) ) {
+				wp_enqueue_script( 'proteo_testimonials_admin_js', YITH_PROTEO_TOOLKIT_URL . 'includes/testimonials-module/assets/testimonials-admin.js', array(), YITH_PROTEO_TOOLKIT_VERSION, true );
 			}
 		}
 	}

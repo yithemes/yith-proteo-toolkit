@@ -46,11 +46,11 @@ class Proteo_Testimonials_Metabox {
 			'type'    => 'select',
 			'class'   => 'testimonial-rating',
 			'options' => array(
-				1 => '1',
-				2 => '2',
-				3 => '3',
-				4 => '4',
-				5 => '5',
+				1 => '1 star',
+				2 => '2 stars',
+				3 => '3 stars',
+				4 => '4 stars',
+				5 => '5 stars',
 			),
 		),
 		array(
@@ -61,7 +61,7 @@ class Proteo_Testimonials_Metabox {
 		),
 		array(
 			'label' => 'Facebook',
-			'id'    => 'proteo_testimonial_website',
+			'id'    => 'proteo_testimonial_social_facebook',
 			'type'  => 'url',
 			'class' => 'testimonial-facebook',
 		),
@@ -88,6 +88,18 @@ class Proteo_Testimonials_Metabox {
 			'id'    => 'proteo_testimonial_social_tiktok',
 			'type'  => 'url',
 			'class' => 'testimonial-tiktok',
+		),
+		array(
+			'label' => 'LinkedIn',
+			'id'    => 'proteo_testimonial_social_linkedin',
+			'type'  => 'url',
+			'class' => 'testimonial-linkedin',
+		),
+		array(
+			'label' => 'Skype',
+			'id'    => 'proteo_testimonial_social_skype',
+			'type'  => 'url',
+			'class' => 'testimonial-skype',
 		),
 	);
 

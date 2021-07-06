@@ -57,6 +57,10 @@ if ( ! defined( 'YITH_PROTEO_TOOLKIT_URL' ) ) {
 	define( 'YITH_PROTEO_TOOLKIT_URL', plugin_dir_url( __FILE__ ) );
 }
 
+if ( ! defined( 'YITH_PROTEO_TOOLKIT_TEMPLATE_PATH' ) ) {
+	define( 'YITH_PROTEO_TOOLKIT_TEMPLATE_PATH', YITH_PROTEO_TOOLKIT_PATH . 'templates/' );
+}
+
 require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/yith-proteo-toolkit-utils.php';
 
 require_once YITH_PROTEO_TOOLKIT_PATH . 'block-patterns/block-patterns.php';

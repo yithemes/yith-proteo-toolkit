@@ -24,3 +24,5 @@ if ( array_key_exists( 'post_type', $module_params ) && '' !== $module_params['p
 	require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/testimonials-module/post-types/class-proteo-testimonials-metabox.php';
 
 }
+
+require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/testimonials-module/shortcodes/shortcodes.php';

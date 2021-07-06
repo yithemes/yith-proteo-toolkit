@@ -28,6 +28,10 @@
     box-shadow: none;
     color: #716269;
 }
+.proteo-testimonials-meta textarea:focus {
+    border-color: #a7d9ec;
+    box-shadow: none;
+}
 
 .proteo-testimonials-meta input, .proteo-testimonials-meta select {
     display: block;
@@ -42,6 +46,12 @@
     color: #716269;
 }
 
+.proteo-testimonials-meta input:focus,
+.proteo-testimonials-meta select:focus {
+    border-color: #a7d9ec;
+    box-shadow: none;
+}
+
 .proteo-testimonials-meta span.select2.select2-container.select2-container--default {
     border: none;
 }
@@ -50,6 +60,9 @@
     border: 1px solid #d8d8d8;
     border-radius: 8px;
     height: 38px;
+}
+.proteo-testimonials-meta .select2-container .select2-selection--single[aria-expanded="true"] {
+    border-color: #a7d9ec;
 }
 
 .proteo-testimonials-meta .select2-container--default .select2-selection--single .select2-selection__rendered, 

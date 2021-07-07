@@ -11,10 +11,11 @@
  */
 
 if ( 'all' === $proteo_testimonials_elements_to_show || '' === $proteo_testimonials_elements_to_show ) {
-	$proteo_testimonials_elements_to_show = 'picture,name,review,quote,rating,website,facebook,twitter,youtube,instagram,tiktok,linkedin,skype,categories';
+	$proteo_testimonials_elements_to_show = 'picture,name,review,quote,website,facebook,twitter,youtube,instagram,tiktok,linkedin,skype,categories';
 }
 
 $proteo_testimonials_elements_to_show = explode( ',', $proteo_testimonials_elements_to_show );
+$proteo_testimonials_elements_to_show = array_map( 'trim', $proteo_testimonials_elements_to_show );
 
 if ( '' !== $proteo_testimonials_names_to_show ) {
 	$proteo_testimonials_names_to_show = explode( ',', strtolower( $proteo_testimonials_names_to_show ) );
@@ -32,7 +33,6 @@ if ( '' !== $proteo_testimonials_names_to_show ) {
 			'name'       => get_the_title( $testimonial_id ),
 			'review'     => get_post_meta( $testimonial_id, 'proteo_testimonial_review', true ),
 			'quote'      => get_post_meta( $testimonial_id, 'proteo_testimonial_small_quote', true ),
-			'rating'     => get_post_meta( $testimonial_id, 'proteo_testimonial_rating', true ),
 			'website'    => get_post_meta( $testimonial_id, 'proteo_testimonial_website', true ),
 			'facebook'   => get_post_meta( $testimonial_id, 'proteo_testimonial_social_facebook', true ),
 			'twitter'    => get_post_meta( $testimonial_id, 'proteo_testimonial_social_twitter', true ),
@@ -43,11 +43,9 @@ if ( '' !== $proteo_testimonials_names_to_show ) {
 			'skype'      => get_post_meta( $testimonial_id, 'proteo_testimonial_social_skype', true ),
 			'categories' => get_the_terms( $testimonial_id, 'proteo_testimonials_tax' ),
 		);
-
 		if ( $proteo_testimonials_names_to_show && ! in_array( strtolower( $testimonial['name'] ), $proteo_testimonials_names_to_show, true ) ) {
 			continue;
 		}
-
 		if ( in_array( 'facebook', $proteo_testimonials_elements_to_show, true ) ) {
 			$social_networks['facebook'] = $testimonial['facebook'];
 		}
@@ -69,7 +67,6 @@ if ( '' !== $proteo_testimonials_names_to_show ) {
 		if ( in_array( 'skype', $proteo_testimonials_elements_to_show, true ) ) {
 			$social_networks['skype'] = $testimonial['skype'];
 		}
-
 		?>
 		<div class="yith-proteo-testimonial" data-testimonial_id="<?php echo esc_attr( $testimonial['id'] ); ?>">
 			<div class="testimonial-header">
@@ -79,9 +76,6 @@ if ( '' !== $proteo_testimonials_names_to_show ) {
 				}
 				if ( in_array( 'name', $proteo_testimonials_elements_to_show, true ) ) {
 					echo '<div class="testimonial-name">' . esc_html( $testimonial['name'] ) . '</div>';
-				}
-				if ( in_array( 'rating', $proteo_testimonials_elements_to_show, true ) ) {
-					echo '<div class="testimonial-rating">' . esc_html( $testimonial['rating'] ) . '</div>';
 				}
 				?>
 			</div>
@@ -103,7 +97,6 @@ if ( '' !== $proteo_testimonials_names_to_show ) {
 				the_widget( 'YITH_Proteo_Social_Icons', $social_networks );
 				?>
 			</div>
-
 		</div>
 		<?php
 	}

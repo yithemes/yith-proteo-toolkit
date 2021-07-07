@@ -41,19 +41,6 @@ class Proteo_Testimonials_Metabox {
 			'class' => 'testimonial-small-quote',
 		),
 		array(
-			'label'   => 'Rating (1 - 5)',
-			'id'      => 'proteo_testimonial_rating',
-			'type'    => 'select',
-			'class'   => 'testimonial-rating',
-			'options' => array(
-				1 => '1 star',
-				2 => '2 stars',
-				3 => '3 stars',
-				4 => '4 stars',
-				5 => '5 stars',
-			),
-		),
-		array(
 			'label' => 'Website',
 			'id'    => 'proteo_testimonial_website',
 			'type'  => 'url',

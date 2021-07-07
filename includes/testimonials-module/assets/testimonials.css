@@ -1,0 +1,64 @@
+.yith-proteo-testimonials {
+    display: block;
+}
+
+.yith-proteo-testimonials.list .yith-proteo-testimonial:not(:last-child) {
+    margin-bottom: 50px;
+    border-bottom: 1px solid #979797;
+}
+
+.testimonial-header {
+    display: grid;
+    grid-template-columns: 95px 1fr;
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 15px;
+    grid-row-gap: 10px;
+    margin-bottom: 35px;
+}
+
+.testimonial-picture {
+    grid-area: 1 / 1 / 3 / 2;
+    font-size: 0;
+}
+
+.testimonial-name {
+    grid-area: 1 / 2 / 2 / 3;
+    align-self: end;
+    font-weight: 600;
+}
+
+.testimonial-rating {
+    grid-area: 2 / 2 / 3 / 3;
+    align-self: start;
+}
+
+
+.testimonial-picture img {
+    border-radius: 100px;
+}
+
+.testimonial-content {
+    display: block;
+    font-weight: 500;
+    font-size: 1em;
+    margin-bottom: 15px;
+}
+
+.testimonial-content .testimonial-quote {
+    font-weight: 600;
+    font-size: 1.2em;
+    margin-bottom: 15px;
+}
+
+.testimonial-footer {
+    font-size: 1em;
+}
+
+.testimonial-footer .widget_yith_proteo_social_icons, .testimonial-footer .widget_yith_proteo_social_icons a.yith-proteo-social-icon span {
+    font-size: inherit;
+}
+
+.testimonial-footer .widget_yith_proteo_social_icons a.yith-proteo-social-icon svg.tiktok {
+    width: 1.3em;
+    height: 1.3em;
+}

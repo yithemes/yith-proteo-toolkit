@@ -26,3 +26,14 @@ if ( array_key_exists( 'post_type', $module_params ) && '' !== $module_params['p
 }
 
 require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/testimonials-module/shortcodes/shortcodes.php';
+
+add_action( 'wp_enqueue_scripts', 'yith_proteo_testimonials_shortcode_style' );
+
+/**
+ * Enqueue frontend style
+ *
+ * @return void
+ */
+function yith_proteo_testimonials_shortcode_style() {
+	wp_enqueue_style( 'yith_proteo_testimonials_shortcode_style', YITH_PROTEO_TOOLKIT_URL . 'includes/testimonials-module/assets/testimonials.css', array(), YITH_PROTEO_TOOLKIT_VERSION );
+}

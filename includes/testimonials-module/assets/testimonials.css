@@ -2,6 +2,11 @@
     display: block;
 }
 
+.yith-proteo-testimonial {
+    display: flex;
+    flex-direction: column;
+}
+
 .yith-proteo-testimonials.list .yith-proteo-testimonial {
     padding-bottom: 35px;
 }
@@ -31,6 +36,7 @@
     grid-column-gap: 15px;
     grid-row-gap: 10px;
     margin-bottom: 35px;
+    order: 1;
 }
 
 .yith-proteo-testimonial .testimonial-picture {
@@ -59,6 +65,7 @@
     font-weight: 500;
     font-size: 1em;
     margin-bottom: 15px;
+    order: 2;
 }
 
 .yith-proteo-testimonial .testimonial-content .testimonial-review {
@@ -73,6 +80,7 @@
 
 .yith-proteo-testimonial .testimonial-footer {
     font-size: 1em;
+    order: 3;
 }
 
 .yith-proteo-testimonial .testimonial-footer .widget_yith_proteo_social_icons {

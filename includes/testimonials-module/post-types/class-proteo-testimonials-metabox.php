@@ -168,7 +168,6 @@ class Proteo_Testimonials_Metabox {
 				'media_buttons' => false,
 				'textarea_name' => 'proteo_testimonial_review',
 				'textarea_rows' => 20,
-				'teeny'         => true,
 			)
 		);
 

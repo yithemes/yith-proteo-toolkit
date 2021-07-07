@@ -19,10 +19,10 @@ function yith_proteo_toolkit_proteo_testimonials_sc( $atts ) {
 	// Attributes.
 	$atts = shortcode_atts(
 		array(
-			'names'    => '',
+			'names'    => '', // comma separated list of testimonial names.
 			'count'    => '-1',
-			'layout'   => 'list',
-			'elements' => '',
+			'layout'   => 'list', // grid or list.
+			'elements' => '', // comma separated list of testimonial elements to show.
 		),
 		$atts,
 		'proteo_testimonials'
@@ -40,6 +40,7 @@ function yith_proteo_toolkit_proteo_testimonials_sc( $atts ) {
 	$proteo_testimonials_id_array         = get_posts( $args );
 	$proteo_testimonials_layout           = $atts['layout'];
 	$proteo_testimonials_elements_to_show = $atts['elements'];
+	$proteo_testimonials_names_to_show    = $atts['names'];
 
 	if ( empty( $proteo_testimonials_id_array ) ) {
 		return '';

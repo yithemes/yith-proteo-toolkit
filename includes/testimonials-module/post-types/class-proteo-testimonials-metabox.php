@@ -181,6 +181,34 @@ class Proteo_Testimonials_Metabox {
 					}
 					$input .= '</select>';
 					break;
+				case 'products-select':
+					$meta_value = get_post_meta( $post->ID, $field['id'], true );
+					$label      = '<label for="' . $field['id'] . '">' . $field['label'] . '</label>';
+					$input      = sprintf(
+						'<select class="wc-product-search" id="%s" name="%s" data-placeholder="%s" data-action="woocommerce_json_search_products_and_variations">',
+						esc_attr( $field['id'] ),
+						esc_attr( $field['id'] ),
+						esc_attr__( 'Search for a product&hellip;', 'yith-proteo-toolkit' ),
+					);
+
+					if ( $meta_value && ! is_array( $meta_value ) ) {
+						$meta_value = explode( ',', $meta_value );
+					}
+
+					if ( ! empty( $meta_value ) ) {
+						foreach ( $meta_value as $product_id ) {
+							$product = wc_get_product( $product_id );
+							if ( is_object( $product ) ) {
+								$input .= '<option value="' . esc_attr( $product_id ) . '"' . selected( true, true, false ) . '>' . wp_kses_post( $product->get_formatted_name() ) . '</option>';
+							}
+						}
+					}
+
+					$input .= '</select>';
+					?>
+
+					<?php
+					break;
 				case 'editor':
 					$label = '';
 					$input = '';
@@ -286,7 +314,11 @@ class Proteo_Testimonials_Metabox {
 			wp_enqueue_style( 'proteo_testimonials_admin_css', YITH_PROTEO_TOOLKIT_URL . 'includes/testimonials-module/assets/testimonials-admin.css', array(), YITH_PROTEO_TOOLKIT_VERSION );
 
 			if ( function_exists( 'WC' ) ) {
+				$suffix  = 'true' === SCRIPT_DEBUG ? '' : '.min';
+				$version = WC_VERSION;
 				wp_enqueue_script( 'proteo_testimonials_admin_js', YITH_PROTEO_TOOLKIT_URL . 'includes/testimonials-module/assets/testimonials-admin.js', array(), YITH_PROTEO_TOOLKIT_VERSION, true );
+				wp_register_script( 'wc-enhanced-select', WC()->plugin_url() . '/assets/js/admin/wc-enhanced-select' . $suffix . '.js', array( 'jquery', 'selectWoo' ), $version, true );
+				wp_enqueue_script( 'wc-enhanced-select' );
 			}
 		}
 	}

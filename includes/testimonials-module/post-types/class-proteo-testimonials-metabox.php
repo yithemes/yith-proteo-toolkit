@@ -41,6 +41,12 @@ class Proteo_Testimonials_Metabox {
 			'class' => 'testimonial-small-quote',
 		),
 		array(
+			'label' => 'Subtitle',
+			'id'    => 'proteo_testimonial_subtitle',
+			'type'  => 'text',
+			'class' => 'testimonial-subtitle',
+		),
+		array(
 			'label' => 'Website',
 			'id'    => 'proteo_testimonial_website',
 			'type'  => 'url',

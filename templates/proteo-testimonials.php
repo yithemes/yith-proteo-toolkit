@@ -11,7 +11,7 @@
  */
 
 if ( 'all' === $proteo_testimonials_elements_to_show || '' === $proteo_testimonials_elements_to_show ) {
-	$proteo_testimonials_elements_to_show = 'picture,name,review,quote,website,facebook,twitter,youtube,instagram,tiktok,linkedin,skype,categories';
+	$proteo_testimonials_elements_to_show = 'picture,name,subtitle,review,quote,website,facebook,twitter,youtube,instagram,tiktok,linkedin,skype,categories';
 }
 
 $proteo_testimonials_elements_to_show = explode( ',', $proteo_testimonials_elements_to_show );
@@ -33,6 +33,7 @@ if ( '' !== $proteo_testimonials_names_to_show ) {
 			'name'       => get_the_title( $testimonial_id ),
 			'review'     => get_post_meta( $testimonial_id, 'proteo_testimonial_review', true ),
 			'quote'      => get_post_meta( $testimonial_id, 'proteo_testimonial_small_quote', true ),
+			'subtitle'   => get_post_meta( $testimonial_id, 'proteo_testimonial_subtitle', true ),
 			'website'    => get_post_meta( $testimonial_id, 'proteo_testimonial_website', true ),
 			'facebook'   => get_post_meta( $testimonial_id, 'proteo_testimonial_social_facebook', true ),
 			'twitter'    => get_post_meta( $testimonial_id, 'proteo_testimonial_social_twitter', true ),
@@ -76,6 +77,9 @@ if ( '' !== $proteo_testimonials_names_to_show ) {
 				}
 				if ( in_array( 'name', $proteo_testimonials_elements_to_show, true ) ) {
 					echo '<div class="testimonial-name">' . esc_html( $testimonial['name'] ) . '</div>';
+				}
+				if ( in_array( 'subtitle', $proteo_testimonials_elements_to_show, true ) ) {
+					echo '<div class="testimonial-subtitle">' . esc_html( $testimonial['subtitle'] ) . '</div>';
 				}
 				?>
 			</div>

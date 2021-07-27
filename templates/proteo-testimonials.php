@@ -89,7 +89,13 @@ if ( '' !== $proteo_testimonials_names_to_show ) {
 					echo '<div class="testimonial-quote">' . wp_kses_post( $testimonial['quote'] ) . '</div>';
 				}
 				if ( in_array( 'review', $proteo_testimonials_elements_to_show, true ) ) {
-					echo '<div class="testimonial-review">' . wp_kses_post( apply_filters( 'the_content', wpautop( $testimonial['review'] ) ) ) . '</div>';
+					$testimonial_content_array       = explode( ' ', $testimonial['review'] );
+					$testimonial_content_words_count = count( $testimonial_content_array );
+					$expand_class                    = $testimonial_content_words_count > 70 ? 'to-expand' : '';
+					echo '<div class="testimonial-review ' . esc_attr( $expand_class ) . '">' . wp_kses_post( apply_filters( 'the_content', wpautop( $testimonial['review'] ) ) ) . '</div>';
+					if ( $testimonial_content_words_count > 70 ) {
+						echo '<div class="testimonial-read-more">' . esc_html__( 'Read more', 'yith-proteo-toolkit' ) . '</div>';
+					}
 				}
 				?>
 			</div>

@@ -36,4 +36,5 @@ add_action( 'wp_enqueue_scripts', 'yith_proteo_testimonials_shortcode_style' );
  */
 function yith_proteo_testimonials_shortcode_style() {
 	wp_enqueue_style( 'yith_proteo_testimonials_shortcode_style', YITH_PROTEO_TOOLKIT_URL . 'includes/testimonials-module/assets/testimonials.css', array(), YITH_PROTEO_TOOLKIT_VERSION );
+	wp_enqueue_script( 'yith_proteo_testimonials_shortcode_js', YITH_PROTEO_TOOLKIT_URL . 'includes/testimonials-module/assets/testimonials.js', array( 'jquery' ), YITH_PROTEO_TOOLKIT_VERSION, true );
 }

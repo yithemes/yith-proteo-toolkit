@@ -5,6 +5,7 @@
 .yith-proteo-testimonial {
     display: flex;
     flex-direction: column;
+    background-color: #ffffff;
 }
 
 .yith-proteo-testimonials.list .yith-proteo-testimonial {
@@ -79,6 +80,30 @@
 
 .yith-proteo-testimonial .testimonial-content .testimonial-review {
     line-height: 1.8;
+    overflow: hidden;
+    transition: all ease 0.5s;
+}
+
+.yith-proteo-testimonial .testimonial-content .testimonial-review.to-expand {
+    max-height: 300px;
+    padding-bottom: 50px;
+}
+.yith-proteo-testimonial .testimonial-content .testimonial-read-more {
+    margin-top: -50px;
+    cursor: pointer;
+    text-align: center;
+    display: block;
+    height: 100px;
+    position: relative;
+    padding: 40px 0;
+}
+.yith-proteo-testimonial .testimonial-content .testimonial-read-more:not(.expanded) {
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 25%, rgba(255,255,255,1) 100%);
+}
+
+.yith-proteo-testimonial .testimonial-content .testimonial-review.to-expand.expanded {
+    max-height: 3000px;
 }
 
 .yith-proteo-testimonial .testimonial-content .testimonial-quote {

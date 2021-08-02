@@ -46,7 +46,7 @@ if ( ! defined( 'YITH_PROTEO_TOOLKIT' ) ) {
 }
 
 if ( ! defined( 'YITH_PROTEO_TOOLKIT_VERSION' ) ) {
-	define( 'YITH_PROTEO_TOOLKIT_VERSION', '1.0.9' );
+	define( 'YITH_PROTEO_TOOLKIT_VERSION', '1.0.9.1' );
 }
 
 if ( ! defined( 'YITH_PROTEO_TOOLKIT_PATH' ) ) {

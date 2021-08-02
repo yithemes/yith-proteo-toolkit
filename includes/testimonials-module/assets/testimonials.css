@@ -130,3 +130,15 @@
     width: 1.3em;
     height: 1.3em;
 }
+
+@media (max-width: 992px) {
+    .yith-proteo-testimonials.grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .yith-proteo-testimonials.grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

@@ -46,7 +46,7 @@ if ( ! defined( 'YITH_PROTEO_TOOLKIT' ) ) {
 }
 
 if ( ! defined( 'YITH_PROTEO_TOOLKIT_VERSION' ) ) {
-	define( 'YITH_PROTEO_TOOLKIT_VERSION', '1.0.9' );
+	define( 'YITH_PROTEO_TOOLKIT_VERSION', '1.0.9.1' );
 }
 
 if ( ! defined( 'YITH_PROTEO_TOOLKIT_PATH' ) ) {
@@ -55,6 +55,10 @@ if ( ! defined( 'YITH_PROTEO_TOOLKIT_PATH' ) ) {
 
 if ( ! defined( 'YITH_PROTEO_TOOLKIT_URL' ) ) {
 	define( 'YITH_PROTEO_TOOLKIT_URL', plugin_dir_url( __FILE__ ) );
+}
+
+if ( ! defined( 'YITH_PROTEO_TOOLKIT_TEMPLATE_PATH' ) ) {
+	define( 'YITH_PROTEO_TOOLKIT_TEMPLATE_PATH', YITH_PROTEO_TOOLKIT_PATH . 'templates/' );
 }
 
 require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/yith-proteo-toolkit-utils.php';
@@ -186,3 +190,5 @@ add_action( 'init', 'theme_prefix_remove_elementor_splash' );
 
 // Disable WooCommerce spash screen when activating.
 add_filter( 'woocommerce_prevent_automatic_wizard_redirect', '__return_true' );
+
+require_once 'includes/testimonials-module/module.php';

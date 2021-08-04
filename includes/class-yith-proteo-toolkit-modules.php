@@ -21,9 +21,13 @@ if ( ! class_exists( 'YITH_Proteo_Toolkit_Modules' ) ) {
 		public function __construct() {
 			require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/class-yith-proteo-toolkit-wizard.php';
 
-			require_once YITH_PROTEO_TOOLKIT_PATH . 'block-patterns/block-patterns.php';
+			if ( $this->is_module_enabled( 'yith-proteo-toolkit-block-patterns' ) ) {
+				require_once YITH_PROTEO_TOOLKIT_PATH . 'block-patterns/block-patterns.php';
+			}
 
-			require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/testimonials-module/module.php';
+			if ( $this->is_module_enabled( 'yith-proteo-toolkit-testimonial' ) ) {
+				require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/testimonials-module/module.php';
+			}
 
 			add_action( 'yith_proteo_dashboard_additional_sidebar_content', array( $this, 'modules_sidebar_panel' ) );
 
@@ -83,8 +87,8 @@ if ( ! class_exists( 'YITH_Proteo_Toolkit_Modules' ) ) {
 		 */
 		public function modules_sidebar_panel() {
 			$modules_active                   = get_option( 'yith_proteo_toolkit_modules_active', array() );
-			$is_testimonial_module_enabled    = isset( $modules_active['yith-proteo-toolkit-testimonial'] ) ? $modules_active['yith-proteo-toolkit-testimonial'] : true;
-			$is_block_patterns_module_enabled = isset( $modules_active['yith-proteo-toolkit-block-patterns'] ) ? $modules_active['yith-proteo-toolkit-block-patterns'] : true;
+			$is_testimonial_module_enabled    = $this->is_module_enabled( 'yith-proteo-toolkit-testimonial' );
+			$is_block_patterns_module_enabled = $this->is_module_enabled( 'yith-proteo-toolkit-block-patterns' );
 			?>
 			<div class="content">
 				<h3>
@@ -106,6 +110,19 @@ if ( ! class_exists( 'YITH_Proteo_Toolkit_Modules' ) ) {
 				</ul>
 			</div>
 			<?php
+		}
+
+		/**
+		 * Check module state
+		 *
+		 * @param string $module Module identifier.
+		 * @return boolean
+		 */
+		public function is_module_enabled( $module ) {
+			$saved_modules = get_option( 'yith_proteo_toolkit_modules_active', array() );
+			$module        = sanitize_title( $module );
+			$state         = isset( $saved_modules[ $module ] ) ? $saved_modules[ $module ] : true;
+			return $state;
 		}
 	}
 

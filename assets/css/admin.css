@@ -291,6 +291,88 @@ ul.wizard__drawer.wizard__drawer--import-content.js-wizard-drawer-import-content
 	transform: scale(1) !important;
 }
 
+#yith-proteo-toolkit-modules li {
+	margin-bottom: 15px;
+	overflow: hidden;
+}
+#yith-proteo-toolkit-modules li:after {
+	content: '';
+	display: block;
+	position: relative;
+	border-bottom: 1px dashed #e0e0e0;
+	z-index: 0;
+	top: -4px;
+	right: 55px
+}
+
+#yith-proteo-toolkit-modules .module-name {
+	font-weight: 600;
+	background: #ffffff;
+	position: relative;
+	z-index: 1;
+	padding: 0 10px 5px 0;
+}
+
+#yith-proteo-dashboard-panel .form-switch {
+position: relative;
+	display: block;
+	border-radius: 12px;
+	box-sizing: border-box;
+	padding: 2px 4px;
+	width: 44px;
+	height: 20px;
+	background: #ffffff;
+	outline: 0;
+	cursor: pointer;
+	transition: all .4s ease;
+	box-shadow: none;
+	color: #6C6C6C;
+	text-align: right;
+	float: right;
+	border: 1px solid #87a6bc;
+}
+
+#yith-proteo-dashboard-panel .form-switch.enabled {
+	border-color: #7db930;
+}
+
+#yith-proteo-dashboard-panel .form-switch:before,
+#yith-proteo-dashboard-panel .form-switch:after {
+	position: absolute;
+	display: block;
+	content: "";
+	width: 10px;
+	height: 10px;
+	top: 4px;
+	background: #87a6bc;
+	border-radius: 50%;
+	right: 4px;
+	left: auto;
+	transition: all ease 0.3s;
+}
+
+#yith-proteo-dashboard-panel .form-switch:after {
+	content: 'OFF';
+	font-size: 9px;
+	font-weight: bold;
+	line-height: 10px;
+	left: 6px;
+	border-radius: 20px;
+	background: #fff;
+	transition: all .2s ease;
+	color: inherit;
+	transition: all ease 0.3s;
+}
+
+#yith-proteo-dashboard-panel .form-switch.enabled:after {
+	left: 20px;
+	content: 'ON';
+}
+#yith-proteo-dashboard-panel .form-switch.enabled:before {
+	background: #7db930;
+	transform: translateX(-24px);
+}
+
 @keyframes flickerAnimation {
 	0% {
 		opacity: 1;

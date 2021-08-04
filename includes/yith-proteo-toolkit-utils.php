@@ -34,3 +34,33 @@ function yith_proteo_toolkit_wizard_step_icon( $step = null ) {
 	</div>
 	<?php
 }
+
+/**
+ * Disable plugin
+ *
+ * @return void
+ */
+function yith_proteo_toolkit_disable() {
+	deactivate_plugins( plugin_basename( __FILE__ ) );
+}
+
+/**
+ * Check if plugin may be enabled
+ */
+function yith_proteo_toolkit_can_be_enabled() {
+	return defined( 'YITH_PROTEO_VERSION' );
+}
+
+/**
+ * Show admin notice when Proteo theme is not enabled
+ *
+ * @return void
+ */
+function yith_proteo_toolkit_admin_notice() {
+	?>
+	<div class="error">
+		<?php /* translators: %1$1s: plugin name; %2$2s: theme name; */ ?>
+		<p><?php echo sprintf( esc_html__( '%1$1s is meant to be used with %2$2s theme.', 'yith-proteo-toolkit' ), '<b>YITH Proteo Toolkit</b>', '<b>YITH Proteo</b>' ); ?></p>
+	</div>
+	<?php
+}

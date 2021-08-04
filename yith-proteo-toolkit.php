@@ -117,9 +117,20 @@ add_action( 'admin_print_styles', 'yith_proteo_toolkit_add_admin_styles' );
  */
 function yith_proteo_toolkit_add_admin_scripts() {
 	wp_enqueue_script( 'yith_toolkit_admin_wizard_js', YITH_PROTEO_TOOLKIT_URL . 'assets/js/admin.js', array( 'jquery' ), YITH_PROTEO_TOOLKIT_VERSION, true );
+	wp_enqueue_script( 'yith_toolkit_admin_js', YITH_PROTEO_TOOLKIT_URL . 'assets/js/modules-admin.js', array( 'jquery' ), YITH_PROTEO_TOOLKIT_VERSION, true );
+
+	$localize = array(
+		'proteoToolkitModulesNonce' => wp_create_nonce( 'yith-proteo-toolkit-modules-nonce' ),
+	);
+
+	wp_localize_script( 'yith_toolkit_admin_js', 'yith_proteo_toolkit', $localize );
 }
 
+// admin scripts.
 add_action( 'admin_print_scripts', 'yith_proteo_toolkit_add_admin_scripts' );
+
+// enable modules AJAX.
+add_action( 'wp_ajax_yith_proteo_toolkit_module_save', 'yith_proteo_toolkit_save_module_ajax' );
 
 /**
  * Check setup wizard status
@@ -192,3 +203,5 @@ add_action( 'init', 'theme_prefix_remove_elementor_splash' );
 add_filter( 'woocommerce_prevent_automatic_wizard_redirect', '__return_true' );
 
 require_once 'includes/testimonials-module/module.php';
+
+add_action( 'yith_proteo_dashboard_additional_sidebar_content', 'yith_proteo_toolkit_modules_sidebar_panel' );

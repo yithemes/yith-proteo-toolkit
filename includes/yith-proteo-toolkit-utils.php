@@ -42,9 +42,10 @@ function yith_proteo_toolkit_wizard_step_icon( $step = null ) {
  * @return void
  */
 function yith_proteo_toolkit_modules_sidebar_panel() {
-	$modules_active                = get_option( 'yith_proteo_toolkit_modules_active', array() );
-	$is_testimonial_module_enabled = isset( $modules_active['yith-proteo-toolkit-testimonial'] ) ? $modules_active['yith-proteo-toolkit-testimonial'] : true;
-	$is_faq_module_enabled         = isset( $modules_active['yith-proteo-toolkit-faq'] ) ? $modules_active['yith-proteo-toolkit-faq'] : true;
+	$modules_active                   = get_option( 'yith_proteo_toolkit_modules_active', array() );
+	$is_testimonial_module_enabled    = isset( $modules_active['yith-proteo-toolkit-testimonial'] ) ? $modules_active['yith-proteo-toolkit-testimonial'] : true;
+	$is_faq_module_enabled            = isset( $modules_active['yith-proteo-toolkit-faq'] ) ? $modules_active['yith-proteo-toolkit-faq'] : true;
+	$is_block_patterns_module_enabled = isset( $modules_active['yith-proteo-toolkit-block-patterns'] ) ? $modules_active['yith-proteo-toolkit-block-patterns'] : true;
 	?>
 	<div class="content">
 		<h3>
@@ -58,9 +59,15 @@ function yith_proteo_toolkit_modules_sidebar_panel() {
 				</span>
 			</li>
 			<li>
-			<span class="module-name">- <?php echo esc_html_x( 'FAQ', 'Proteo Toolkit module name.', 'yith-proteo' ); ?></span>
+				<span class="module-name">- <?php echo esc_html_x( 'FAQ', 'Proteo Toolkit module name.', 'yith-proteo' ); ?></span>
 				<span class="form-switch  <?php echo $is_faq_module_enabled ? 'enabled' : ''; ?>"
 					data-option_id="yith-proteo-toolkit-faq">
+				</span>
+			</li>
+			<li>
+				<span class="module-name">- <?php echo esc_html_x( 'Block patterns', 'Proteo Toolkit module name.', 'yith-proteo' ); ?></span>
+				<span class="form-switch  <?php echo $is_block_patterns_module_enabled ? 'enabled' : ''; ?>"
+					data-option_id="yith-proteo-toolkit-block-patterns">
 				</span>
 			</li>
 		</ul>

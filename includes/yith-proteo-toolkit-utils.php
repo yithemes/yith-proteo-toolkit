@@ -35,70 +35,32 @@ function yith_proteo_toolkit_wizard_step_icon( $step = null ) {
 	<?php
 }
 
-
 /**
- * Module sidebar template
+ * Disable plugin
  *
  * @return void
  */
-function yith_proteo_toolkit_modules_sidebar_panel() {
-	$modules_active                   = get_option( 'yith_proteo_toolkit_modules_active', array() );
-	$is_testimonial_module_enabled    = isset( $modules_active['yith-proteo-toolkit-testimonial'] ) ? $modules_active['yith-proteo-toolkit-testimonial'] : true;
-	$is_faq_module_enabled            = isset( $modules_active['yith-proteo-toolkit-faq'] ) ? $modules_active['yith-proteo-toolkit-faq'] : true;
-	$is_block_patterns_module_enabled = isset( $modules_active['yith-proteo-toolkit-block-patterns'] ) ? $modules_active['yith-proteo-toolkit-block-patterns'] : true;
-	?>
-	<div class="content">
-		<h3>
-			<?php esc_html_e( 'Proteo toolkit modules', 'yith-proteo-toolkit' ); ?>
-		</h3>
-		<ul id="yith-proteo-toolkit-modules">
-			<li>
-				<span class="module-name">- <?php echo esc_html_x( 'Testimonials', 'Proteo Toolkit module name.', 'yith-proteo' ); ?></span>
-				<span class="form-switch <?php echo $is_testimonial_module_enabled ? 'enabled' : ''; ?>"
-					data-option_id="yith-proteo-toolkit-testimonial">
-				</span>
-			</li>
-			<li>
-				<span class="module-name">- <?php echo esc_html_x( 'FAQ', 'Proteo Toolkit module name.', 'yith-proteo' ); ?></span>
-				<span class="form-switch  <?php echo $is_faq_module_enabled ? 'enabled' : ''; ?>"
-					data-option_id="yith-proteo-toolkit-faq">
-				</span>
-			</li>
-			<li>
-				<span class="module-name">- <?php echo esc_html_x( 'Block patterns', 'Proteo Toolkit module name.', 'yith-proteo' ); ?></span>
-				<span class="form-switch  <?php echo $is_block_patterns_module_enabled ? 'enabled' : ''; ?>"
-					data-option_id="yith-proteo-toolkit-block-patterns">
-				</span>
-			</li>
-		</ul>
-	</div>
-	<?php
+function yith_proteo_toolkit_disable() {
+	deactivate_plugins( plugin_basename( __FILE__ ) );
 }
 
 /**
- * Save Toolkit modules state.
+ * Check if plugin may be enabled
+ */
+function yith_proteo_toolkit_can_be_enabled() {
+	return defined( 'YITH_PROTEO_VERSION' );
+}
+
+/**
+ * Show admin notice when Proteo theme is not enabled
  *
  * @return void
  */
-function yith_proteo_toolkit_save_module_ajax() {
-	$nonce = ( isset( $_REQUEST['nonce'] ) ) ? sanitize_key( $_REQUEST['nonce'] ) : '';
-
-	if ( false === wp_verify_nonce( $nonce, 'yith-proteo-toolkit-modules-nonce' ) ) {
-		wp_send_json_error( esc_html_e( 'WordPress Nonce not validated.', 'yith-proteo' ) );
-	}
-
-	if ( ! isset( $_REQUEST['action'] ) || 'yith_proteo_toolkit_module_save' !== $_REQUEST['action'] || ! isset( $_REQUEST['id'] ) ) {
-		die();
-	}
-
-	$id                    = sanitize_text_field( wp_unslash( $_REQUEST['id'] ) );
-	$modules_active        = get_option( 'yith_proteo_toolkit_modules_active', array() );
-	$modules_active[ $id ] = isset( $modules_active[ $id ] ) ? ! $modules_active[ $id ] : false;
-
-	$success = update_option( 'yith_proteo_toolkit_modules_active', $modules_active );
-	wp_send_json(
-		array(
-			'success' => $success,
-		)
-	);
+function yith_proteo_toolkit_admin_notice() {
+	?>
+	<div class="error">
+		<?php /* translators: %1$1s: plugin name; %2$2s: theme name; */ ?>
+		<p><?php echo sprintf( esc_html__( '%1$1s is meant to be used with %2$2s theme.', 'yith-proteo-toolkit' ), '<b>YITH Proteo Toolkit</b>', '<b>YITH Proteo</b>' ); ?></p>
+	</div>
+	<?php
 }

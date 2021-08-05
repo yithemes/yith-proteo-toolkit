@@ -8,7 +8,7 @@
 
 // Define module name and params.
 $module_params = array(
-	'module_name'     => esc_html__( 'Testimonials', 'yith-proteo-toolkit' ),
+	'module_name'     => esc_html_x( 'Testimonials', 'Toolkit module name', 'yith-proteo-toolkit' ),
 	'module_slug'     => 'testimonials', // should be the same of the folder.
 	'post_type'       => 'proteo_testimonials', // the post type to be registered, if any.
 	'taxonomy'        => 'proteo_testimonials_tax', // the custom taxonomy to be registered, if any.

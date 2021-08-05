@@ -21,6 +21,7 @@
 			success: function (data) {
 				if (data.success) {
 					t.toggleClass('enabled');
+					location.reload();
 				}
 			}
 		});

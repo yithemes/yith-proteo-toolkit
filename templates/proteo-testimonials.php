@@ -9,21 +9,23 @@
  * @since 1.1.0
  * @package YITH_Proteo_tookit
  */
-
-if ( 'all' === $proteo_testimonials_elements_to_show || '' === $proteo_testimonials_elements_to_show ) {
-	$proteo_testimonials_elements_to_show = 'picture,name,subtitle,review,quote,website,facebook,twitter,youtube,instagram,tiktok,linkedin,skype,categories';
+if ( 'all' === $proteo_testimonials_elements_to_show || empty( $proteo_testimonials_elements_to_show ) ) {
+	$proteo_testimonials_elements_to_show = yith_proteo_toolkit_testimonials_get_list_of_elements_to_show();
 }
 
-$proteo_testimonials_elements_to_show = explode( ',', $proteo_testimonials_elements_to_show );
-$proteo_testimonials_elements_to_show = array_map( 'trim', $proteo_testimonials_elements_to_show );
+if ( ! is_array( $proteo_testimonials_elements_to_show ) && '' !== $proteo_testimonials_elements_to_show ) {
+	$proteo_testimonials_elements_to_show = explode( ',', strtolower( $proteo_testimonials_elements_to_show ) );
+}
+if ( ! empty( $proteo_testimonials_elements_to_show ) ) {
+	$proteo_testimonials_elements_to_show = array_map( 'trim', $proteo_testimonials_elements_to_show );
+}
 
-if ( '' !== $proteo_testimonials_names_to_show ) {
+if ( ! is_array( $proteo_testimonials_names_to_show ) && '' !== $proteo_testimonials_names_to_show ) {
 	$proteo_testimonials_names_to_show = explode( ',', strtolower( $proteo_testimonials_names_to_show ) );
-	$proteo_testimonials_names_to_show = array_map( 'trim', $proteo_testimonials_names_to_show );
-} else {
-	$proteo_testimonials_names_to_show = false;
 }
-
+if ( ! empty( $proteo_testimonials_names_to_show ) ) {
+	$proteo_testimonials_names_to_show = array_map( 'strtolower', $proteo_testimonials_names_to_show );
+}
 ?>
 <div class="yith-proteo-testimonials <?php echo esc_attr( $proteo_testimonials_layout ); ?>">
 	<?php
@@ -104,7 +106,9 @@ if ( '' !== $proteo_testimonials_names_to_show ) {
 				if ( in_array( 'website', $proteo_testimonials_elements_to_show, true ) ) {
 					echo '<div class="testimonial-website">' . esc_url( $testimonial['website'] ) . '</div>';
 				}
-				the_widget( 'YITH_Proteo_Social_Icons', $social_networks );
+				if ( isset( $social_networks ) ) {
+					the_widget( 'YITH_Proteo_Social_Icons', $social_networks );
+				}
 				?>
 			</div>
 		</div>

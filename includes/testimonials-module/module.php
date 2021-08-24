@@ -27,6 +27,10 @@ if ( array_key_exists( 'post_type', $module_params ) && '' !== $module_params['p
 
 require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/testimonials-module/shortcodes/shortcodes.php';
 
+require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/testimonials-module/block/testimonials-block.php';
+
+require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/testimonials-module/utils.php';
+
 add_action( 'wp_enqueue_scripts', 'yith_proteo_testimonials_shortcode_style' );
 
 /**
@@ -36,7 +40,7 @@ add_action( 'wp_enqueue_scripts', 'yith_proteo_testimonials_shortcode_style' );
  */
 function yith_proteo_testimonials_shortcode_style() {
 	wp_enqueue_style( 'yith_proteo_testimonials_shortcode_style', YITH_PROTEO_TOOLKIT_URL . 'includes/testimonials-module/assets/testimonials.css', array(), YITH_PROTEO_TOOLKIT_VERSION );
-	wp_enqueue_script( 'yith_proteo_testimonials_shortcode_js', YITH_PROTEO_TOOLKIT_URL . 'includes/testimonials-module/assets/testimonials.js', array( 'jquery' ), YITH_PROTEO_TOOLKIT_VERSION, true );
+	wp_enqueue_script( 'yith_proteo_testimonials_shortcode_js', YITH_PROTEO_TOOLKIT_URL . 'includes/testimonials-module/assets/testimonials.js', array( 'jquery', 'selectWoo' ), YITH_PROTEO_TOOLKIT_VERSION, true );
 
 	wp_localize_script(
 		'yith_proteo_testimonials_shortcode_js',

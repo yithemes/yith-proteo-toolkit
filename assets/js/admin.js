@@ -65,7 +65,6 @@
 		if ( undefined === chosen_category ) {
 			chosen_category = $('ul.skin-categories').find('li.active').attr('class').split(' ')[0];
 		}
-		console.log(chosen_category);
 		$("#demo-content-list li").each(function () {
 			if ($(this).attr('data-category').search(new RegExp(chosen_category, "i")) < 0) {
 				$(this).fadeOut(0);

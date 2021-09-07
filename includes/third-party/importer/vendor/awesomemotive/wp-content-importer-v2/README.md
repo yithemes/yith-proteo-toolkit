@@ -1,6 +1,6 @@
-# WP content importer used in OCDI and WP Merlin
+# WP content importer used in OCDI
 
-List of files from the original repo:
+List of files from the [original repo](https://github.com/humanmade/WordPress-Importer/):
 
 - class-logger-cli.php,
 - class-logger.php,
@@ -9,17 +9,24 @@ List of files from the original repo:
 
 One click demo import plugin page: https://wordpress.org/plugins/one-click-demo-import/
 
-One click demo import github page: https://github.com/proteusthemes/one-click-demo-import
-
-WP Merlin: https://github.com/richtabor/MerlinWP
-
+One click demo import github page: https://github.com/awesomemotive/one-click-demo-import
 
 ## Changelog
+
+*February 12th 2021*
+- Replaced deprecated WP function `wp_slash_strings_only` with `wp_slash`.
+
+*July 21st 2020*
+- Fixed incorrect post meta import.
+- Fixed Elementor import after `wp_slash` updates in this repo.
+
+*July 14th 2020*
+- Fixed incorrect post and post meta import (unicode and other special characters were not escaped properly).
 
 *February 7th 2018*
 - Clean up the WXRImporter code
 - Created a "wrapper" class `Importer.php` with additional functionality (importing by smaller parts -> users, categories, tags, terms and posts)
-- tagging versin 2.0
+- tagging version 2.0
 
 *October 29th 2016*
 
@@ -28,5 +35,5 @@ WP Merlin: https://github.com/richtabor/MerlinWP
 
 *October 26th 2016*
 
-- made a fork form the original repo
+- made a fork from the original repo
 - merged a pull request for "term meta data" from the original repo: https://github.com/humanmade/WordPress-Importer/pull/18

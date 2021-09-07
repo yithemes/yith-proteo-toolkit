@@ -93,7 +93,7 @@ $proteo_setup_wizard = new YITH_Proteo_Wizard(
 function wizard_import_files() {
 	return array(
 		array(
-			'import_file_name'           => 'Classic Shop',
+			'import_file_name'           => 'Classic Shop - Gutenberg',
 			'slug'                       => 'classic-shop',
 			'import_file_url'            => 'https://update.yithemes.com/proteo-demo-content/classic-shop/proteo-wordpress-export.xml',
 			'import_widget_file_url'     => 'https://update.yithemes.com/proteo-demo-content/classic-shop/proteo.yithemes.com-classic-shop-widgets.wie',
@@ -105,9 +105,10 @@ function wizard_import_files() {
 			'front_page_title'           => 'Front Page',
 			'blog_page_title'            => 'Blog',
 			'primary_menu_name'          => 'Primary',
+			'category'                   => 'gutenberg',
 		),
 		array(
-			'import_file_name'           => 'Food',
+			'import_file_name'           => 'Food - Gutenberg',
 			'slug'                       => 'food',
 			'import_file_url'            => 'https://update.yithemes.com/proteo-demo-content/food/proteo-food-wordpress-export.xml',
 			'import_widget_file_url'     => 'https://update.yithemes.com/proteo-demo-content/food/proteo.yithemes.com-food-widgets.wie',
@@ -119,9 +120,10 @@ function wizard_import_files() {
 			'front_page_title'           => 'Food Home 1',
 			'blog_page_title'            => 'Blog',
 			'primary_menu_name'          => 'Food Main Menu',
+			'category'                   => 'gutenberg',
 		),
 		array(
-			'import_file_name'           => 'Desire',
+			'import_file_name'           => 'Desire - Gutenberg',
 			'slug'                       => 'desire',
 			'import_file_url'            => 'https://update.yithemes.com/proteo-demo-content/desire/proteo-desire-wordpress-export.xml',
 			'import_widget_file_url'     => 'https://update.yithemes.com/proteo-demo-content/desire/proteo.yithemes.com-desire-widgets.wie',
@@ -133,6 +135,22 @@ function wizard_import_files() {
 			'front_page_title'           => 'Desire home page',
 			'blog_page_title'            => 'SEXY NEWS',
 			'primary_menu_name'          => 'Desire Main Menu',
+			'category'                   => 'gutenberg',
+		),
+		array(
+			'import_file_name'           => 'Classic Shop - Elementor',
+			'slug'                       => 'elementor-classic-shop',
+			'import_file_url'            => 'https://update.yithemes.com/proteo-demo-content/classic-shop-elementor/elementor-classic-shop-export-test.xml',
+			'import_widget_file_url'     => 'https://update.yithemes.com/proteo-demo-content/classic-shop-elementor/elementor-classic-shop-widgets.wie',
+			'import_customizer_file_url' => 'https://update.yithemes.com/proteo-demo-content/classic-shop-elementor/elementor-classic-shop-customizer.json',
+			'import_preview_image_url'   => 'https://update.yithemes.com/proteo-demo-content/classic-shop-elementor/screenshot.png',
+			'import_notice'              => __( 'This demo uses the following plugins: Elementor, WooCommerce, YITH Slider for page builders, CF7, Wishlist, YITH Product slider carousel. Please be sure to enable these plugins prior to proceed.', 'yith-proteo' ),
+			'preview_url'                => 'https://proteo.yithemes.com/elementor-classic-shop/',
+			'state'                      => 'live',
+			'front_page_title'           => 'Homepage elementor',
+			'blog_page_title'            => 'Blog',
+			'primary_menu_name'          => 'Primary',
+			'category'                   => 'elementor',
 		),
 	);
 }
@@ -225,7 +243,7 @@ function yith_proteo_toolkit_register_required_plugins() {
 			'name'        => 'YITH WooCommerce Wishlist',
 			'slug'        => 'yith-woocommerce-wishlist',
 			'required'    => false,
-			'skin'        => array( '1', '2', '3' ),
+			'skin'        => array( '0', '1', '2', '3' ),
 			'is_callable' => 'YITH_WCWL_Premium',
 		),
 
@@ -233,42 +251,49 @@ function yith_proteo_toolkit_register_required_plugins() {
 			'name'        => 'YITH WooCommerce Product Slider Carousel',
 			'slug'        => 'yith-woocommerce-product-slider-carousel',
 			'required'    => false,
-			'skin'        => array( '1', '2', '3' ),
+			'skin'        => array( '0', '1', '2', '3' ),
 			'is_callable' => 'YITH_WooCommerce_Product_Slider_Premium',
 		),
 
 		array(
 			'name'     => 'YITH Slider for page builders',
 			'slug'     => 'yith-slider-for-page-builders',
-			'skin'     => array( '1', '2', '3' ),
+			'skin'     => array( '0', '1', '2', '3' ),
 			'required' => false,
 		),
 
 		array(
 			'name'     => 'Contact Form 7',
 			'slug'     => 'contact-form-7',
-			'skin'     => array( '1', '2', '3' ),
+			'skin'     => array( '0', '1', '2', '3' ),
 			'required' => false,
 		),
 
 		array(
 			'name'     => 'WooCommerce',
 			'slug'     => 'woocommerce',
-			'skin'     => array( '1', '2', '3' ),
+			'skin'     => array( '0', '1', '2', '3' ),
 			'required' => false,
 		),
 
 		array(
 			'name'     => 'EditorsKit',
 			'slug'     => 'block-options',
-			'skin'     => array( '1', '2', '3' ),
+			'skin'     => array( '0', '1', '2' ),
 			'required' => false,
 		),
 
 		array(
 			'name'     => 'Gutenberg',
 			'slug'     => 'gutenberg',
-			'skin'     => array( '1', '2', '3' ),
+			'skin'     => array( '0', '1', '2' ),
+			'required' => false,
+		),
+
+		array(
+			'name'     => 'Elementor',
+			'slug'     => 'elementor',
+			'skin'     => array( '3' ),
 			'required' => false,
 		),
 	);

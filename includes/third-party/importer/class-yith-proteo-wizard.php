@@ -272,7 +272,7 @@ class YITH_Proteo_Wizard {
 
 		require_once trailingslashit( $this->base_path ) . $this->directory . '/includes/class-yith-proteo-wizard-downloader.php';
 
-		$this->importer = new ProteusThemes\WPContentImporter2\Importer( array( 'fetch_attachments' => true ), $this->logger );
+		$this->importer = new AwesomeMotive\WPContentImporter2\Importer( array( 'fetch_attachments' => true ), $this->logger );
 
 		require_once trailingslashit( $this->base_path ) . $this->directory . '/includes/class-yith-proteo-wizard-widget-importer.php';
 
@@ -889,9 +889,16 @@ class YITH_Proteo_Wizard {
 			<h1><?php echo esc_html( $header ); ?></h1>
 
 			<?php if ( 1 < count( $this->import_files ) ) : ?>
+				<div class="skin-categories-chooser">
+					<ul class="skin-categories">
+						<li class="all"><a href="#">All</a></li>
+						<li class="gutenberg"><a href="#">Gutenberg</a></li>
+						<li class="elementor"><a href="#">Elementor</a></li>
+					</ul>
+				</div>
 				<ul id="demo-content-list">
 				<?php foreach ( $this->import_files as $index => $import_file ) : ?>
-					<li class="demo-content <?php echo esc_attr( $import_file['state'] ); ?>" data-demo="<?php echo esc_attr( $index ); ?>">
+					<li class="demo-content <?php echo esc_attr( $import_file['state'] ); ?>" data-demo="<?php echo esc_attr( $index ); ?>" data-category="<?php echo esc_attr( $import_file['category'] ); ?>">
 						<img src="<?php echo esc_url( $import_file['import_preview_image_url'] ); ?>" width="250">
 						<?php echo esc_html( $import_file['import_file_name'] ); ?>
 						<a href="<?php echo esc_url( $import_file['preview_url'] ); ?>" target="_blank" rel="nofollow noopener" class="preview-link" title="<?php esc_html_e( 'Preview', 'yith-proteo-toolkit' ); ?>"><span class="dashicons dashicons-external"></span></a>

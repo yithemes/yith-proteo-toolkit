@@ -1,5 +1,5 @@
 <?php
-namespace ProteusThemes\WPContentImporter2;
+namespace AwesomeMotive\WPContentImporter2;
 
 class WPImporterLoggerCLI extends WPImporterLogger {
 	public $min_level = 'notice';
@@ -7,9 +7,9 @@ class WPImporterLoggerCLI extends WPImporterLogger {
 	/**
 	 * Logs with an arbitrary level.
 	 *
-	 * @param mixed  $level
+	 * @param mixed $level
 	 * @param string $message
-	 * @param array  $context
+	 * @param array $context
 	 * @return null
 	 */
 	public function log( $level, $message, array $context = array() ) {

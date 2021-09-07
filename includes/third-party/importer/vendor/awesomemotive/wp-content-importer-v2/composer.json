@@ -1,7 +1,7 @@
 {
-  "name": "proteusthemes/wp-content-importer-v2",
-  "description": "Improved WP content importer used in OCDI plugin and MerlinWP.",
-  "keywords": ["wp", "wordpress", "proteusthemes", "theme", "import", "content"],
+  "name": "awesomemotive/wp-content-importer-v2",
+  "description": "Improved WP content importer used in OCDI plugin.",
+  "keywords": ["wp", "wordpress", "awesomemotive", "theme", "import", "content"],
   "license": "GPL-2.0+",
   "authors": [
     {
@@ -19,7 +19,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "ProteusThemes\\WPContentImporter2\\": "src/"
+      "AwesomeMotive\\WPContentImporter2\\": "src/"
     }
   }
 }

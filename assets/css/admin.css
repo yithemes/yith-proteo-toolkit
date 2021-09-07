@@ -2,7 +2,25 @@
 .wizard__content.wizard__content--skin {
 	max-width: 800px;
 }
-
+ul.skin-categories {
+	list-style-type: none;
+}
+ul.skin-categories li {
+	display: inline-block;
+}
+ul.skin-categories li:not(:last-of-type)::after {
+    content: '|';
+    display: inline-block;
+    margin: 0 5px 0 8px;
+    color: #ebebeb;
+}
+ul.skin-categories li a {
+	text-decoration: none;
+	color: #9e9e9e;
+}
+ul.skin-categories li.active a {
+	color: rgb(0, 169, 167);
+}
 #demo-content-list {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;

@@ -891,8 +891,7 @@ class YITH_Proteo_Wizard {
 			<?php if ( 1 < count( $this->import_files ) ) : ?>
 				<div class="skin-categories-chooser">
 					<ul class="skin-categories">
-						<li class="all"><a href="#">All</a></li>
-						<li class="gutenberg"><a href="#">Gutenberg</a></li>
+						<li class="gutenberg active"><a href="#">Gutenberg</a></li>
 						<li class="elementor"><a href="#">Elementor</a></li>
 					</ul>
 				</div>

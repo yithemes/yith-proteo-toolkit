@@ -251,7 +251,8 @@ function prefix_wizard_after_import_setup( $demo_index ) {
 		}
 		update_option( 'widget_yith_proteo_account_widget', $myaccount_widgets );
 	}
-
+	update_option( 'elementor_disable_color_schemes', 'yes' );
+	update_option( 'elementor_disable_typography_schemes', 'yes' );
 }
 add_action( 'wizard_after_all_import', 'prefix_wizard_after_import_setup' );
 

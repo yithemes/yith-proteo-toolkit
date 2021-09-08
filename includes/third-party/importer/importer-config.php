@@ -152,6 +152,36 @@ function wizard_import_files() {
 			'primary_menu_name'          => 'Primary',
 			'category'                   => 'elementor',
 		),
+		array(
+			'import_file_name'           => 'Food - Elementor',
+			'slug'                       => 'food',
+			'import_file_url'            => 'https://update.yithemes.com/proteo-demo-content/food-elementor/proteo-food-elementor-export.xml',
+			'import_widget_file_url'     => 'https://update.yithemes.com/proteo-demo-content/food-elementor/proteo-food-elementor-widgets.wie',
+			'import_customizer_file_url' => 'https://update.yithemes.com/proteo-demo-content/food-elementor/proteo-food-elementor-customizer.json',
+			'import_preview_image_url'   => 'https://update.yithemes.com/proteo-demo-content/food-elementor/food.jpg',
+			'import_notice'              => __( 'This demo uses the following plugins: WooCommerce, YITH Slider for page builders, CF7, Elementor, YITH Wishlist, YITH Product slider carousel. Please be sure to enable these plugins prior to proceed.', 'yith-proteo' ),
+			'preview_url'                => 'https://proteo.yithemes.com/elementor-food/',
+			'state'                      => 'live',
+			'front_page_title'           => 'Food home 1',
+			'blog_page_title'            => 'Blog',
+			'primary_menu_name'          => 'Food Main Menu',
+			'category'                   => 'elementor',
+		),
+		array(
+			'import_file_name'           => 'Desire - Elementor',
+			'slug'                       => 'desire',
+			'import_file_url'            => 'https://update.yithemes.com/proteo-demo-content/desire-elementor/proteo-desire-elementor-export.xml',
+			'import_widget_file_url'     => 'https://update.yithemes.com/proteo-demo-content/desire-elementor/proteo-desire-elementor-widgets.wie',
+			'import_customizer_file_url' => 'https://update.yithemes.com/proteo-demo-content/desire-elementor/proteo-desire-elementor-customizer.json',
+			'import_preview_image_url'   => 'https://update.yithemes.com/proteo-demo-content/desire-elementor/desire.jpg',
+			'import_notice'              => __( 'This demo uses the following plugins: WooCommerce, YITH Slider for page builders, CF7, Elementor, YITH Wishlist, YITH Product slider carousel. Please be sure to enable these plugins prior to proceed.', 'yith-proteo' ),
+			'preview_url'                => 'https://proteo.yithemes.com/elementor-desire/',
+			'state'                      => 'live',
+			'front_page_title'           => 'Desire home page',
+			'blog_page_title'            => 'SEXY NEWS',
+			'primary_menu_name'          => 'Desire Main Menu',
+			'category'                   => 'elementor',
+		),
 	);
 }
 add_filter( 'wizard_import_files', 'wizard_import_files' );
@@ -243,7 +273,7 @@ function yith_proteo_toolkit_register_required_plugins() {
 			'name'        => 'YITH WooCommerce Wishlist',
 			'slug'        => 'yith-woocommerce-wishlist',
 			'required'    => false,
-			'skin'        => array( '0', '1', '2', '3' ),
+			'skin'        => array( '0', '1', '2', '3', '4' ),
 			'is_callable' => 'YITH_WCWL_Premium',
 		),
 
@@ -251,28 +281,28 @@ function yith_proteo_toolkit_register_required_plugins() {
 			'name'        => 'YITH WooCommerce Product Slider Carousel',
 			'slug'        => 'yith-woocommerce-product-slider-carousel',
 			'required'    => false,
-			'skin'        => array( '0', '1', '2', '3' ),
+			'skin'        => array( '0', '1', '2', '3', '4', '5' ),
 			'is_callable' => 'YITH_WooCommerce_Product_Slider_Premium',
 		),
 
 		array(
 			'name'     => 'YITH Slider for page builders',
 			'slug'     => 'yith-slider-for-page-builders',
-			'skin'     => array( '0', '1', '2', '3' ),
+			'skin'     => array( '0', '1', '2', '3', '4', '5' ),
 			'required' => false,
 		),
 
 		array(
 			'name'     => 'Contact Form 7',
 			'slug'     => 'contact-form-7',
-			'skin'     => array( '0', '1', '2', '3' ),
+			'skin'     => array( '0', '1', '2', '3', '4', '5' ),
 			'required' => false,
 		),
 
 		array(
 			'name'     => 'WooCommerce',
 			'slug'     => 'woocommerce',
-			'skin'     => array( '0', '1', '2', '3' ),
+			'skin'     => array( '0', '1', '2', '3', '4', '5' ),
 			'required' => false,
 		),
 
@@ -293,7 +323,7 @@ function yith_proteo_toolkit_register_required_plugins() {
 		array(
 			'name'     => 'Elementor',
 			'slug'     => 'elementor',
-			'skin'     => array( '3' ),
+			'skin'     => array( '3', '4', '5' ),
 			'required' => false,
 		),
 	);

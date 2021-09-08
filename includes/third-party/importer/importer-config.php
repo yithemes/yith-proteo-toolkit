@@ -140,7 +140,7 @@ function wizard_import_files() {
 		array(
 			'import_file_name'           => 'Classic Shop - Elementor',
 			'slug'                       => 'elementor-classic-shop',
-			'import_file_url'            => 'https://update.yithemes.com/proteo-demo-content/classic-shop-elementor/elementor-classic-shop-export-test.xml',
+			'import_file_url'            => 'https://update.yithemes.com/proteo-demo-content/classic-shop-elementor/elementor-classic-shop-export.xml',
 			'import_widget_file_url'     => 'https://update.yithemes.com/proteo-demo-content/classic-shop-elementor/elementor-classic-shop-widgets.wie',
 			'import_customizer_file_url' => 'https://update.yithemes.com/proteo-demo-content/classic-shop-elementor/elementor-classic-shop-customizer.json',
 			'import_preview_image_url'   => 'https://update.yithemes.com/proteo-demo-content/classic-shop-elementor/screenshot.png',

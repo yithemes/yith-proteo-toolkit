@@ -41,7 +41,7 @@ var Wizard = (function($){
         	body.toggleClass( drawer_opened );
         });
 
-    	$('.wizard__button--proceed:not(.wizard__button--closer)').click(function (e) {
+    	$('.wizard__button--proceed:not(.wizard__button--closer)').on('click', function(e){
 		    e.preventDefault();
 		    var goTo = this.getAttribute("href");
 

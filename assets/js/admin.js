@@ -15,7 +15,7 @@
 		button_next.attr('href', href);
 
 		var selected_category = t.attr('data-category');
-		$('ul.skin-categories').find('.' + selected_category).find('a').click();
+		$('ul.skin-categories').find('.' + selected_category).find('a').trigger('click');
 	});
 
 	// select the first demo if none selected
@@ -42,7 +42,7 @@
 			$('#demo-content-list li[data-demo="'+selected_skin+'"]').trigger('click');
 			var selected_category = $('#demo-content-list li.selected').attr('data-category');
 			$('ul.skin-categories').find('li').removeClass('active');
-			$('ul.skin-categories').find('.' + selected_category).find('a').click().parent().addClass('active');
+			$('ul.skin-categories').find('.' + selected_category).find('a').trigger('click').parent().addClass('active');
 		}
 	}
 	yith_proteo_set_demo_to_import_from_url();
@@ -74,5 +74,5 @@
 		})
 	}
 
-	yith_proteo_toolkit_filter_listed_demos();
+	$('ul.skin-categories li.active').find('a').trigger('click');
 })(jQuery);

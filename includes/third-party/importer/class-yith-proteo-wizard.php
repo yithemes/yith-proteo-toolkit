@@ -896,8 +896,8 @@ class YITH_Proteo_Wizard {
 					</ul>
 				</div>
 				<ul id="demo-content-list">
-				<?php foreach ( $this->import_files as $index => $import_file ) : ?>
-					<li class="demo-content <?php echo esc_attr( $import_file['state'] ); ?>" data-demo="<?php echo esc_attr( $index ); ?>" data-category="<?php echo esc_attr( $import_file['category'] ); ?>">
+				<?php foreach ( $this->import_files as $import_file ) : ?>
+					<li class="demo-content <?php echo esc_attr( $import_file['state'] ); ?>" data-demo="<?php echo esc_attr( $import_file['slug'] ); ?>" data-category="<?php echo esc_attr( $import_file['category'] ); ?>">
 						<img src="<?php echo esc_url( $import_file['import_preview_image_url'] ); ?>" width="250">
 						<?php echo esc_html( $import_file['import_file_name'] ); ?>
 						<a href="<?php echo esc_url( $import_file['preview_url'] ); ?>" target="_blank" rel="nofollow noopener" class="preview-link" title="<?php esc_html_e( 'Preview', 'yith-proteo-toolkit' ); ?>"><span class="dashicons dashicons-external"></span></a>
@@ -908,8 +908,8 @@ class YITH_Proteo_Wizard {
 				<div class="wizard__select-control-wrapper">
 
 					<select class="wizard__select-control js-wizard-demo-import-select">
-						<?php foreach ( $this->import_files as $index => $import_file ) : ?>
-							<option value="<?php echo esc_attr( $index ); ?>"><?php echo esc_html( $import_file['import_file_name'] ); ?></option>
+						<?php foreach ( $this->import_files as $import_file ) : ?>
+							<option value="<?php echo esc_attr( $import_file['slug'] ); ?>"><?php echo esc_html( $import_file['import_file_name'] ); ?></option>
 						<?php endforeach; ?>
 					</select>
 
@@ -1100,8 +1100,8 @@ class YITH_Proteo_Wizard {
 
 			<?php if ( 1 < count( $this->import_files ) ) : ?>
 				<ul id="demo-content-list" style="display: none;">
-				<?php foreach ( $this->import_files as $index => $import_file ) : ?>
-					<li class="demo-content <?php echo esc_attr( $import_file['state'] ); ?>" data-demo="<?php echo esc_attr( $index ); ?>">
+				<?php foreach ( $this->import_files as $import_file ) : ?>
+					<li class="demo-content <?php echo esc_attr( $import_file['state'] ); ?>" data-demo="<?php echo esc_attr( $import_file['slug'] ); ?>">
 						<img src="<?php echo esc_url( $import_file['import_preview_image_url'] ); ?>" width="250">
 						<?php echo esc_html( $import_file['import_file_name'] ); ?>
 						<a href="<?php echo esc_url( $import_file['preview_url'] ); ?>" target="_blank" rel="nofollow noopener" class="preview-link" title="<?php esc_html_e( 'Preview', 'yith-proteo-toolkit' ); ?>"><span class="dashicons dashicons-external"></span></a>
@@ -1112,8 +1112,8 @@ class YITH_Proteo_Wizard {
 				<div class="wizard__select-control-wrapper">
 
 					<select class="wizard__select-control js-wizard-demo-import-select">
-						<?php foreach ( $this->import_files as $index => $import_file ) : ?>
-							<option value="<?php echo esc_attr( $index ); ?>"><?php echo esc_html( $import_file['import_file_name'] ); ?></option>
+						<?php foreach ( $this->import_files as $import_file ) : ?>
+							<option value="<?php echo esc_attr( $import_file['slug'] ); ?>"><?php echo esc_html( $import_file['import_file_name'] ); ?></option>
 						<?php endforeach; ?>
 					</select>
 
@@ -1565,7 +1565,7 @@ class YITH_Proteo_Wizard {
 	public function ajax_content() {
 		static $content = null;
 
-		$selected_import = isset( $_POST['selected_index'] ) ? intval( $_POST['selected_index'] ) : 0;
+		$selected_import = isset( $_POST['selected_index'] ) ? sanitize_text_field( wp_unslash( $_POST['selected_index'] ) ) : 0;
 
 		if ( null === $content ) {
 			$content = $this->get_import_data( $selected_import );
@@ -1665,7 +1665,7 @@ class YITH_Proteo_Wizard {
 			);
 		}
 
-		$selected_import = intval( $_POST['selected_index'] );
+		$selected_import = sanitize_text_field( wp_unslash( $_POST['selected_index'] ) );
 		$import_files    = $this->get_import_files_paths( $selected_import );
 
 		wp_send_json_success( $this->importer->get_number_of_posts_to_import( $import_files['content'] ) );
@@ -1680,7 +1680,12 @@ class YITH_Proteo_Wizard {
 	 *
 	 * @return bool|array
 	 */
-	public function get_import_data_info( $selected_import_index = 0 ) {
+	public function get_import_data_info( $selected_import_index = false ) {
+
+		if ( ! $selected_import_index ) {
+			$selected_import_index = array_keys( $this->import_files )[0];
+		}
+
 		$import_data = array(
 			'content'      => false,
 			'widgets'      => false,
@@ -1850,7 +1855,7 @@ class YITH_Proteo_Wizard {
 	}
 
 	/**
-	 * Register the import files via the `wizard_import_files` filter.
+	 * Register the import files via the `yith_proteo_skins_array` filter.
 	 */
 	public function register_import_files() {
 		$this->import_files = $this->validate_import_file_info( apply_filters( 'wizard_import_files', array() ) );
@@ -1865,9 +1870,9 @@ class YITH_Proteo_Wizard {
 	public function validate_import_file_info( $import_files ) {
 		$filtered_import_file_info = array();
 
-		foreach ( $import_files as $import_file ) {
+		foreach ( $import_files as $skin => $import_file ) {
 			if ( ! empty( $import_file['import_file_name'] ) ) {
-				$filtered_import_file_info[] = $import_file;
+				$filtered_import_file_info[ $skin ] = $import_file;
 			} else {
 				$this->logger->warning( __( 'This predefined demo import does not have the name parameter: import_file_name', 'yith-proteo-toolkit' ), $import_file );
 			}
@@ -1998,7 +2003,7 @@ class YITH_Proteo_Wizard {
 		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'wizard' ) ) {
 			wp_send_json_error();
 		}
-		$selected_index = ! isset( $_POST['selected_index'] ) ? false : intval( $_POST['selected_index'] );
+		$selected_index = ! isset( $_POST['selected_index'] ) ? false : sanitize_text_field( wp_unslash( $_POST['selected_index'] ) );
 
 		if ( false === $selected_index ) {
 			wp_send_json_error();

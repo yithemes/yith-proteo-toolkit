@@ -268,6 +268,7 @@ function yith_proteo_toolkit_register_required_plugins() {
 				'elementor-classic-shop',
 				'elementor-food',
 				'elementor-desire',
+				'booking-apartments',
 			),
 			'required' => false,
 		),
@@ -282,6 +283,7 @@ function yith_proteo_toolkit_register_required_plugins() {
 				'elementor-classic-shop',
 				'elementor-food',
 				'elementor-desire',
+				'booking-apartments',
 			),
 			'required' => false,
 		),
@@ -293,6 +295,7 @@ function yith_proteo_toolkit_register_required_plugins() {
 				'classic-shop',
 				'food',
 				'desire',
+				'booking-apartments',
 			),
 			'required' => false,
 		),
@@ -304,6 +307,7 @@ function yith_proteo_toolkit_register_required_plugins() {
 				'classic-shop',
 				'food',
 				'desire',
+				'booking-apartments',
 			),
 			'required' => false,
 		),
@@ -315,6 +319,40 @@ function yith_proteo_toolkit_register_required_plugins() {
 				'elementor-classic-shop',
 				'elementor-food',
 				'elementor-desire',
+			),
+			'required' => false,
+		),
+
+		array(
+			'name'        => 'YITH Booking and Appointment for WooCommerce',
+			'slug'        => 'yith-woocommerce-booking-premium',
+			'required'    => false,
+			'skin'        => array(
+				'booking-apartments',
+			),
+			'is_callable' => 'yith_wcbk',
+		),
+
+		array(
+			'name'     => 'SVG Support',
+			'slug'     => 'svg-support',
+			'skin'     => array(
+				'classic-shop',
+				'food',
+				'desire',
+				'elementor-classic-shop',
+				'elementor-food',
+				'elementor-desire',
+				'booking-apartments',
+			),
+			'required' => false,
+		),
+
+		array(
+			'name'     => 'Blocks Animation: CSS Animations for Gutenberg Blocks',
+			'slug'     => 'blocks-animation',
+			'skin'     => array(
+				'booking-apartments',
 			),
 			'required' => false,
 		),

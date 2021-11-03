@@ -36,7 +36,7 @@ class YITH_Proteo_Wizard_Hooks {
 		}
 
 		// Get import data, with new menu IDs.
-		$importer = new ProteusThemes\WPContentImporter2\Importer( array( 'fetch_attachments' => true ), new ProteusThemes\WPContentImporter2\WPImporterLogger() );
+		$importer = new AwesomeMotive\WPContentImporter2\Importer( array( 'fetch_attachments' => true ), YITH_Proteo_Wizard_Logger::get_instance() );
 		$importer->restore_import_data_transient();
 
 		$importer_mapping = $importer->get_mapping();

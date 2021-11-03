@@ -25,7 +25,7 @@ if ( ! class_exists( 'YITH_Proteo_Toolkit_Modules' ) ) {
 				require_once YITH_PROTEO_TOOLKIT_PATH . 'block-patterns/block-patterns.php';
 			}
 
-			if ( $this->is_module_enabled( 'yith-proteo-toolkit-testimonial' ) ) {
+			if ( false && $this->is_module_enabled( 'yith-proteo-toolkit-testimonial' ) ) {
 				require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/testimonials-module/module.php';
 			}
 
@@ -95,12 +95,16 @@ if ( ! class_exists( 'YITH_Proteo_Toolkit_Modules' ) ) {
 					<?php esc_html_e( 'Proteo toolkit modules', 'yith-proteo-toolkit' ); ?>
 				</h3>
 				<ul id="yith-proteo-toolkit-modules">
+					<?php
+					/*
 					<li>
 						<span class="module-name">- <?php echo esc_html_x( 'Testimonials', 'Proteo Toolkit module name.', 'yith-proteo' ); ?></span>
 						<span class="form-switch <?php echo $is_testimonial_module_enabled ? 'enabled' : ''; ?>"
 							data-option_id="yith-proteo-toolkit-testimonial">
 						</span>
 					</li>
+					*/
+					?>
 					<li>
 						<span class="module-name">- <?php echo esc_html_x( 'Block patterns', 'Proteo Toolkit module name.', 'yith-proteo' ); ?></span>
 						<span class="form-switch  <?php echo $is_block_patterns_module_enabled ? 'enabled' : ''; ?>"

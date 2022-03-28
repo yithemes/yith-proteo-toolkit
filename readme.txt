@@ -69,7 +69,7 @@ You can find the setup wizard in Dashboard > Appearance > Theme Setup
 == Changelog ==
 =  1.2.2 - Released on 28 March 2022 =
 
-* New: testes support to WordPress 5.9
+* New: tested support to WordPress 5.9
 
 =  1.2.1 - Released on 29 November 2021 =
 

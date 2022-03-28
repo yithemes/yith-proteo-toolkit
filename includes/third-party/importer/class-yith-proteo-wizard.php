@@ -20,7 +20,7 @@ class YITH_Proteo_Wizard {
 	/**
 	 * Current theme.
 	 *
-	 * @var object WP_Theme
+	 * @var object|string WP_Theme
 	 */
 	protected $theme;
 
@@ -48,7 +48,7 @@ class YITH_Proteo_Wizard {
 	/**
 	 * Importer.
 	 *
-	 * @var    array
+	 * @var    object
 	 */
 	protected $importer;
 

@@ -161,12 +161,37 @@ function prefix_wizard_after_import_setup( $demo_index ) {
 	);
 
 	// Assign front page and posts page (blog page).
-	$front_page_id = get_page_by_title( $demo_configuration_variables['front_page_title'] );
-	$blog_page_id  = get_page_by_title( $demo_configuration_variables['blog_page_title'] );
+	$query_front_page = new WP_Query(
+		array(
+			'post_type'              => 'page',
+			'title'                  => $demo_configuration_variables['front_page_title'],
+			'posts_per_page'         => 1,
+			'no_found_rows'          => true,
+			'ignore_sticky_posts'    => true,
+			'update_post_term_cache' => false,
+			'update_post_meta_cache' => false,
+		)
+	);
+	$front_page       = $query_front_page->post;
+	$front_page_id    = $front_page->ID;
+
+	$query_blog_page = new WP_Query(
+		array(
+			'post_type'              => 'page',
+			'title'                  => $demo_configuration_variables['blog_page_title'],
+			'posts_per_page'         => 1,
+			'no_found_rows'          => true,
+			'ignore_sticky_posts'    => true,
+			'update_post_term_cache' => false,
+			'update_post_meta_cache' => false,
+		)
+	);
+	$blog_page       = $query_blog_page->post;
+	$blog_page_id    = $blog_page->ID;
 
 	update_option( 'show_on_front', 'page' );
-	update_option( 'page_on_front', $front_page_id->ID );
-	update_option( 'page_for_posts', $blog_page_id->ID );
+	update_option( 'page_on_front', $front_page_id );
+	update_option( 'page_for_posts', $blog_page_id );
 
 	if ( function_exists( 'wc' ) ) {
 		$shop_page      = get_page_by_path( 'shop' );

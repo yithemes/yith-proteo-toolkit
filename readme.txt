@@ -3,9 +3,9 @@
 Contributors: yithemes
 Tags: proteo, yith, yithemes, toolkit, wizard, utils, yith proteo, sample, demo, sample data, companion plugin, setup wizard
 Requires at least: 5.3
-Tested up to: 5.9
-Stable tag: 1.2.2
-Requires PHP: 5.6
+Tested up to: 6.4
+Stable tag: 1.2.4
+Requires PHP: 7.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -33,7 +33,7 @@ YITH Proteo Toolkit will add a menu named "Theme Setup" under the "Appearance" m
 
 = Minimum Requirements =
 
-* PHP 5.6 or greater is recommended
+* PHP 7.2 or greater is recommended
 
 = Automatic installation =
 
@@ -67,6 +67,14 @@ You can find the setup wizard in Dashboard > Appearance > Theme Setup
 
 
 == Changelog ==
+=  1.2.4 - Released on 21 Feb 2024 =
+
+* New: tested support to WordPress 6.4
+
+=  1.2.3 - Released on 24 May 2023 =
+
+* New: tested support to WordPress 6.2
+
 =  1.2.2 - Released on 28 March 2022 =
 
 * New: tested support to WordPress 5.9

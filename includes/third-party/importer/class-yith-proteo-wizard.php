@@ -487,6 +487,8 @@ class YITH_Proteo_Wizard {
 			<meta name="viewport" content="width=device-width"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 			<?php printf( esc_html( $strings['title%s%s%s%s'] ), '<ti', 'tle>', esc_html( $this->theme->name ), '</title>' ); ?>
+			<?php wp_enqueue_emoji_styles(); ?>
+			<?php wp_enqueue_admin_bar_header_styles(); ?>
 			<?php do_action( 'admin_print_styles' ); ?>
 			<?php do_action( 'admin_print_scripts' ); ?>
 			<?php set_current_screen(); ?>
@@ -1819,7 +1821,14 @@ class YITH_Proteo_Wizard {
 	 */
 	public function after_content_import_setup() {
 		// Set static homepage.
-		$homepage = get_page_by_title( apply_filters( 'wizard_content_home_page_title', 'Home' ) );
+		$args = array(
+			'post_type'      => 'page',
+			'post_status'    => 'publish',
+			'posts_per_page' => 1,
+			'title'          => apply_filters( 'wizard_content_home_page_title', 'Home' ),
+		);
+		$homepages = get_posts( $args );
+		$homepage  = array_shift( $homepages );
 
 		if ( $homepage ) {
 			update_option( 'page_on_front', $homepage->ID );
@@ -1829,7 +1838,14 @@ class YITH_Proteo_Wizard {
 		}
 
 		// Set static blog page.
-		$blogpage = get_page_by_title( apply_filters( 'wizard_content_blog_page_title', 'Blog' ) );
+		$args = array(
+			'post_type'      => 'page',
+			'post_status'    => 'publish',
+			'posts_per_page' => 1,
+			'title'          => apply_filters( 'wizard_content_blog_page_title', 'Blog' ),
+		);
+		$blogpages = get_posts( $args );
+		$blogpage  = array_shift( $blogpages );
 
 		if ( $blogpage ) {
 			update_option( 'page_for_posts', $blogpage->ID );
@@ -1844,7 +1860,13 @@ class YITH_Proteo_Wizard {
 	 */
 	public function before_content_import_setup() {
 		// Update the Hello World! post by making it a draft.
-		$hello_world = get_page_by_title( 'Hello World!', OBJECT, 'post' );
+		$args = array(
+			'post_type'   => 'post',
+			'post_status' => 'publish',
+			'title'       => 'Hello World!',
+		);
+		$hello_worlds = get_posts( $args );
+		$hello_world  = array_shift( $hello_worlds );
 
 		if ( ! empty( $hello_world ) ) {
 			$hello_world->post_status = 'draft';

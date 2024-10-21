@@ -3,8 +3,8 @@
 Contributors: yithemes
 Tags: proteo, yith, yithemes, toolkit, wizard, utils, yith proteo, sample, demo, sample data, companion plugin, setup wizard
 Requires at least: 5.3
-Tested up to: 6.4
-Stable tag: 1.2.4
+Tested up to: 6.6
+Stable tag: 1.3.0
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -67,6 +67,11 @@ You can find the setup wizard in Dashboard > Appearance > Theme Setup
 
 
 == Changelog ==
+=  1.3.0 - Released on 21 Oct 2024 =
+
+* Fix: various wizard warnings
+* New: tested support to WordPress 6.6
+
 =  1.2.4 - Released on 21 Feb 2024 =
 
 * New: tested support to WordPress 6.4

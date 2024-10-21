@@ -216,6 +216,9 @@ function prefix_wizard_after_import_setup( $demo_index ) {
 	$myaccount_widgets = get_option( 'widget_yith_proteo_account_widget', array() );
 	if ( ! empty( $myaccount_widgets ) ) {
 		foreach ( $myaccount_widgets as & $myaccount_widget ) {
+			if ( ! is_array( $myaccount_widget ) ) {
+				continue;
+			}
 			$myaccount_widget['login-url']     = str_replace( 'https://proteo.yithemes.com', untrailingslashit( site_url() ), $myaccount_widget['login-url'] );
 			$myaccount_widget['myaccount-url'] = str_replace( 'https://proteo.yithemes.com', untrailingslashit( site_url() ), $myaccount_widget['myaccount-url'] );
 		}

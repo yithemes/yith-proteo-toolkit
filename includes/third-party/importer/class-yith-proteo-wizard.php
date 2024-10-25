@@ -25,6 +25,13 @@ class YITH_Proteo_Wizard {
 	protected $theme;
 
 	/**
+	 * Current theme slug.
+	 *
+	 * @var object WP_Theme
+	 */
+	protected $slug;
+
+	/**
 	 * Current step.
 	 *
 	 * @var string
@@ -58,6 +65,11 @@ class YITH_Proteo_Wizard {
 	 * @var YITH_Proteo_Wizard_Hooks
 	 */
 	protected $hooks;
+
+	/**
+	 * WP Hook suffix.
+	 */
+	protected $hook_suffix;
 
 	/**
 	 * Holds the verified import files.
@@ -149,6 +161,13 @@ class YITH_Proteo_Wizard {
 	 * @var string $dev_mode
 	 */
 	protected $dev_mode = false;
+
+	/**
+	 * Ready bit button default ulr.
+	 *
+	 * @var string $ready_big_button_url
+	 */
+	protected $ready_big_button_url = null;
 
 	/**
 	 * Ignore.
@@ -858,7 +877,7 @@ class YITH_Proteo_Wizard {
 
 				<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--next button-next" data-callback="install_child">
 					<span class="wizard__button--loading__text"><?php echo esc_html( $install ); ?></span>
-					<?php echo wp_kses( $this->loading_spinner(), $this->loading_spinner_allowed_html() ); ?>
+					<?php echo $this->loading_spinner(); ?>
 				</a>
 
 			<?php else : ?>
@@ -1055,7 +1074,7 @@ class YITH_Proteo_Wizard {
 					<a id="skip" href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--skip wizard__button--proceed"><?php echo esc_html( $skip ); ?></a>
 					<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--next button-next" data-callback="install_plugins">
 						<span class="wizard__button--loading__text"><?php echo esc_html( $install ); ?></span>
-						<?php echo wp_kses( $this->loading_spinner(), $this->loading_spinner_allowed_html() ); ?>
+						<?php echo $this->loading_spinner(); ?>
 					</a>
 				<?php else : ?>
 					<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--next wizard__button--proceed wizard__button--colorchange"><?php echo esc_html( $next ); ?></a>

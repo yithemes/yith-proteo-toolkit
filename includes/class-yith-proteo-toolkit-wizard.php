@@ -23,9 +23,6 @@ if ( ! class_exists( 'YITH_Proteo_Toolkit_Wizard' ) ) {
 			// Load setup wizard.
 			add_action( 'init', array( $this, 'load_tookit_wizard' ) );
 
-			// Add admin style and JS for setup wizard panels.
-			add_action( 'admin_print_styles', array( $this, 'add_admin_scripts' ) );
-
 			add_action( 'admin_init', array( $this, 'run_first_setup' ), 5 );
 
 			register_activation_hook( __FILE__, array( $this, 'run_first_setup' ) );
@@ -40,7 +37,6 @@ if ( ! class_exists( 'YITH_Proteo_Toolkit_Wizard' ) ) {
 
 			// Disable WooCommerce spash screen when activating.
 			add_filter( 'woocommerce_prevent_automatic_wizard_redirect', '__return_true' );
-
 		}
 
 		/**
@@ -56,24 +52,11 @@ if ( ! class_exists( 'YITH_Proteo_Toolkit_Wizard' ) ) {
 				return;
 			}
 
-			if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
-				require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/third-party/class-tgm-plugin-activation.php';
-			}
 			add_action( 'load-setup-wizard', 'set_current_screen' );
 
 			require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/third-party/importer/vendor/autoload.php';
 			require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/third-party/importer/class-yith-proteo-wizard.php';
 			require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/third-party/importer/importer-config.php';
-		}
-
-		/**
-		 * Add admin style for plugin panels
-		 *
-		 * @return void
-		 */
-		public function add_admin_scripts() {
-			wp_enqueue_style( 'yith_toolkit_admin_wizard_css', YITH_PROTEO_TOOLKIT_URL . 'assets/css/admin.css', array(), YITH_PROTEO_TOOLKIT_VERSION );
-			wp_enqueue_script( 'yith_toolkit_admin_wizard_js', YITH_PROTEO_TOOLKIT_URL . 'assets/js/admin.js', array( 'jquery' ), YITH_PROTEO_TOOLKIT_VERSION, true );
 		}
 
 		/**
@@ -84,11 +67,12 @@ if ( ! class_exists( 'YITH_Proteo_Toolkit_Wizard' ) ) {
 		public function run_first_setup() {
 			global $pagenow;
 
-			if ( ! yith_proteo_toolkit_can_be_enabled() ) {
+			if ( ! yith_proteo_toolkit_can_be_enabled() || ! current_user_can( 'manage_options' ) ) {
 				return;
 			}
 
-			$current_query_string = isset( $_GET['page'] ) ? wp_unslash( $_GET['page'] ) : false; // phpcs:ignore
+			// Read-only routing check; mutating options requires manage_options above.
+			$current_query_string = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			if ( 'themes.php' === $pagenow && 'setup-wizard' === $current_query_string && ! get_option( 'yith_proteo_toolkit_first_setup_run' ) ) {
 				update_option( 'yith_proteo_toolkit_first_setup_run', time() );
@@ -99,7 +83,6 @@ if ( ! class_exists( 'YITH_Proteo_Toolkit_Wizard' ) ) {
 			}
 
 			update_option( 'yith_proteo_toolkit_run_setup', time() );
-
 		}
 
 		/**
@@ -108,9 +91,14 @@ if ( ! class_exists( 'YITH_Proteo_Toolkit_Wizard' ) ) {
 		 * @return void
 		 */
 		public function run_setup() {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				return;
+			}
+
 			if ( get_option( 'yith_proteo_toolkit_run_setup' ) ) {
 				delete_option( 'yith_proteo_toolkit_run_setup' );
-				exit( esc_url( wp_safe_redirect( admin_url( 'themes.php?page=setup-wizard' ) ) ) );
+				wp_safe_redirect( admin_url( 'themes.php?page=setup-wizard' ) );
+				exit;
 			}
 		}
 

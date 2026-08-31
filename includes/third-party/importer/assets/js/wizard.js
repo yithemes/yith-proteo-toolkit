@@ -136,7 +136,7 @@ var Wizard = (function($){
         function do_ajax() {
             jQuery.post(wizard_params.ajaxurl, {
                 action: "wizard_child_theme",
-                wpnonce: wizard_params.wpnonce,
+                wpnonce: wizard_params.child_theme_nonce,
             }, ajax_callback).fail(ajax_callback);
         }
 
@@ -260,12 +260,21 @@ function PluginManager(){
                         find_next();
                     }else {
                         current_item_hash = response.hash;
-                        jQuery.post(response.url, response, ajax_callback).fail(ajax_callback);
+                        jQuery.post(response.url, response, ajax_callback).fail(function(){
+                            currentSpan.removeClass( 'installing success' ).addClass("error");
+                            find_next();
+                        });
                     }
+                }else if(typeof response.error !== "undefined" || (typeof response.success !== "undefined" && ! response.success)){
+                    currentSpan.removeClass( 'installing success' ).addClass("error");
+                    find_next();
                 }else{
                     // error processing this plugin
                     find_next();
                 }
+            }else if(typeof response === "string" && (response.indexOf('Fatal error') !== -1 || response.indexOf('ArgumentCountError') !== -1)){
+                currentSpan.removeClass( 'installing success' ).addClass("error");
+                find_next();
             }else{
                 // The TGMPA returns a whole page as response, so check, if this plugin is done.
                 process_current();
@@ -280,7 +289,10 @@ function PluginManager(){
                         action: "wizard_plugins",
                         wpnonce: wizard_params.wpnonce,
                         slug: current_item,
-                    }, ajax_callback).fail(ajax_callback);
+                    }, ajax_callback).fail(function(){
+                        $current_node.find("label").removeClass( 'installing success' ).addClass("error");
+                        find_next();
+                    });
                 }else{
                     $current_node.addClass("skipping");
                     setTimeout(find_next,300);

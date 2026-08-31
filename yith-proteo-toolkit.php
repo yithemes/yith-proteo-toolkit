@@ -3,11 +3,11 @@
  * Plugin Name:         YITH Proteo Toolkit
  * Plugin URI:          https://yithemes.com
  * Description:         Add extra features and a setup wizard to YITH Proteo theme.
- * Version:             1.3.0
+ * Version:             1.3.1
  * Author:              YITH
  * Author URI:          https://yithemes.com/
  * Requires at least:   5.3
- * Tested up to:        6.6
+ * Tested up to:        7.1
  *
  * Text Domain: yith-proteo-toolkit
  *
@@ -25,7 +25,7 @@ if ( ! defined( 'YITH_PROTEO_TOOLKIT' ) ) {
 }
 
 if ( ! defined( 'YITH_PROTEO_TOOLKIT_VERSION' ) ) {
-	define( 'YITH_PROTEO_TOOLKIT_VERSION', '1.3.0' );
+	define( 'YITH_PROTEO_TOOLKIT_VERSION', '1.3.1' );
 }
 
 if ( ! defined( 'YITH_PROTEO_TOOLKIT_PATH' ) ) {
@@ -38,6 +38,10 @@ if ( ! defined( 'YITH_PROTEO_TOOLKIT_URL' ) ) {
 
 if ( ! defined( 'YITH_PROTEO_TOOLKIT_TEMPLATE_PATH' ) ) {
 	define( 'YITH_PROTEO_TOOLKIT_TEMPLATE_PATH', YITH_PROTEO_TOOLKIT_PATH . 'templates/' );
+}
+
+if ( ! class_exists( 'TGM_Plugin_Activation', false ) ) {
+	require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/third-party/class-tgm-plugin-activation.php';
 }
 
 require_once YITH_PROTEO_TOOLKIT_PATH . 'includes/class-yith-proteo-toolkit.php';

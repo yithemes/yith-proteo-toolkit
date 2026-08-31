@@ -19,7 +19,6 @@ if ( ! class_exists( 'YITH_Proteo_Toolkit_Block_Patterns' ) ) {
 		 * Constructor
 		 */
 		public function __construct() {
-
 		}
 	}
 

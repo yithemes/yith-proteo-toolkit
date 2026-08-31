@@ -3504,20 +3504,20 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 
 							if ( $this->tgmpa->is_automatic ) {
 								// Automatic activation strings.
-								$this->upgrader->strings['skin_upgrade_start'] = __( 'The installation and activation process is starting. This process may take a while on some hosts, so please be patient.', 'yith-proteo' );
+								$this->upgrader->strings['skin_upgrade_start'] = __( 'The installation and activation process is starting. This process may take a while on some hosts, so please be patient.', 'yith-proteo-toolkit' );
 								/* translators: 1: plugin name. */
-								$this->upgrader->strings['skin_update_successful'] = __( '%1$s installed and activated successfully.', 'yith-proteo' ) . ' <a href="#" class="hide-if-no-js" onclick="%2$s"><span>' . esc_html__( 'Show Details', 'yith-proteo' ) . '</span><span class="hidden">' . esc_html__( 'Hide Details', 'yith-proteo' ) . '</span>.</a>';
-								$this->upgrader->strings['skin_upgrade_end']       = __( 'All installations and activations have been completed.', 'yith-proteo' );
+								$this->upgrader->strings['skin_update_successful'] = __( '%1$s installed and activated successfully.', 'yith-proteo-toolkit' );
+								$this->upgrader->strings['skin_upgrade_end']       = __( 'All installations and activations have been completed.', 'yith-proteo-toolkit' );
 								/* translators: 1: plugin name, 2: action number 3: total number of actions. */
-								$this->upgrader->strings['skin_before_update_header'] = __( 'Installing and Activating Plugin %1$s (%2$d/%3$d)', 'yith-proteo' );
+								$this->upgrader->strings['skin_before_update_header'] = __( 'Installing and Activating Plugin %1$s (%2$d/%3$d)', 'yith-proteo-toolkit' );
 							} else {
 								// Default installation strings.
-								$this->upgrader->strings['skin_upgrade_start'] = __( 'The installation process is starting. This process may take a while on some hosts, so please be patient.', 'yith-proteo' );
+								$this->upgrader->strings['skin_upgrade_start'] = __( 'The installation process is starting. This process may take a while on some hosts, so please be patient.', 'yith-proteo-toolkit' );
 								/* translators: 1: plugin name. */
-								$this->upgrader->strings['skin_update_successful'] = esc_html__( '%1$s installed successfully.', 'yith-proteo' ) . ' <a href="#" class="hide-if-no-js" onclick="%2$s"><span>' . esc_html__( 'Show Details', 'yith-proteo' ) . '</span><span class="hidden">' . esc_html__( 'Hide Details', 'yith-proteo' ) . '</span>.</a>';
-								$this->upgrader->strings['skin_upgrade_end']       = __( 'All installations have been completed.', 'yith-proteo' );
+								$this->upgrader->strings['skin_update_successful'] = __( '%1$s installed successfully.', 'yith-proteo-toolkit' );
+								$this->upgrader->strings['skin_upgrade_end']       = __( 'All installations have been completed.', 'yith-proteo-toolkit' );
 								/* translators: 1: plugin name, 2: action number 3: total number of actions. */
-								$this->upgrader->strings['skin_before_update_header'] = __( 'Installing Plugin %1$s (%2$d/%3$d)', 'yith-proteo' );
+								$this->upgrader->strings['skin_before_update_header'] = __( 'Installing Plugin %1$s (%2$d/%3$d)', 'yith-proteo-toolkit' );
 							}
 						}
 					}

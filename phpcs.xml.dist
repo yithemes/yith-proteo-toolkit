@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<ruleset name="YITH Proteo Toolkit">
+	<description>WordPress Coding Standards for YITH Proteo Toolkit</description>
+
+	<file>.</file>
+
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/includes/third-party/class-tgm-plugin-activation.php</exclude-pattern>
+	<exclude-pattern>*/assets/js/*.min.js</exclude-pattern>
+	<exclude-pattern>*/assets/css/*.min.css</exclude-pattern>
+	<exclude-pattern>*/includes/third-party/importer/assets/js/*.min.js</exclude-pattern>
+	<exclude-pattern>*/includes/third-party/importer/assets/css/*.min.css</exclude-pattern>
+
+	<rule ref="WordPress">
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+	</rule>
+	<rule ref="WordPress-Extra"/>
+	<rule ref="WordPress-Docs"/>
+
+	<config name="testVersion" value="7.4-"/>
+	<config name="minimum_supported_wp_version" value="5.3"/>
+
+	<arg value="sp"/>
+	<arg name="colors"/>
+	<arg name="extensions" value="php"/>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="yith_proteo"/>
+				<element value="YITH_Proteo"/>
+				<element value="proteo"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>

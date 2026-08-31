@@ -70,7 +70,6 @@ if ( ! function_exists( 'yith_proteo_register_block_patterns' ) ) {
 				'categories'  => array( 'proteo-homepages' ),
 			)
 		);
-
 	}
 }
 

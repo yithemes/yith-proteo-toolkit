@@ -103,8 +103,8 @@ if ( ! empty( $proteo_testimonials_names_to_show ) ) {
 			</div>
 			<div class="testimonial-footer">
 				<?php
-				if ( in_array( 'website', $proteo_testimonials_elements_to_show, true ) ) {
-					echo '<div class="testimonial-website">' . esc_url( $testimonial['website'] ) . '</div>';
+				if ( in_array( 'website', $proteo_testimonials_elements_to_show, true ) && ! empty( $testimonial['website'] ) ) {
+					echo '<div class="testimonial-website"><a href="' . esc_url( $testimonial['website'] ) . '">' . esc_html( $testimonial['website'] ) . '</a></div>';
 				}
 				if ( isset( $social_networks ) ) {
 					the_widget( 'YITH_Proteo_Social_Icons', $social_networks );

@@ -324,6 +324,11 @@ class YITH_Proteo_Wizard {
 			return;
 		}
 
+		if ( ! current_user_can( sanitize_key( $this->capability ) ) ) {
+			delete_transient( $this->theme->template . '_wizard_redirect' );
+			return;
+		}
+
 		delete_transient( $this->theme->template . '_wizard_redirect' );
 
 		wp_safe_redirect( menu_page_url( $this->wizard_url ) );
@@ -350,7 +355,13 @@ class YITH_Proteo_Wizard {
 	 * @param string $status User's manage capabilities.
 	 */
 	public function load_tgmpa( $status ) {
-		return is_admin() || current_user_can( 'install_themes' );
+		unset( $status );
+
+		if ( ! is_admin() ) {
+			return false;
+		}
+
+		return current_user_can( sanitize_key( $this->capability ) );
 	}
 
 	/**
@@ -387,6 +398,10 @@ class YITH_Proteo_Wizard {
 	 */
 	public function admin_page() {
 
+		if ( ! current_user_can( sanitize_key( $this->capability ) ) ) {
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'yith-proteo-toolkit' ) );
+		}
+
 		// Strings passed in from the config file.
 		$strings = $this->strings;
 
@@ -412,6 +427,9 @@ class YITH_Proteo_Wizard {
 		// Enqueue javascript.
 		wp_enqueue_script( 'proteo-wizard', trailingslashit( $this->base_url ) . $this->directory . '/assets/js/wizard' . $suffix . '.js', array( 'jquery-core' ), YITH_PROTEO_TOOLKIT_VERSION, true );
 
+		wp_enqueue_style( 'yith_toolkit_admin_wizard_css', YITH_PROTEO_TOOLKIT_URL . 'assets/css/admin.css', array( 'proteo-wizard' ), YITH_PROTEO_TOOLKIT_VERSION );
+		wp_enqueue_script( 'yith_toolkit_admin_wizard_js', YITH_PROTEO_TOOLKIT_URL . 'assets/js/admin.js', array( 'jquery', 'proteo-wizard' ), YITH_PROTEO_TOOLKIT_VERSION, true );
+
 		$texts = array(
 			'something_went_wrong' => esc_html__( 'Something went wrong. Please refresh the page and try again!', 'yith-proteo-toolkit' ),
 		);
@@ -423,14 +441,15 @@ class YITH_Proteo_Wizard {
 				'proteo-wizard',
 				'wizard_params',
 				array(
-					'tgm_plugin_nonce' => array(
+					'tgm_plugin_nonce'  => array(
 						'update'  => wp_create_nonce( 'tgmpa-update' ),
 						'install' => wp_create_nonce( 'tgmpa-install' ),
 					),
-					'tgm_bulk_url'     => $this->tgmpa->get_tgmpa_url(),
-					'ajaxurl'          => admin_url( 'admin-ajax.php' ),
-					'wpnonce'          => wp_create_nonce( 'wizard_nonce' ),
-					'texts'            => $texts,
+					'tgm_bulk_url'      => $this->tgmpa->get_tgmpa_url(),
+					'ajaxurl'           => admin_url( 'admin-ajax.php' ),
+					'wpnonce'           => wp_create_nonce( 'wizard_nonce' ),
+					'child_theme_nonce' => wp_create_nonce( 'wizard_child_theme' ),
+					'texts'             => $texts,
 				)
 			);
 		} else {
@@ -439,9 +458,10 @@ class YITH_Proteo_Wizard {
 				'wizard',
 				'wizard_params',
 				array(
-					'ajaxurl' => admin_url( 'admin-ajax.php' ),
-					'wpnonce' => wp_create_nonce( 'wizard_nonce' ),
-					'texts'   => $texts,
+					'ajaxurl'           => admin_url( 'admin-ajax.php' ),
+					'wpnonce'           => wp_create_nonce( 'wizard_nonce' ),
+					'child_theme_nonce' => wp_create_nonce( 'wizard_child_theme' ),
+					'texts'             => $texts,
 				)
 			);
 		}
@@ -474,11 +494,11 @@ class YITH_Proteo_Wizard {
 
 			</div>
 
-			<?php echo sprintf( '<a class="return-to-dashboard" href="%s">%s</>', esc_url( admin_url( '/' ) ), esc_html( $strings['return-to-dashboard'] ) ); ?>
+			<?php printf( '<a class="return-to-dashboard" href="%s">%s</>', esc_url( admin_url( '/' ) ), esc_html( $strings['return-to-dashboard'] ) ); ?>
 
 			<?php $ignore_url = wp_nonce_url( admin_url( '?' . $this->ignore . '=true' ), 'wizard-ignore-nounce' ); ?>
 
-			<?php echo sprintf( '<a class="return-to-dashboard ignore" href="%s">%s</a>', esc_url( $ignore_url ), esc_html( $strings['ignore'] ) ); ?>
+			<?php printf( '<a class="return-to-dashboard ignore" href="%s">%s</a>', esc_url( $ignore_url ), esc_html( $strings['ignore'] ) ); ?>
 
 		</div>
 
@@ -802,7 +822,7 @@ class YITH_Proteo_Wizard {
 
 		<div class="wizard__content--transition">
 
-			<img class="yith-proteo-toolkit-wizard-step-img" src="<?php echo esc_url( YITH_PROTEO_TOOLKIT_URL ); ?>/assets/img/proteo-logo.png">
+			<img class="yith-proteo-toolkit-wizard-step-img" src="<?php echo esc_url( yith_proteo_toolkit_get_wizard_logo_url() ); ?>" alt="<?php esc_attr_e( 'YITH Proteo', 'yith-proteo-toolkit' ); ?>">
 
 			<h1><?php echo esc_html( sprintf( $header, $theme ) ); ?></h1>
 
@@ -855,6 +875,8 @@ class YITH_Proteo_Wizard {
 
 		<div class="wizard__content--transition">
 
+			<img class="yith-proteo-toolkit-wizard-step-img" src="<?php echo esc_url( yith_proteo_toolkit_get_wizard_logo_url() ); ?>" alt="<?php esc_attr_e( 'YITH Proteo', 'yith-proteo-toolkit' ); ?>">
+
 			<?php yith_proteo_toolkit_wizard_step_icon( 'child' ); ?>
 
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
@@ -877,7 +899,7 @@ class YITH_Proteo_Wizard {
 
 				<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--next button-next" data-callback="install_child">
 					<span class="wizard__button--loading__text"><?php echo esc_html( $install ); ?></span>
-					<?php echo $this->loading_spinner(); ?>
+					<?php $this->loading_spinner(); ?>
 				</a>
 
 			<?php else : ?>
@@ -900,6 +922,8 @@ class YITH_Proteo_Wizard {
 		?>
 
 		<div class="wizard__content--transition">
+
+			<img class="yith-proteo-toolkit-wizard-step-img" src="<?php echo esc_url( yith_proteo_toolkit_get_wizard_logo_url() ); ?>" alt="<?php esc_attr_e( 'YITH Proteo', 'yith-proteo-toolkit' ); ?>">
 
 			<?php yith_proteo_toolkit_wizard_step_icon( 'skin' ); ?>
 
@@ -1008,6 +1032,8 @@ class YITH_Proteo_Wizard {
 
 		<div class="wizard__content--transition">
 
+			<img class="yith-proteo-toolkit-wizard-step-img" src="<?php echo esc_url( yith_proteo_toolkit_get_wizard_logo_url() ); ?>" alt="<?php esc_attr_e( 'YITH Proteo', 'yith-proteo-toolkit' ); ?>">
+
 			<?php yith_proteo_toolkit_wizard_step_icon( 'plugins' ); ?>
 
 			<svg class="icon icon--checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
@@ -1074,7 +1100,7 @@ class YITH_Proteo_Wizard {
 					<a id="skip" href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--skip wizard__button--proceed"><?php echo esc_html( $skip ); ?></a>
 					<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--next button-next" data-callback="install_plugins">
 						<span class="wizard__button--loading__text"><?php echo esc_html( $install ); ?></span>
-						<?php echo $this->loading_spinner(); ?>
+						<?php $this->loading_spinner(); ?>
 					</a>
 				<?php else : ?>
 					<a href="<?php echo esc_url( $this->step_next_link() ); ?>" class="wizard__button wizard__button--next wizard__button--proceed wizard__button--colorchange"><?php echo esc_html( $next ); ?></a>
@@ -1108,6 +1134,8 @@ class YITH_Proteo_Wizard {
 		?>
 
 		<div class="wizard__content--transition">
+
+		<img class="yith-proteo-toolkit-wizard-step-img" src="<?php echo esc_url( yith_proteo_toolkit_get_wizard_logo_url() ); ?>" alt="<?php esc_attr_e( 'YITH Proteo', 'yith-proteo-toolkit' ); ?>">
 
 		<?php yith_proteo_toolkit_wizard_step_icon( 'content' ); ?>
 
@@ -1229,6 +1257,8 @@ class YITH_Proteo_Wizard {
 
 		<div class="wizard__content--transition">
 
+			<img class="yith-proteo-toolkit-wizard-step-img" src="<?php echo esc_url( yith_proteo_toolkit_get_wizard_logo_url() ); ?>" alt="<?php esc_attr_e( 'YITH Proteo', 'yith-proteo-toolkit' ); ?>">
+
 			<?php yith_proteo_toolkit_wizard_step_icon( 'done' ); ?>
 
 			<h1><?php echo esc_html( sprintf( $header, $theme ) ); ?></h1>
@@ -1306,6 +1336,22 @@ class YITH_Proteo_Wizard {
 	 */
 	public function generate_child() {
 
+		if ( ! check_ajax_referer( 'wizard_child_theme', 'wpnonce', false ) ) {
+			wp_send_json(
+				array(
+					'error' => esc_html__( 'Security check failed.', 'yith-proteo-toolkit' ),
+				)
+			);
+		}
+
+		if ( ! current_user_can( 'switch_themes' ) || ! current_user_can( 'install_themes' ) ) {
+			wp_send_json(
+				array(
+					'error' => esc_html__( 'You do not have permission to perform this action.', 'yith-proteo-toolkit' ),
+				)
+			);
+		}
+
 		// Strings passed in from the config file.
 		$strings = $this->strings;
 
@@ -1320,11 +1366,46 @@ class YITH_Proteo_Wizard {
 
 		if ( ! file_exists( $path ) ) {
 
-			self::get_filesystem()->mkdir( $path );
-			self::get_filesystem()->put_contents( $path . '/style.css', $this->generate_child_style_css( $this->theme->template, $this->theme->name, $this->theme->author, YITH_PROTEO_TOOLKIT_VERSION ) );
-			self::get_filesystem()->put_contents( $path . '/functions.php', $this->generate_child_functions_php( $this->theme->template ) );
+			$filesystem     = self::get_filesystem();
+			$style_path     = $path . '/style.css';
+			$functions_path = $path . '/functions.php';
+
+			if ( ! $filesystem ) {
+				wp_send_json(
+					array(
+						'error' => esc_html__( 'Unable to access the filesystem.', 'yith-proteo-toolkit' ),
+					)
+				);
+			}
+
+			if ( ! $filesystem->mkdir( $path ) ) {
+				wp_send_json(
+					array(
+						'error' => esc_html__( 'Unable to create the child theme directory.', 'yith-proteo-toolkit' ),
+					)
+				);
+			}
+
+			$style_written     = $filesystem->put_contents( $style_path, $this->generate_child_style_css( $this->theme->template, $this->theme->name, $this->theme->author, YITH_PROTEO_TOOLKIT_VERSION ) );
+			$functions_written = $filesystem->put_contents( $functions_path, $this->generate_child_functions_php( $this->theme->template ) );
+
+			if ( ! $style_written || ! $functions_written ) {
+				wp_send_json(
+					array(
+						'error' => esc_html__( 'Unable to create the child theme files.', 'yith-proteo-toolkit' ),
+					)
+				);
+			}
 
 			$this->generate_child_screenshot( $path );
+
+			if ( ! file_exists( $style_path ) || ! file_exists( $functions_path ) ) {
+				wp_send_json(
+					array(
+						'error' => esc_html__( 'The child theme files could not be verified.', 'yith-proteo-toolkit' ),
+					)
+				);
+			}
 
 			$allowed_themes          = get_option( 'allowedthemes' );
 			$allowed_themes[ $slug ] = true;
@@ -1332,10 +1413,10 @@ class YITH_Proteo_Wizard {
 
 		} else {
 
-			if ( $this->theme->template !== $slug ) :
+			if ( $this->theme->template !== $slug && wp_get_theme( $slug )->exists() ) {
 				update_option( 'yith_proteo_wizard_' . $this->slug . '_child', $name );
 				switch_theme( $slug );
-			endif;
+			}
 
 			$this->logger->debug( __( 'The existing child theme was activated', 'yith-proteo-toolkit' ) );
 
@@ -1350,10 +1431,18 @@ class YITH_Proteo_Wizard {
 			);
 		}
 
-		if ( $this->theme->template !== $slug ) :
+		if ( $this->theme->template !== $slug ) {
+			if ( ! wp_get_theme( $slug )->exists() ) {
+				wp_send_json(
+					array(
+						'error' => esc_html__( 'The child theme could not be activated.', 'yith-proteo-toolkit' ),
+					)
+				);
+			}
+
 			update_option( 'yith_proteo_wizard_' . $this->slug . '_child', $name );
 			switch_theme( $slug );
-		endif;
+		}
 
 		$this->logger->debug( __( 'The newly generated child theme was activated', 'yith-proteo-toolkit' ) );
 
@@ -1465,14 +1554,12 @@ class YITH_Proteo_Wizard {
 			} else {
 				$screenshot_ext = 'jpg';
 			}
-		} else {
-			if ( file_exists( trailingslashit( $this->base_path ) . $this->directory . '/assets/images/screenshot.png' ) ) {
+		} elseif ( file_exists( trailingslashit( $this->base_path ) . $this->directory . '/assets/images/screenshot.png' ) ) {
 				$screenshot     = trailingslashit( $this->base_path ) . $this->directory . '/assets/images/screenshot.png';
 				$screenshot_ext = 'png';
-			} elseif ( file_exists( trailingslashit( $this->base_path ) . $this->directory . '/assets/images/screenshot.jpg' ) ) {
-				$screenshot     = trailingslashit( $this->base_path ) . $this->directory . '/assets/images/screenshot.jpg';
-				$screenshot_ext = 'jpg';
-			}
+		} elseif ( file_exists( trailingslashit( $this->base_path ) . $this->directory . '/assets/images/screenshot.jpg' ) ) {
+			$screenshot     = trailingslashit( $this->base_path ) . $this->directory . '/assets/images/screenshot.jpg';
+			$screenshot_ext = 'jpg';
 		}
 
 		if ( ! empty( $screenshot ) && file_exists( $screenshot ) ) {
@@ -1491,16 +1578,22 @@ class YITH_Proteo_Wizard {
 	 */
 	public function ajax_plugins() {
 
-		if ( ! check_ajax_referer( 'wizard_nonce', 'wpnonce' ) || empty( $_POST['slug'] ) ) {
-			exit( 0 );
+		if ( ! check_ajax_referer( 'wizard_nonce', 'wpnonce', false ) || empty( $_POST['slug'] ) || ! current_user_can( sanitize_key( $this->capability ) ) ) {
+			wp_send_json_error(
+				array(
+					'error' => esc_html__( 'Security check failed.', 'yith-proteo-toolkit' ),
+				)
+			);
 		}
+
+		$requested_slug = sanitize_key( wp_unslash( $_POST['slug'] ) );
 
 		$json      = array();
 		$tgmpa_url = $this->tgmpa->get_tgmpa_url();
 		$plugins   = $this->get_tgmpa_plugins();
 
 		foreach ( $plugins['activate'] as $slug => $plugin ) {
-			if ( $_POST['slug'] === $slug ) {
+			if ( $requested_slug === $slug ) {
 				$json = array(
 					'url'           => $tgmpa_url,
 					'plugin'        => array( $slug ),
@@ -1516,7 +1609,7 @@ class YITH_Proteo_Wizard {
 		}
 
 		foreach ( $plugins['update'] as $slug => $plugin ) {
-			if ( $_POST['slug'] === $slug ) {
+			if ( $requested_slug === $slug ) {
 				$json = array(
 					'url'           => $tgmpa_url,
 					'plugin'        => array( $slug ),
@@ -1532,7 +1625,7 @@ class YITH_Proteo_Wizard {
 		}
 
 		foreach ( $plugins['install'] as $slug => $plugin ) {
-			if ( $_POST['slug'] === $slug ) {
+			if ( $requested_slug === $slug ) {
 				$json = array(
 					'url'           => $tgmpa_url,
 					'plugin'        => array( $slug ),
@@ -1551,7 +1644,7 @@ class YITH_Proteo_Wizard {
 			$this->logger->debug(
 				__( 'A plugin with the following data will be processed', 'yith-proteo-toolkit' ),
 				array(
-					'plugin_slug' => sanitize_text_field( wp_unslash( $_POST['slug'] ) ),
+					'plugin_slug' => $requested_slug,
 					'message'     => $json['message'],
 				)
 			);
@@ -1563,7 +1656,7 @@ class YITH_Proteo_Wizard {
 			$this->logger->debug(
 				__( 'A plugin with the following data was processed', 'yith-proteo-toolkit' ),
 				array(
-					'plugin_slug' => sanitize_text_field( wp_unslash( $_POST['slug'] ) ),
+					'plugin_slug' => $requested_slug,
 				)
 			);
 
@@ -1587,12 +1680,13 @@ class YITH_Proteo_Wizard {
 		static $content = null;
 
 		$selected_import = isset( $_POST['selected_index'] ) ? sanitize_text_field( wp_unslash( $_POST['selected_index'] ) ) : 0;
+		$content_key     = isset( $_POST['content'] ) ? sanitize_key( wp_unslash( $_POST['content'] ) ) : '';
 
 		if ( null === $content ) {
 			$content = $this->get_import_data( $selected_import );
 		}
 
-		if ( ! check_ajax_referer( 'wizard_nonce', 'wpnonce' ) || empty( $_POST['content'] ) && isset( $content[ $_POST['content'] ] ) ) {
+		if ( ! check_ajax_referer( 'wizard_nonce', 'wpnonce', false ) || ! current_user_can( sanitize_key( $this->capability ) ) || empty( $content_key ) || ! isset( $content[ $content_key ] ) ) {
 			$this->logger->error( __( 'The content importer AJAX call failed to start, because of incorrect data', 'yith-proteo-toolkit' ) );
 
 			wp_send_json_error(
@@ -1604,7 +1698,7 @@ class YITH_Proteo_Wizard {
 		}
 
 		$json         = false;
-		$this_content = $content[ sanitize_text_field( wp_unslash( $_POST['content'] ) ) ];
+		$this_content = $content[ $content_key ];
 
 		if ( isset( $_POST['proceed'] ) ) {
 			if ( is_callable( $this_content['install_callback'] ) ) {
@@ -1627,7 +1721,7 @@ class YITH_Proteo_Wizard {
 					);
 
 					// The content import ended, so we should mark that all posts were imported.
-					if ( 'content' === $_POST['content'] ) {
+					if ( 'content' === $content_key ) {
 						$json['num_of_imported_posts'] = 'all';
 					}
 				}
@@ -1637,7 +1731,7 @@ class YITH_Proteo_Wizard {
 				'url'            => admin_url( 'admin-ajax.php' ),
 				'action'         => 'wizard_content',
 				'proceed'        => 'true',
-				'content'        => sanitize_text_field( wp_unslash( $_POST['content'] ) ),
+				'content'        => $content_key,
 				'_wpnonce'       => wp_create_nonce( 'wizard_nonce' ),
 				'selected_index' => $selected_import,
 				'message'        => $this_content['installing'],
@@ -1654,7 +1748,7 @@ class YITH_Proteo_Wizard {
 				__( 'The content import AJAX call failed with this passed data', 'yith-proteo-toolkit' ),
 				array(
 					'selected_content_index' => $selected_import,
-					'importing_content'      => sanitize_text_field( wp_unslash( $_POST['content'] ) ),
+					'importing_content'      => $content_key,
 					'importing_data'         => $this_content['data'],
 				)
 			);
@@ -1675,7 +1769,7 @@ class YITH_Proteo_Wizard {
 	 * AJAX call to retrieve total items (posts, pages, CPT, attachments) for the content import.
 	 */
 	public function ajax_get_total_content_import_items() {
-		if ( ! check_ajax_referer( 'wizard_nonce', 'wpnonce' ) && empty( $_POST['selected_index'] ) ) {
+		if ( ! check_ajax_referer( 'wizard_nonce', 'wpnonce' ) || ! current_user_can( sanitize_key( $this->capability ) ) || ! isset( $_POST['selected_index'] ) ) {
 			$this->logger->error( __( 'The content importer AJAX call for retrieving total content import items failed to start, because of incorrect data.', 'yith-proteo-toolkit' ) );
 
 			wp_send_json_error(
@@ -1840,7 +1934,7 @@ class YITH_Proteo_Wizard {
 	 */
 	public function after_content_import_setup() {
 		// Set static homepage.
-		$args = array(
+		$args      = array(
 			'post_type'      => 'page',
 			'post_status'    => 'publish',
 			'posts_per_page' => 1,
@@ -1857,7 +1951,7 @@ class YITH_Proteo_Wizard {
 		}
 
 		// Set static blog page.
-		$args = array(
+		$args      = array(
 			'post_type'      => 'page',
 			'post_status'    => 'publish',
 			'posts_per_page' => 1,
@@ -1879,7 +1973,7 @@ class YITH_Proteo_Wizard {
 	 */
 	public function before_content_import_setup() {
 		// Update the Hello World! post by making it a draft.
-		$args = array(
+		$args         = array(
 			'post_type'   => 'post',
 			'post_status' => 'publish',
 			'title'       => 'Hello World!',
@@ -2041,14 +2135,15 @@ class YITH_Proteo_Wizard {
 	 * AJAX callback for the 'wizard_update_selected_import_data_info' action.
 	 */
 	public function update_selected_import_data_info() {
-		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'wizard' ) ) {
+		if ( ! check_ajax_referer( 'wizard_nonce', 'wpnonce', false ) || ! current_user_can( sanitize_key( $this->capability ) ) ) {
 			wp_send_json_error();
 		}
-		$selected_index = ! isset( $_POST['selected_index'] ) ? false : sanitize_text_field( wp_unslash( $_POST['selected_index'] ) );
 
-		if ( false === $selected_index ) {
+		if ( ! isset( $_POST['selected_index'] ) ) {
 			wp_send_json_error();
 		}
+
+		$selected_index = sanitize_text_field( wp_unslash( $_POST['selected_index'] ) );
 
 		$import_info      = $this->get_import_data_info( $selected_index );
 		$import_info_html = $this->get_import_steps_html( $import_info );
@@ -2100,6 +2195,10 @@ class YITH_Proteo_Wizard {
 	 * AJAX call for cleanup after the importing steps are done -> import finished.
 	 */
 	public function import_finished() {
+		if ( ! check_ajax_referer( 'wizard_nonce', 'wpnonce', false ) || ! current_user_can( sanitize_key( $this->capability ) ) ) {
+			wp_send_json_error();
+		}
+
 		delete_transient( 'wizard_import_file_base_name' );
 		wp_send_json_success();
 	}

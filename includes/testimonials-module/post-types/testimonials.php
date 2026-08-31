@@ -57,7 +57,6 @@ function yith_proteo_toolkit_register_testimonials_post_type() {
 		'capability_type'     => 'page',
 	);
 	register_post_type( 'proteo_testimonials', $args );
-
 }
 
 add_action( 'init', 'yith_proteo_toolkit_register_testimonials_post_type' );
@@ -111,6 +110,5 @@ function yith_proteo_toolkit_create_testimonials_tax() {
 		'show_in_rest'       => true,
 	);
 	register_taxonomy( 'proteo_testimonials_tax', array( 'proteo_testimonials' ), $args );
-
 }
 add_action( 'init', 'yith_proteo_toolkit_create_testimonials_tax' );

@@ -3,8 +3,8 @@
 Contributors: yithemes
 Tags: proteo, yith, yithemes, toolkit, wizard, utils, yith proteo, sample, demo, sample data, companion plugin, setup wizard
 Requires at least: 5.3
-Tested up to: 6.6
-Stable tag: 1.3.0
+Tested up to: 7.1
+Stable tag: 1.3.1
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -67,6 +67,18 @@ You can find the setup wizard in Dashboard > Appearance > Theme Setup
 
 
 == Changelog ==
+=  1.3.1 - Released on 31 Aug 2026 =
+
+* Fix: authorization vulnerability in the setup wizard child theme AJAX action
+* Fix: harden all setup wizard AJAX endpoints with nonce and capability checks
+* Fix: setup wizard content import validation logic
+* Fix: restrict TGMPA loading to administrators
+* Fix: module toggle AJAX whitelist and capability check
+* Fix: testimonials metabox save capability check
+* Fix: plugin auto-deactivation using the correct plugin basename
+* Fix: TGMPA plugin installation compatibility with WordPress 7.x
+* New: tested support to WordPress 7.1
+
 =  1.3.0 - Released on 21 Oct 2024 =
 
 * Fix: various wizard warnings

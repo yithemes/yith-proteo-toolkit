@@ -43,6 +43,12 @@ if ( ! class_exists( 'YITH_Proteo_Toolkit_Modules' ) ) {
 		 * @return void
 		 */
 		public function add_admin_scripts() {
+			$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+
+			if ( ! $screen || 'appearance_page_yith-proteo-dashboard' !== $screen->id ) {
+				return;
+			}
+
 			wp_enqueue_script( 'yith_toolkit_admin_js', YITH_PROTEO_TOOLKIT_URL . 'assets/js/modules-admin.js', array( 'jquery' ), YITH_PROTEO_TOOLKIT_VERSION, true );
 
 			$localize = array(
@@ -61,14 +67,28 @@ if ( ! class_exists( 'YITH_Proteo_Toolkit_Modules' ) ) {
 			$nonce = ( isset( $_REQUEST['nonce'] ) ) ? sanitize_key( $_REQUEST['nonce'] ) : '';
 
 			if ( false === wp_verify_nonce( $nonce, 'yith-proteo-toolkit-modules-nonce' ) ) {
-				wp_send_json_error( esc_html_e( 'WordPress Nonce not validated.', 'yith-proteo' ) );
+				wp_send_json_error( esc_html__( 'WordPress Nonce not validated.', 'yith-proteo-toolkit' ) );
+			}
+
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json_error( esc_html__( 'You do not have permission to perform this action.', 'yith-proteo-toolkit' ) );
 			}
 
 			if ( ! isset( $_REQUEST['action'] ) || 'yith_proteo_toolkit_module_save' !== $_REQUEST['action'] || ! isset( $_REQUEST['id'] ) ) {
 				die();
 			}
 
-			$id                    = sanitize_text_field( wp_unslash( $_REQUEST['id'] ) );
+			$id = sanitize_key( wp_unslash( $_REQUEST['id'] ) );
+
+			$allowed_modules = array(
+				'yith-proteo-toolkit-block-patterns',
+				'yith-proteo-toolkit-testimonial',
+			);
+
+			if ( ! in_array( $id, $allowed_modules, true ) ) {
+				wp_send_json_error( esc_html__( 'Invalid module.', 'yith-proteo-toolkit' ) );
+			}
+
 			$modules_active        = get_option( 'yith_proteo_toolkit_modules_active', array() );
 			$modules_active[ $id ] = isset( $modules_active[ $id ] ) ? ! $modules_active[ $id ] : false;
 
@@ -107,7 +127,7 @@ if ( ! class_exists( 'YITH_Proteo_Toolkit_Modules' ) ) {
 					?>
 					<li>
 						<span class="module-name">- <?php echo esc_html_x( 'Block patterns', 'Proteo Toolkit module name.', 'yith-proteo' ); ?></span>
-						<span class="form-switch  <?php echo $is_block_patterns_module_enabled ? 'enabled' : ''; ?>"
+						<span class="form-switch  <?php echo esc_attr( $is_block_patterns_module_enabled ? 'enabled' : '' ); ?>"
 							data-option_id="yith-proteo-toolkit-block-patterns">
 						</span>
 					</li>

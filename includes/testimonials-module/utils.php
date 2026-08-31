@@ -77,5 +77,4 @@ function yith_proteo_testimonials_get_testimonials_names_list() {
 	}
 
 	return $testimonials_array;
-
 }

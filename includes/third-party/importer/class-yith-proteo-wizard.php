@@ -398,16 +398,17 @@ class YITH_Proteo_Wizard {
 	 */
 	public function admin_page() {
 
-		if ( ! current_user_can( sanitize_key( $this->capability ) ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'yith-proteo-toolkit' ) );
-		}
-
 		// Strings passed in from the config file.
 		$strings = $this->strings;
 
 		// Do not proceed, if we're not on the right page.
+		// This method also runs on admin_init for every admin request.
 		if ( empty( $_GET['page'] ) || $this->wizard_url !== $_GET['page'] ) { // phpcs:ignore
 			return;
+		}
+
+		if ( ! current_user_can( sanitize_key( $this->capability ) ) ) {
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'yith-proteo-toolkit' ) );
 		}
 
 		if ( ob_get_length() ) {
